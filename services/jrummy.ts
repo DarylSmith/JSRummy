@@ -36,6 +36,11 @@ export class Card {
 
     }
 
+    toString():string {
+        
+        return `${this.Name} of ${this.Suit}`
+    }
+
     resetPoints() {
 
         this.HPoints = 0;
@@ -48,7 +53,7 @@ export class Card {
 export class Hand {
     Cards: Array<Card>;
 
-    constructor() {
+    constructor(public Name:string) {
 
         this.Cards = new Array<Card>();
     }
@@ -116,10 +121,10 @@ export class JRummy {
         this.CurrentDeck.shuffle();
 
         //instantiate all the hands
-        this.ComputerHand = new Hand();
-        this.Pile = new Hand();
-        this.PlayerHand = new Hand();
-        this.DiscardPile = new Hand();
+        this.ComputerHand = new Hand("Computer Hand");
+        this.Pile = new Hand("Pile");
+        this.PlayerHand = new Hand("Player Hand");
+        this.DiscardPile = new Hand("Discard Pile");
 
         //divide the cards between player, computer and pile
         this.deal();
@@ -162,26 +167,54 @@ export class JRummy {
     //takes a card from pile, sorts cards by value, and returns the worst card
     @Injectable()
     computerPlaySolo() {
+         //first, try the discarded cards
+        if (this.cardRejectedByComputer(this.DiscardPile)) {
+            console.log('Discard card was rejected.  Move to pile');
 
+            //if the card is rejected, try again with the regular pile
+            this.cardRejectedByComputer(this.Pile);
+        }
+        else {
 
-        var discardedCard: Card = this.Pile.Cards.shift();
-        console.log('Added to comp hand');
+            console.log('Discard card was accepted. continue');
+        }     
+    }
+
+    //this the computer adding or removing a card (either from the discard or pile)
+    cardRejectedByComputer(hand: Hand): boolean{
+
+        var discardedCard: Card = hand.Cards.shift();
+        console.log(`Added to comp hand from ${hand.Name}`);
         console.log(discardedCard);
+
+        //first check if cards has any points - if it's 0, disregard
+        discardedCard = this.evaluateCard(discardedCard)
+        if (discardedCard.HPoints + discardedCard.VPoints < 1) {
+            console.log('Card had no points. Continuing...');
+            return true;
+        }
+
+
         this.ComputerHand.Cards.push(discardedCard);
 
-        //first, evaluate the current hand
+        
+        //evaluate the current hand with card in it
         this.evaluateComputerHand(); 
         
         //next, take the top card from the top (the worst card, and discard)
         var deadwoodCard: Card = this.ComputerHand.Cards.shift();
-        console.log('Removed from comp hand');
+        console.log(`Removed ${deadwoodCard.toString()} from comp hand because ${deadwoodCard.VPoints} and  ${deadwoodCard.HPoints}
+                    and   ${discardedCard.toString()} had ${discardedCard.VPoints} and  ${discardedCard.HPoints}
+                    `);
         console.log(deadwoodCard);
-     
+
         this.DiscardPile.Cards.push(deadwoodCard);
         console.log(this.ComputerHand.Cards);
 
-        //now, evaluate card from the discard pile
-        // discardCard: Card = this.evaluateNewCard(this.DiscardPile[0])       
+        //checks if the same card that was added was rejected
+        return deadwoodCard.toString() === discardedCard.toString();
+       
+        
     }
 
     //this is the main evaluation algorithm, determining the worth of a card

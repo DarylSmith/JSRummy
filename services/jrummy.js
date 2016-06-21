@@ -35,6 +35,9 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     this.Suit = suit;
                     this.PointValue = pointValue;
                 }
+                Card.prototype.toString = function () {
+                    return this.Name + " of " + this.Suit;
+                };
                 Card.prototype.resetPoints = function () {
                     this.HPoints = 0;
                     this.VPoints = 0;
@@ -47,12 +50,13 @@ System.register(["angular2/core"], function(exports_1, context_1) {
             }());
             exports_1("Card", Card);
             Hand = (function () {
-                function Hand() {
+                function Hand(Name) {
+                    this.Name = Name;
                     this.Cards = new Array();
                 }
                 Hand = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [String])
                 ], Hand);
                 return Hand;
             }());
@@ -106,10 +110,10 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     game = this.CurrentGame;
                     this.CurrentDeck.shuffle();
                     //instantiate all the hands
-                    this.ComputerHand = new Hand();
-                    this.Pile = new Hand();
-                    this.PlayerHand = new Hand();
-                    this.DiscardPile = new Hand();
+                    this.ComputerHand = new Hand("Computer Hand");
+                    this.Pile = new Hand("Pile");
+                    this.PlayerHand = new Hand("Player Hand");
+                    this.DiscardPile = new Hand("Discard Pile");
                     //divide the cards between player, computer and pile
                     this.deal();
                     //move first card to the discard pile
@@ -140,20 +144,38 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                 //test to evaluation computer play
                 //takes a card from pile, sorts cards by value, and returns the worst card
                 JRummy.prototype.computerPlaySolo = function () {
-                    var discardedCard = this.Pile.Cards.shift();
-                    console.log('Added to comp hand');
+                    //first, try the discarded cards
+                    if (this.cardRejectedByComputer(this.DiscardPile)) {
+                        console.log('Discard card was rejected.  Move to pile');
+                        //if the card is rejected, try again with the regular pile
+                        this.cardRejectedByComputer(this.Pile);
+                    }
+                    else {
+                        console.log('Discard card was accepted. continue');
+                    }
+                };
+                //this the computer adding or removing a card (either from the discard or pile)
+                JRummy.prototype.cardRejectedByComputer = function (hand) {
+                    var discardedCard = hand.Cards.shift();
+                    console.log("Added to comp hand from " + hand.Name);
                     console.log(discardedCard);
+                    //first check if cards has any points - if it's 0, disregard
+                    discardedCard = this.evaluateCard(discardedCard);
+                    if (discardedCard.HPoints + discardedCard.VPoints < 1) {
+                        console.log('Card had no points. Continuing...');
+                        return true;
+                    }
                     this.ComputerHand.Cards.push(discardedCard);
-                    //first, evaluate the current hand
+                    //evaluate the current hand with card in it
                     this.evaluateComputerHand();
                     //next, take the top card from the top (the worst card, and discard)
                     var deadwoodCard = this.ComputerHand.Cards.shift();
-                    console.log('Removed from comp hand');
+                    console.log("Removed " + deadwoodCard.toString() + " from comp hand because " + deadwoodCard.VPoints + " and  " + deadwoodCard.HPoints + "\n                    and   " + discardedCard.toString() + " had " + discardedCard.VPoints + " and  " + discardedCard.HPoints + "\n                    ");
                     console.log(deadwoodCard);
                     this.DiscardPile.Cards.push(deadwoodCard);
                     console.log(this.ComputerHand.Cards);
-                    //now, evaluate card from the discard pile
-                    // discardCard: Card = this.evaluateNewCard(this.DiscardPile[0])       
+                    //checks if the same card that was added was rejected
+                    return deadwoodCard.toString() === discardedCard.toString();
                 };
                 //this is the main evaluation algorithm, determining the worth of a card
                 JRummy.prototype.evaluateCard = function (card) {
