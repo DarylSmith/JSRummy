@@ -28,6 +28,9 @@ System.register(['angular2/core', '.././services/jrummy.js'], function(exports_1
                     this.currentGame = new jrummy_js_1.Game();
                     this._jrummy.startGame(this.currentGame);
                 }
+                AppComponent.prototype.unitTestCard = function (suit, name) {
+                    this._jrummy.unitTestCard(suit, name);
+                };
                 AppComponent.prototype.getCard = function () {
                     this._jrummy.computerPlaySolo();
                 };

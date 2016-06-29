@@ -1,4 +1,4 @@
-﻿
+﻿/// <reference path="../../jsrummy/node_modules/lodash/lodash/index.d.ts" />
 import {Injectable} from "angular2/core";
 
 @Injectable()
@@ -21,6 +21,7 @@ export class Card {
     Suit: string;
     VPos: number;
     HPos: number;
+    Meld: string;
 
     //these are the number of points the computer assigns to a cards based on others with the same face value
     HPoints: number;
@@ -33,6 +34,7 @@ export class Card {
         this.FaceValue = faceValue;
         this.Suit = suit;
         this.PointValue = pointValue;
+        this.Meld = 'none';
 
     }
 
@@ -56,6 +58,12 @@ export class Hand {
     constructor(public Name:string) {
 
         this.Cards = new Array<Card>();
+    }
+
+    public sortByValue() {
+
+        return _.sortBy(this.Cards, function (card: Card) { return card.HPoints + card.VPoints });
+
     }
 }
 
@@ -163,6 +171,22 @@ export class JRummy {
         // discardCard: Card = this.evaluateNewCard(this.DiscardPile[0])       
     }
 
+    //will put this card on the top of the stack, so it will be picked by the computer and played
+    public unitTestCard(suit: string, name:string) {
+
+        //get the index of the item by name
+        let testCard: Card = _.findWhere(this.Pile.Cards, { Name: name, Suit: suit });
+
+        //add to the discardPile
+        this.DiscardPile.Cards.unshift(testCard);
+
+        //remove items from cards
+        this.Pile.Cards = _.filter(this.Pile.Cards, function (card: Card) { return card.toString()!=testCard.toString()});
+
+        this.computerPlaySolo();
+
+    }
+
     //test to evaluation computer play
     //takes a card from pile, sorts cards by value, and returns the worst card
     @Injectable()
@@ -224,18 +248,29 @@ export class JRummy {
         card.resetPoints();
 
         //first, determine the horizontal points by checking if other cards have the same hValue
-        //all cards will have an hPoint of 1, as they match themselves, so subtract that one.
-        card.HPoints = (_.where(this.ComputerHand.Cards, { FaceValue: card.FaceValue }).length) - 1;
+        //make sure to exclude the current card, because it will always match itself!
+        card.HPoints = _.filter(this.ComputerHand.Cards, function(c:Card){ return (c.Meld!='run' && c.toString()!=card.toString()) && (card.FaceValue==c.FaceValue) }).length;
 
         //next, determine the vPoints of the card (for a straight, by checking if anything higher or lower in the same suit
         var onePointHigher = card.FaceValue + 1;
         var onePointLower = card.FaceValue - 1;
-        card.VPoints += _.where(this.ComputerHand.Cards, { FaceValue: onePointHigher, Suit: card.Suit }).length;
-        card.VPoints += _.where(this.ComputerHand.Cards, { FaceValue: onePointLower, Suit: card.Suit }).length;     //each hand, set the cards back to 0 and recalculate
+        card.VPoints += _.filter(this.ComputerHand.Cards,function(c:Card){ return c.Meld!='set' &&  c.FaceValue== onePointHigher &&  c.Suit==card.Suit }).length;
+        card.VPoints += _.filter(this.ComputerHand.Cards, function (c: Card) { return c.Meld != 'set' && c.FaceValue == onePointLower && c.Suit == card.Suit }).length;     //each hand, set the cards back to 0 and recalculate
 
-        //if these cards are sets or runs of 3, multiply them by 100, as they are in a meld,
-        card.VPoints = card.VPoints > 2 ? card.VPoints * 100 : card.VPoints;
-        card.HPoints = card.HPoints > 2 ? card.HPoints * 100 : card.HPoints;
+        //if card is in set, note, flag that
+        if (card.HPoints >= 2) {
+            
+            card.Meld = 'set';
+        }
+        
+        //of the card is in run, flag this one, and the one below and above it
+        if (card.VPoints >= 2) {
+            
+           card.Meld = 'run';
+           _.findWhere(this.ComputerHand.Cards, { FaceValue: onePointHigher, Suit: card.Suit }).Meld = 'run';
+           _.findWhere(this.ComputerHand.Cards, { FaceValue: onePointLower, Suit: card.Suit }).Meld = 'run';
+
+        }
         return card;
     }
 

@@ -34,6 +34,7 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     this.FaceValue = faceValue;
                     this.Suit = suit;
                     this.PointValue = pointValue;
+                    this.Meld = 'none';
                 }
                 Card.prototype.toString = function () {
                     return this.Name + " of " + this.Suit;
@@ -54,6 +55,9 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     this.Name = Name;
                     this.Cards = new Array();
                 }
+                Hand.prototype.sortByValue = function () {
+                    return _.sortBy(this.Cards, function (card) { return card.HPoints + card.VPoints; });
+                };
                 Hand = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [String])
@@ -141,6 +145,16 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     //now, evaluate card from the discard pile
                     // discardCard: Card = this.evaluateNewCard(this.DiscardPile[0])       
                 };
+                //will put this card on the top of the stack, so it will be picked by the computer and played
+                JRummy.prototype.unitTestCard = function (suit, name) {
+                    //get the index of the item by name
+                    var testCard = _.findWhere(this.Pile.Cards, { Name: name, Suit: suit });
+                    //add to the discardPile
+                    this.DiscardPile.Cards.unshift(testCard);
+                    //remove items from cards
+                    this.Pile.Cards = _.filter(this.Pile.Cards, function (card) { return card.toString() != testCard.toString(); });
+                    this.computerPlaySolo();
+                };
                 //test to evaluation computer play
                 //takes a card from pile, sorts cards by value, and returns the worst card
                 JRummy.prototype.computerPlaySolo = function () {
@@ -182,16 +196,23 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     //each hand, set the cards back to 0 and recalculate
                     card.resetPoints();
                     //first, determine the horizontal points by checking if other cards have the same hValue
-                    //all cards will have an hPoint of 1, as they match themselves, so subtract that one.
-                    card.HPoints = (_.where(this.ComputerHand.Cards, { FaceValue: card.FaceValue }).length) - 1;
+                    //make sure to exclude the current card, because it will always match itself!
+                    card.HPoints = _.filter(this.ComputerHand.Cards, function (c) { return (c.Meld != 'run' && c.toString() != card.toString()) && (card.FaceValue == c.FaceValue); }).length;
                     //next, determine the vPoints of the card (for a straight, by checking if anything higher or lower in the same suit
                     var onePointHigher = card.FaceValue + 1;
                     var onePointLower = card.FaceValue - 1;
-                    card.VPoints += _.where(this.ComputerHand.Cards, { FaceValue: onePointHigher, Suit: card.Suit }).length;
-                    card.VPoints += _.where(this.ComputerHand.Cards, { FaceValue: onePointLower, Suit: card.Suit }).length; //each hand, set the cards back to 0 and recalculate
-                    //if these cards are sets or runs of 3, multiply them by 100, as they are in a meld,
-                    card.VPoints = card.VPoints > 2 ? card.VPoints * 100 : card.VPoints;
-                    card.HPoints = card.HPoints > 2 ? card.HPoints * 100 : card.HPoints;
+                    card.VPoints += _.filter(this.ComputerHand.Cards, function (c) { return c.Meld != 'set' && c.FaceValue == onePointHigher && c.Suit == card.Suit; }).length;
+                    card.VPoints += _.filter(this.ComputerHand.Cards, function (c) { return c.Meld != 'set' && c.FaceValue == onePointLower && c.Suit == card.Suit; }).length; //each hand, set the cards back to 0 and recalculate
+                    //if card is in set, note, flag that
+                    if (card.HPoints >= 2) {
+                        card.Meld = 'set';
+                    }
+                    //of the card is in run, flag this one, and the one below and above it
+                    if (card.VPoints >= 2) {
+                        card.Meld = 'run';
+                        _.findWhere(this.ComputerHand.Cards, { FaceValue: onePointHigher, Suit: card.Suit }).Meld = 'run';
+                        _.findWhere(this.ComputerHand.Cards, { FaceValue: onePointLower, Suit: card.Suit }).Meld = 'run';
+                    }
                     return card;
                 };
                 //this is the algorithm for the computer determing the value of its hand

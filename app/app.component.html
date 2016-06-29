@@ -1,8 +1,22 @@
-﻿<div *ngFor="#card of _jrummy.ComputerHand.Cards">
+﻿<div *ngFor="#card of _jrummy.ComputerHand.sortByValue()">
     {{card.Name}} -- {{card.Suit}}
 
 
 
 </div>
+    <input type="button" (click)="getCard()" value="Get Card" />
 
-<input type="button" (click)="getCard()" value="Get Card"/>
+    <h3>Unit test cards</h3>
+<div style="display:inline;cursor:pointer;text-decoration:underline" (click)="unitTestCard('hearts','jak')">sd</div>
+
+{{ _jrummy.Pile.Cards.length}}
+    <ul *ngFor="#card of _jrummy.Pile.Cards" style="display:inline">
+
+        <li style="display:inline;cursor:pointer;text-decoration:underline" (click)="unitTestCard(card.Suit,card.Name)">
+
+            {{card.toString()}}
+
+        </li>
+
+
+    </ul>

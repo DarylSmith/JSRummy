@@ -13,6 +13,12 @@ export class AppComponent {
 
     public currentGame: Game;
 
+    public unitTestCard(suit:string,name:string) {
+        
+        this._jrummy.unitTestCard(suit, name);
+
+    }
+
     public getCard(){
         
         this._jrummy.computerPlaySolo();
