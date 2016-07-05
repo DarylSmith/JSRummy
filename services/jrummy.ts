@@ -60,10 +60,25 @@ export class Hand {
         this.Cards = new Array<Card>();
     }
 
-    public sortByValue() {
+    public sortByValue():void {
+        
+        //first, get all the cards in melds
+        let cardsInMeld = _.sortBy(_.filter(this.Cards, function (c: Card) { return c.Meld !== 'none' }), function (c: Card) { return c.FaceValue });
 
-        return _.sortBy(this.Cards, function (card: Card) { return card.HPoints + card.VPoints });
+        //then get all the cards with points
+        let cardsWithTwoPoints = _.sortBy(_.filter(this.Cards, function (c: Card) { return c.Meld === 'none' && (c.VPoints + c.HPoints == 2) }), function (c: Card) { return (c.PointValue)});
 
+        //then get all the cards with points
+        let cardsWithOnePoint = _.sortBy(_.filter(this.Cards, function (c: Card) { return c.Meld === 'none' && (c.VPoints + c.HPoints == 1) }), function (c: Card) { return (c.PointValue)  });
+
+        //then get all the cards without points
+        let cardsWithoutPoints = _.sortBy(_.filter(this.Cards, function (c: Card) { return c.Meld === 'none' && (c.VPoints + c.HPoints === 0) }), function (c: Card) { return (c.PointValue) });
+
+        //concatenate cards 
+        let cardsSorted: Array<Card>= cardsInMeld.concat(cardsWithTwoPoints,cardsWithOnePoint, cardsWithoutPoints);
+
+        //new concatenate the arrays and return
+        this.Cards =  cardsSorted;
     }
 }
 
@@ -211,28 +226,34 @@ export class JRummy {
         console.log(`Added to comp hand from ${hand.Name}`);
         console.log(discardedCard);
 
-        //first check if cards has any points - if it's 0, disregard
+        //first check if cards has any points - if it's 0
         discardedCard = this.evaluateCard(discardedCard)
         if (discardedCard.HPoints + discardedCard.VPoints < 1) {
-            console.log('Card had no points. Continuing...');
-            return true;
-        }
 
+            //if there is another card that is higher points and fewer outs, keep this one
+            let deadwood = _.filter(this.ComputerHand.Cards, function (c: Card) { return c.VPoints === 0 && c.HPoints=== 0 && c.PointValue > discardedCard.PointValue });
+
+            if (deadwood.length === 0) {
+                console.log('Card had no points. Continuing...');
+                return true;
+            }
+        }
 
         this.ComputerHand.Cards.push(discardedCard);
 
-        
         //evaluate the current hand with card in it
         this.evaluateComputerHand(); 
-        
+
         //next, take the top card from the top (the worst card, and discard)
-        var deadwoodCard: Card = this.ComputerHand.Cards.shift();
+        this.ComputerHand.sortByValue();
+        var deadwoodCard: Card = this.ComputerHand.Cards.pop();
         console.log(`Removed ${deadwoodCard.toString()} from comp hand because ${deadwoodCard.VPoints} and  ${deadwoodCard.HPoints}
                     and   ${discardedCard.toString()} had ${discardedCard.VPoints} and  ${discardedCard.HPoints}
                     `);
         console.log(deadwoodCard);
 
-        this.DiscardPile.Cards.push(deadwoodCard);
+        //take the unused cards and put into discard pile
+        this.DiscardPile.Cards.unshift(deadwoodCard);
         console.log(this.ComputerHand.Cards);
 
         //checks if the same card that was added was rejected

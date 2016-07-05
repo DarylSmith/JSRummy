@@ -56,7 +56,18 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     this.Cards = new Array();
                 }
                 Hand.prototype.sortByValue = function () {
-                    return _.sortBy(this.Cards, function (card) { return card.HPoints + card.VPoints; });
+                    //first, get all the cards in melds
+                    var cardsInMeld = _.sortBy(_.filter(this.Cards, function (c) { return c.Meld !== 'none'; }), function (c) { return c.FaceValue; });
+                    //then get all the cards with points
+                    var cardsWithTwoPoints = _.sortBy(_.filter(this.Cards, function (c) { return c.Meld === 'none' && (c.VPoints + c.HPoints == 2); }), function (c) { return (c.PointValue); });
+                    //then get all the cards with points
+                    var cardsWithOnePoint = _.sortBy(_.filter(this.Cards, function (c) { return c.Meld === 'none' && (c.VPoints + c.HPoints == 1); }), function (c) { return (c.PointValue); });
+                    //then get all the cards without points
+                    var cardsWithoutPoints = _.sortBy(_.filter(this.Cards, function (c) { return c.Meld === 'none' && (c.VPoints + c.HPoints === 0); }), function (c) { return (c.PointValue); });
+                    //concatenate cards 
+                    var cardsSorted = cardsInMeld.concat(cardsWithTwoPoints, cardsWithOnePoint, cardsWithoutPoints);
+                    //new concatenate the arrays and return
+                    this.Cards = cardsSorted;
                 };
                 Hand = __decorate([
                     core_1.Injectable(), 
@@ -173,20 +184,26 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     var discardedCard = hand.Cards.shift();
                     console.log("Added to comp hand from " + hand.Name);
                     console.log(discardedCard);
-                    //first check if cards has any points - if it's 0, disregard
+                    //first check if cards has any points - if it's 0
                     discardedCard = this.evaluateCard(discardedCard);
                     if (discardedCard.HPoints + discardedCard.VPoints < 1) {
-                        console.log('Card had no points. Continuing...');
-                        return true;
+                        //if there is another card that is higher points and fewer outs, keep this one
+                        var deadwood = _.filter(this.ComputerHand.Cards, function (c) { return c.VPoints === 0 && c.HPoints === 0 && c.PointValue > discardedCard.PointValue; });
+                        if (deadwood.length === 0) {
+                            console.log('Card had no points. Continuing...');
+                            return true;
+                        }
                     }
                     this.ComputerHand.Cards.push(discardedCard);
                     //evaluate the current hand with card in it
                     this.evaluateComputerHand();
                     //next, take the top card from the top (the worst card, and discard)
-                    var deadwoodCard = this.ComputerHand.Cards.shift();
+                    this.ComputerHand.sortByValue();
+                    var deadwoodCard = this.ComputerHand.Cards.pop();
                     console.log("Removed " + deadwoodCard.toString() + " from comp hand because " + deadwoodCard.VPoints + " and  " + deadwoodCard.HPoints + "\n                    and   " + discardedCard.toString() + " had " + discardedCard.VPoints + " and  " + discardedCard.HPoints + "\n                    ");
                     console.log(deadwoodCard);
-                    this.DiscardPile.Cards.push(deadwoodCard);
+                    //take the unused cards and put into discard pile
+                    this.DiscardPile.Cards.unshift(deadwoodCard);
                     console.log(this.ComputerHand.Cards);
                     //checks if the same card that was added was rejected
                     return deadwoodCard.toString() === discardedCard.toString();
