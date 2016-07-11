@@ -1,4 +1,9 @@
-﻿<div *ngFor="#card of _jrummy.ComputerHand.Cards">
+﻿<div class="current-round">
+
+    <h3> Current Round: {{_jrummy.CurrentRound}}</h3>
+</div>
+
+<div *ngFor="#card of _jrummy.ComputerHand.Cards">
     {{card.Name}} -- {{card.Suit}}
 
 
@@ -20,3 +25,8 @@
 
 
     </ul>
+
+<div *ngIf="computerCalls">
+
+    <h2>I CALL</h2>
+</div>

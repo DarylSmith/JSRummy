@@ -57,13 +57,13 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                 }
                 Hand.prototype.sortByValue = function () {
                     //first, get all the cards in melds
-                    var cardsInMeld = _.sortBy(_.filter(this.Cards, function (c) { return c.Meld !== 'none'; }), function (c) { return c.FaceValue; });
+                    var cardsInMeld = _.sortBy(_.filter(this.Cards, function (c) { return c.Meld !== 'none' && c.Meld !== 'deadwood'; }), function (c) { return c.FaceValue; });
                     //then get all the cards with points
                     var cardsWithTwoPoints = _.sortBy(_.filter(this.Cards, function (c) { return c.Meld === 'none' && (c.VPoints + c.HPoints == 2); }), function (c) { return (c.PointValue); });
                     //then get all the cards with points
                     var cardsWithOnePoint = _.sortBy(_.filter(this.Cards, function (c) { return c.Meld === 'none' && (c.VPoints + c.HPoints == 1); }), function (c) { return (c.PointValue); });
                     //then get all the cards without points
-                    var cardsWithoutPoints = _.sortBy(_.filter(this.Cards, function (c) { return c.Meld === 'none' && (c.VPoints + c.HPoints === 0); }), function (c) { return (c.PointValue); });
+                    var cardsWithoutPoints = _.sortBy(_.filter(this.Cards, function (c) { return c.Meld === 'deadwood' || (c.Meld === 'none' && (c.VPoints + c.HPoints === 0)); }), function (c) { return (c.PointValue); });
                     //concatenate cards 
                     var cardsSorted = cardsInMeld.concat(cardsWithTwoPoints, cardsWithOnePoint, cardsWithoutPoints);
                     //new concatenate the arrays and return
@@ -119,6 +119,7 @@ System.register(["angular2/core"], function(exports_1, context_1) {
             JRummy = (function () {
                 function JRummy() {
                     this.CurrentDeck = new Deck();
+                    this.CurrentRound = 0;
                 }
                 JRummy.prototype.startGame = function (game) {
                     //set game config values
@@ -138,11 +139,8 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                 //add selected cards to each hand and remainder to pile
                 JRummy.prototype.deal = function () {
                     this.PlayerHand.Cards = this.CurrentDeck.Cards.slice(0, 10);
-                    console.log(this.PlayerHand.Cards);
                     this.ComputerHand.Cards = this.CurrentDeck.Cards.slice(10, 20);
-                    console.log(this.ComputerHand.Cards);
                     this.Pile.Cards = this.CurrentDeck.Cards.slice(20);
-                    console.log(this.Pile.Cards);
                 };
                 //removes an item from the puts an item at the top of the discard pile
                 JRummy.prototype.moveToDiscardPile = function () {
@@ -168,7 +166,12 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                 };
                 //test to evaluation computer play
                 //takes a card from pile, sorts cards by value, and returns the worst card
+                //boolean returns a true value of computer should call
                 JRummy.prototype.computerPlaySolo = function () {
+                    //check if computer should call
+                    if (this.ComputerShouldCall()) {
+                        return true;
+                    }
                     //first, try the discarded cards
                     if (this.cardRejectedByComputer(this.DiscardPile)) {
                         console.log('Discard card was rejected.  Move to pile');
@@ -178,6 +181,11 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     else {
                         console.log('Discard card was accepted. continue');
                     }
+                    console.log(this.DiscardPile.Cards);
+                    console.log(this.ComputerHand.Cards);
+                    console.log('Current Points for Computer:' + this.CountHandValue(this.ComputerHand));
+                    this.CurrentRound++;
+                    return false;
                 };
                 //this the computer adding or removing a card (either from the discard or pile)
                 JRummy.prototype.cardRejectedByComputer = function (hand) {
@@ -188,12 +196,15 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     discardedCard = this.evaluateCard(discardedCard);
                     if (discardedCard.HPoints + discardedCard.VPoints < 1) {
                         //if there is another card that is higher points and fewer outs, keep this one
-                        var deadwood = _.filter(this.ComputerHand.Cards, function (c) { return c.VPoints === 0 && c.HPoints === 0 && c.PointValue > discardedCard.PointValue; });
+                        var deadwood = _.filter(this.ComputerHand.Cards, function (c) { return c.Meld == 'deadwood' || (c.VPoints === 0 && c.HPoints === 0 && c.PointValue > discardedCard.PointValue); });
                         if (deadwood.length === 0) {
+                            //if the card isn't useful, put it back to the top of the stack
+                            this.DiscardPile.Cards.unshift(discardedCard);
                             console.log('Card had no points. Continuing...');
                             return true;
                         }
                     }
+                    //otherwise put it into the computer hand
                     this.ComputerHand.Cards.push(discardedCard);
                     //evaluate the current hand with card in it
                     this.evaluateComputerHand();
@@ -212,14 +223,20 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                 JRummy.prototype.evaluateCard = function (card) {
                     //each hand, set the cards back to 0 and recalculate
                     card.resetPoints();
+                    //after a certain point, start removing unmelded high point cards
+                    if (this.checkForHighDeadwood(card).Meld == 'deadwood') {
+                        return card;
+                    }
+                    //do not evaludate against high unmelded cards
+                    var cardsToEvaluateAgainst = _.filter(this.ComputerHand.Cards, function (c) { return c.Meld !== 'deadwood'; });
                     //first, determine the horizontal points by checking if other cards have the same hValue
                     //make sure to exclude the current card, because it will always match itself!
-                    card.HPoints = _.filter(this.ComputerHand.Cards, function (c) { return (c.Meld != 'run' && c.toString() != card.toString()) && (card.FaceValue == c.FaceValue); }).length;
+                    card.HPoints = _.filter(cardsToEvaluateAgainst, function (c) { return (c.Meld != 'run' && c.toString() != card.toString()) && (card.FaceValue == c.FaceValue); }).length;
                     //next, determine the vPoints of the card (for a straight, by checking if anything higher or lower in the same suit
                     var onePointHigher = card.FaceValue + 1;
                     var onePointLower = card.FaceValue - 1;
-                    card.VPoints += _.filter(this.ComputerHand.Cards, function (c) { return c.Meld != 'set' && c.FaceValue == onePointHigher && c.Suit == card.Suit; }).length;
-                    card.VPoints += _.filter(this.ComputerHand.Cards, function (c) { return c.Meld != 'set' && c.FaceValue == onePointLower && c.Suit == card.Suit; }).length; //each hand, set the cards back to 0 and recalculate
+                    card.VPoints += _.filter(cardsToEvaluateAgainst, function (c) { return c.Meld != 'set' && c.FaceValue == onePointHigher && c.Suit == card.Suit; }).length;
+                    card.VPoints += _.filter(cardsToEvaluateAgainst, function (c) { return c.Meld != 'set' && c.FaceValue == onePointLower && c.Suit == card.Suit; }).length; //each hand, set the cards back to 0 and recalculate
                     //if card is in set, note, flag that
                     if (card.HPoints >= 2) {
                         card.Meld = 'set';
@@ -238,18 +255,45 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     var self = this;
                     console.log(this.ComputerHand.Cards);
                     this.ComputerHand.Cards.forEach(function (card) {
-                        console.log(self);
+                        // console.log(self);
                         card = self.evaluateCard(card);
                     });
                     //order the cards by value
                     this.ComputerHand.Cards = _.sortBy(this.ComputerHand.Cards, function (card) { return card.VPoints + card.HPoints; });
                     console.log(this.ComputerHand);
                 };
+                //high unmatch cards are deadwood at a certain point in the game
+                JRummy.prototype.checkForHighDeadwood = function (card) {
+                    if (card.PointValue < 9 || card.Meld !== 'none') {
+                        return card;
+                    }
+                    var cutOffValue = 17;
+                    //cutoff number is the point at which a card is too high and should be discarded, even if matched
+                    var cutOffNumber = this.CurrentRound + card.PointValue;
+                    var numberOfCardsWithoutMeld = _.filter(this.ComputerHand.Cards, function (c) { return c.Meld === 'none' || c.Meld === 'deadwood'; }).length;
+                    if ((cutOffNumber >= cutOffValue) || numberOfCardsWithoutMeld < 3) {
+                        card.Meld = 'deadwood';
+                        console.log(card.toString() + " evaluated as deadwood (unmatched high card on round " + this.CurrentRound + ")");
+                    }
+                    return card;
+                };
+                JRummy.prototype.ComputerShouldCall = function () {
+                    var computerPointCount = this.CountHandValue(this.ComputerHand);
+                    var upperLimitForCall = 7;
+                    var lowerLimitForCall = 2;
+                    var pointsNeededToCall = (upperLimitForCall - this.CurrentRound) >= lowerLimitForCall ? (upperLimitForCall - this.CurrentRound) : lowerLimitForCall;
+                    return computerPointCount <= pointsNeededToCall;
+                };
+                JRummy.prototype.CountHandValue = function (hand) {
+                    var cardsWithPoints = _.filter(hand.Cards, function (c) { return c.Meld !== 'set' && c.Meld !== 'run'; });
+                    var handPoints = _.reduce(cardsWithPoints, function (memo, c) { return memo + c.PointValue; }, 0);
+                    return handPoints;
+                };
                 __decorate([
                     core_1.Injectable(), 
                     __metadata('design:type', Function), 
                     __metadata('design:paramtypes', []), 
-                    __metadata('design:returntype', void 0)
+                    __metadata('design:returntype', Boolean)
                 ], JRummy.prototype, "computerPlaySolo", null);
                 JRummy = __decorate([
                     core_1.Injectable(), 

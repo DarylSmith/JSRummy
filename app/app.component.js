@@ -26,13 +26,14 @@ System.register(['angular2/core', '.././services/jrummy.js'], function(exports_1
                     this.pageTitle = 'Acme Product Management';
                     this._jrummy = jrummy;
                     this.currentGame = new jrummy_js_1.Game();
+                    this.computerCalls = false;
                     this._jrummy.startGame(this.currentGame);
                 }
                 AppComponent.prototype.unitTestCard = function (suit, name) {
                     this._jrummy.unitTestCard(suit, name);
                 };
                 AppComponent.prototype.getCard = function () {
-                    this._jrummy.computerPlaySolo();
+                    this.computerCalls = this._jrummy.computerPlaySolo();
                 };
                 AppComponent = __decorate([
                     core_1.Component({

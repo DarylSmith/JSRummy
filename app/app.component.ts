@@ -13,6 +13,8 @@ export class AppComponent {
 
     public currentGame: Game;
 
+    public computerCalls: boolean;
+
     public unitTestCard(suit:string,name:string) {
         
         this._jrummy.unitTestCard(suit, name);
@@ -21,7 +23,8 @@ export class AppComponent {
 
     public getCard(){
         
-        this._jrummy.computerPlaySolo();
+        this.computerCalls =  this._jrummy.computerPlaySolo();
+
     
 
     }
@@ -33,6 +36,8 @@ export class AppComponent {
         this._jrummy = jrummy;
 
         this.currentGame = new Game();
+
+        this.computerCalls = false;
 
         this._jrummy.startGame(this.currentGame);
     }
