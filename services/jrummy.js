@@ -11,7 +11,7 @@ System.register(["angular2/core"], function(exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var Game, Card, Hand, Deck, JRummy;
+    var Game, GameStatus, Card, Hand, Deck, JRummy;
     return {
         setters:[
             function (core_1_1) {
@@ -28,6 +28,17 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                 return Game;
             }());
             exports_1("Game", Game);
+            (function (GameStatus) {
+                GameStatus[GameStatus["GameStart"] = 0] = "GameStart";
+                GameStatus[GameStatus["PlayerPickup"] = 1] = "PlayerPickup";
+                GameStatus[GameStatus["PlayerDiscard"] = 2] = "PlayerDiscard";
+                GameStatus[GameStatus["ComputerTurn"] = 3] = "ComputerTurn";
+                GameStatus[GameStatus["ComputerCall"] = 4] = "ComputerCall";
+                GameStatus[GameStatus["PlayerCall"] = 5] = "PlayerCall";
+                GameStatus[GameStatus["PlayerWon"] = 6] = "PlayerWon";
+                GameStatus[GameStatus["ComputerWon"] = 7] = "ComputerWon";
+            })(GameStatus || (GameStatus = {}));
+            exports_1("GameStatus", GameStatus);
             Card = (function () {
                 function Card(faceValue, suit, cardName, pointValue) {
                     this.Name = cardName;
@@ -123,7 +134,8 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                 }
                 JRummy.prototype.startGame = function (game) {
                     //set game config values
-                    game = this.CurrentGame;
+                    this.CurrentGame = game;
+                    this.CurrentGame.CurrentStatus = GameStatus.GameStart;
                     this.CurrentDeck.shuffle();
                     //instantiate all the hands
                     this.ComputerHand = new Hand("Computer Hand");

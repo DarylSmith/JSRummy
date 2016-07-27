@@ -11,7 +11,7 @@
 </div>
     <input type="button" (click)="getCard()" value="Get Card" />
 
-    <h3>Unit test cards</h3>
+    <h3>Pile</h3>
 <div style="display:inline;cursor:pointer;text-decoration:underline" (click)="unitTestCard('hearts','jak')">sd</div>
 
 {{ _jrummy.Pile.Cards.length}}
@@ -25,6 +25,25 @@
 
 
     </ul>
+
+
+<h3>Discard</h3>
+
+{{ _jrummy.DiscardPile.Cards.length}}
+<ul *ngFor="#card of _jrummy.DiscardPile.Cards;#i=index;" style="display:inline">
+
+    <li style="display:inline">
+
+        <div *ngIf="i!=0">
+            {{card.toString()}}
+        </div>
+        <div *ngIf="i==0">
+            <a href="#">{{card.toString()}}</a>
+        </div>
+    </li>
+
+
+</ul>
 
 <div *ngIf="computerCalls">
 

@@ -8,7 +8,20 @@ export class Game {
     ComputerDeadwood: number;
     ComputerBonus: number;
     ComputerPoints: number;
-    Winner: string
+    Winner: string;
+    CurrentStatus: GameStatus;
+}
+
+
+export enum GameStatus {
+    GameStart=0,
+    PlayerPickup,
+    PlayerDiscard,
+    ComputerTurn,
+    ComputerCall,
+    PlayerCall,
+    PlayerWon,
+    ComputerWon
 }
 
 @Injectable()
@@ -144,9 +157,9 @@ export class JRummy {
     startGame(game: Game) {
         
         //set game config values
-        game = this.CurrentGame;
+        this.CurrentGame = game;
+        this.CurrentGame.CurrentStatus = GameStatus.GameStart;
         this.CurrentDeck.shuffle();
-
         //instantiate all the hands
         this.ComputerHand = new Hand("Computer Hand");
         this.Pile = new Hand("Pile");
