@@ -1,4 +1,4 @@
-System.register(["angular2/core"], function(exports_1, context_1) {
+System.register(["angular2/core", 'lodash'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(["angular2/core"], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, _;
     var Game, GameStatus, Card, Hand, Deck, JRummy;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (_1) {
+                _ = _1;
             }],
         execute: function() {
             Game = (function () {
@@ -166,23 +169,43 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     //now, evaluate card from the discard pile
                     // discardCard: Card = this.evaluateNewCard(this.DiscardPile[0])       
                 };
+                JRummy.prototype.addCardToPlayerHand = function (suit, name, isFromDiscardPile) {
+                    var card;
+                    //if it's not in the discard pile, it must be in the draw pile
+                    if (isFromDiscardPile) {
+                        card = _.filter(this.DiscardPile.Cards, function (c) { return c.Name == name && c.Suit == suit; })[0];
+                    }
+                    else {
+                        card = _.filter(this.Pile.Cards, function (c) { return c.Name == name && c.Suit == suit; })[0];
+                    }
+                    this.PlayerHand.Cards.push(card);
+                    this.CurrentGame.CurrentStatus == GameStatus.PlayerDiscard;
+                };
+                //removes a card from the playerhand and puts it in the pile
+                JRummy.prototype.discardFromPlayerHand = function (suit, name) {
+                    var card = _.filter(this.PlayerHand.Cards, function (c) { return c.Name == name && c.Suit == suit; })[0];
+                    this.DiscardPile.Cards.unshift(card);
+                    this.PlayerHand.Cards = _.filter(this.PlayerHand.Cards, function (c) { return c.Name !== name && c.Suit !== suit; });
+                    this.CurrentGame.CurrentStatus == GameStatus.ComputerTurn;
+                    this.computerTurn();
+                };
                 //will put this card on the top of the stack, so it will be picked by the computer and played
                 JRummy.prototype.unitTestCard = function (suit, name) {
                     //get the index of the item by name
-                    var testCard = _.findWhere(this.Pile.Cards, { Name: name, Suit: suit });
+                    var testCard = _.filter(this.Pile.Cards, function (c) { return c.Name == name && c.Suit == suit; })[0];
                     //add to the discardPile
                     this.DiscardPile.Cards.unshift(testCard);
                     //remove items from cards
                     this.Pile.Cards = _.filter(this.Pile.Cards, function (card) { return card.toString() != testCard.toString(); });
-                    this.computerPlaySolo();
+                    this.computerTurn();
                 };
                 //test to evaluation computer play
                 //takes a card from pile, sorts cards by value, and returns the worst card
                 //boolean returns a true value of computer should call
-                JRummy.prototype.computerPlaySolo = function () {
+                JRummy.prototype.computerTurn = function () {
                     //check if computer should call
                     if (this.ComputerShouldCall()) {
-                        return true;
+                        this.CurrentGame.CurrentStatus == GameStatus.ComputerCall;
                     }
                     //first, try the discarded cards
                     if (this.cardRejectedByComputer(this.DiscardPile)) {
@@ -197,7 +220,7 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     console.log(this.ComputerHand.Cards);
                     console.log('Current Points for Computer:' + this.CountHandValue(this.ComputerHand));
                     this.CurrentRound++;
-                    return false;
+                    this.CurrentGame.CurrentStatus == GameStatus.PlayerPickup;
                 };
                 //this the computer adding or removing a card (either from the discard or pile)
                 JRummy.prototype.cardRejectedByComputer = function (hand) {
@@ -256,8 +279,8 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     //of the card is in run, flag this one, and the one below and above it
                     if (card.VPoints >= 2) {
                         card.Meld = 'run';
-                        _.findWhere(this.ComputerHand.Cards, { FaceValue: onePointHigher, Suit: card.Suit }).Meld = 'run';
-                        _.findWhere(this.ComputerHand.Cards, { FaceValue: onePointLower, Suit: card.Suit }).Meld = 'run';
+                        _.filter(this.Pile.Cards, function (c) { return c.FaceValue == onePointHigher && c.Suit == card.Suit; })[0].Meld = 'run';
+                        _.filter(this.Pile.Cards, function (c) { return c.FaceValue == onePointLower && c.Suit == card.Suit; })[0].Meld = 'run';
                     }
                     return card;
                 };
@@ -305,8 +328,8 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                     core_1.Injectable(), 
                     __metadata('design:type', Function), 
                     __metadata('design:paramtypes', []), 
-                    __metadata('design:returntype', Boolean)
-                ], JRummy.prototype, "computerPlaySolo", null);
+                    __metadata('design:returntype', void 0)
+                ], JRummy.prototype, "computerTurn", null);
                 JRummy = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [])

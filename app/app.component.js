@@ -1,4 +1,4 @@
-System.register(['angular2/core', '.././services/jrummy.js'], function(exports_1, context_1) {
+System.register(['angular2/core', '.././services/jrummy'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,41 +10,54 @@ System.register(['angular2/core', '.././services/jrummy.js'], function(exports_1
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, jrummy_js_1;
+    var core_1, jrummy_1;
     var AppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (jrummy_js_1_1) {
-                jrummy_js_1 = jrummy_js_1_1;
+            function (jrummy_1_1) {
+                jrummy_1 = jrummy_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
                 function AppComponent(jrummy) {
                     this.pageTitle = 'Acme Product Management';
                     this._jrummy = jrummy;
-                    this.currentGame = new jrummy_js_1.Game();
+                    this.currentGame = new jrummy_1.Game();
                     this.computerCalls = false;
                     this._jrummy.startGame(this.currentGame);
                 }
-                AppComponent.prototype.unitTestCard = function (suit, name) {
-                    this._jrummy.unitTestCard(suit, name);
-                };
+                //this is a test method for running the computer by itself
                 AppComponent.prototype.getCard = function () {
-                    this.computerCalls = this._jrummy.computerPlaySolo();
+                    this._jrummy.computerPlay();
+                };
+                AppComponent.prototype.pickupPlayerCard = function (suit, name, isFromDiscardPile) {
+                    if (this.currentGame.CurrentStatus == jrummy_1.GameStatus.PlayerPickup) {
+                        this._jrummy.addCardToPlayerHand(suit, name, isFromDiscardPile);
+                    }
+                    else {
+                        window.alert('Not time to pickup');
+                    }
+                };
+                AppComponent.prototype.discardPlayerCard = function (suit, name) {
+                    if (this.currentGame.CurrentStatus == jrummy_1.GameStatus.PlayerDiscard) {
+                        this._jrummy.discardFromPlayerHand(suit, name);
+                    }
+                    else {
+                        window.alert('Not time to discard');
+                    }
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'jrummy',
                         templateUrl: '/app/app.component.html',
-                        providers: [jrummy_js_1.JRummy]
+                        providers: [jrummy_1.JRummy]
                     }), 
-                    __metadata('design:paramtypes', [(typeof (_a = typeof jrummy_js_1.JRummy !== 'undefined' && jrummy_js_1.JRummy) === 'function' && _a) || Object])
+                    __metadata('design:paramtypes', [jrummy_1.JRummy])
                 ], AppComponent);
                 return AppComponent;
-                var _a;
             }());
             exports_1("AppComponent", AppComponent);
         }

@@ -17,7 +17,7 @@
 {{ _jrummy.Pile.Cards.length}}
     <ul *ngFor="#card of _jrummy.Pile.Cards" style="display:inline">
 
-        <li style="display:inline;cursor:pointer;text-decoration:underline" (click)="unitTestCard(card.Suit,card.Name)">
+        <li style="display:inline;cursor:pointer;text-decoration:underline" (click)="pickupPlayerCard(card.Suit,card.Name,false)">
 
             {{card.toString()}}
 
@@ -38,14 +38,23 @@
             {{card.toString()}}
         </div>
         <div *ngIf="i==0">
-            <a href="#">{{card.toString()}}</a>
+            <a href="javascript:void(0);" (click)="pickupPlayerCard(card.Suit,card.Name,true)" >{{card.toString()}}</a>
         </div>
     </li>
 
 
 </ul>
 
-<div *ngIf="computerCalls">
+/*
+
+<div *ngIf="CurrentGame.CurrentStatus == GameStatus.ComputerCall">
 
     <h2>I CALL</h2>
+</div>
+*
+<div *ngFor="#card of _jrummy.PlayerHand.Cards">
+     <a href="javascript:void(0);" (click)="discardPlayerCard(card.Suit,card.Name,true)" > {{card.Name}} -- {{card.Suit}} </a>
+
+
+
 </div>
