@@ -150,6 +150,7 @@ System.register(["angular2/core", 'lodash'], function(exports_1, context_1) {
                     //move first card to the discard pile
                     this.moveToDiscardPile();
                     this.computerPlay();
+                    this.CurrentGame.CurrentStatus = GameStatus.PlayerPickup;
                 };
                 //add selected cards to each hand and remainder to pile
                 JRummy.prototype.deal = function () {
@@ -171,15 +172,12 @@ System.register(["angular2/core", 'lodash'], function(exports_1, context_1) {
                 };
                 JRummy.prototype.addCardToPlayerHand = function (suit, name, isFromDiscardPile) {
                     var card;
+                    var targetHand = isFromDiscardPile ? this.DiscardPile.Cards : this.Pile.Cards;
                     //if it's not in the discard pile, it must be in the draw pile
-                    if (isFromDiscardPile) {
-                        card = _.filter(this.DiscardPile.Cards, function (c) { return c.Name == name && c.Suit == suit; })[0];
-                    }
-                    else {
-                        card = _.filter(this.Pile.Cards, function (c) { return c.Name == name && c.Suit == suit; })[0];
-                    }
+                    card = _.filter(targetHand, function (c) { return c.Name == name && c.Suit == suit; })[0];
                     this.PlayerHand.Cards.push(card);
-                    this.CurrentGame.CurrentStatus == GameStatus.PlayerDiscard;
+                    targetHand = _.filter(targetHand, function (c) { return c.Name != name && c.Suit != suit; });
+                    this.CurrentGame.CurrentStatus = GameStatus.PlayerDiscard;
                 };
                 //removes a card from the playerhand and puts it in the pile
                 JRummy.prototype.discardFromPlayerHand = function (suit, name) {

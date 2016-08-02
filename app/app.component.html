@@ -44,14 +44,14 @@
 
 
 </ul>
+<!--
 
-/*
 
-<div *ngIf="CurrentGame.CurrentStatus == GameStatus.ComputerCall">
+<div *ngIf="CurrentGame!==undefined && CurrentGame.CurrentStatus == GameStatus.ComputerCall">
 
     <h2>I CALL</h2>
 </div>
-*
+-->
 <div *ngFor="#card of _jrummy.PlayerHand.Cards">
      <a href="javascript:void(0);" (click)="discardPlayerCard(card.Suit,card.Name,true)" > {{card.Name}} -- {{card.Suit}} </a>
 

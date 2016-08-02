@@ -172,7 +172,8 @@ export class JRummy {
         //move first card to the discard pile
         this.moveToDiscardPile();
 
-        this.computerPlay()
+        this.computerPlay();
+        this.CurrentGame.CurrentStatus = GameStatus.PlayerPickup
     }
 
     //add selected cards to each hand and remainder to pile
@@ -202,17 +203,12 @@ export class JRummy {
 
     addCardToPlayerHand(suit: string, name: string, isFromDiscardPile: boolean) {
         let card: Card;
-
+        let targetHand:Card[] = isFromDiscardPile? this.DiscardPile.Cards:this.Pile.Cards;
         //if it's not in the discard pile, it must be in the draw pile
-        if (isFromDiscardPile) {
-            card = _.filter(this.DiscardPile.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0];
-        }
-        else {
-            card = _.filter(this.Pile.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0];
-        }
-
+        card = _.filter( targetHand, function (c: Card) { return c.Name == name && c.Suit == suit })[0];
         this.PlayerHand.Cards.push(card);
-        this.CurrentGame.CurrentStatus == GameStatus.PlayerDiscard;
+        targetHand  = _.filter( targetHand, function (c: Card) { return c.Name != name && c.Suit!= suit });
+        this.CurrentGame.CurrentStatus = GameStatus.PlayerDiscard;
 
 
     }

@@ -26,7 +26,6 @@ System.register(['angular2/core', '.././services/jrummy'], function(exports_1, c
                     this.pageTitle = 'Acme Product Management';
                     this._jrummy = jrummy;
                     this.currentGame = new jrummy_1.Game();
-                    this.computerCalls = false;
                     this._jrummy.startGame(this.currentGame);
                 }
                 //this is a test method for running the computer by itself
@@ -42,7 +41,7 @@ System.register(['angular2/core', '.././services/jrummy'], function(exports_1, c
                     }
                 };
                 AppComponent.prototype.discardPlayerCard = function (suit, name) {
-                    if (this.currentGame.CurrentStatus == jrummy_1.GameStatus.PlayerDiscard) {
+                    if (this.currentGame.CurrentStatus == jrummy_1.GameStatus.PlayerPickup) {
                         this._jrummy.discardFromPlayerHand(suit, name);
                     }
                     else {
