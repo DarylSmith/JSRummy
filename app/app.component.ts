@@ -37,7 +37,7 @@ export class AppComponent {
     public discardPlayerCard(suit:string,name:string)
     {
 
-  if (this.currentGame.CurrentStatus==GameStatus.PlayerPickup)
+  if (this.currentGame.CurrentStatus==GameStatus.PlayerDiscard)
         {
 
             this._jrummy.discardFromPlayerHand(suit,name);

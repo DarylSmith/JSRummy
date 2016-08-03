@@ -203,27 +203,33 @@ export class JRummy {
 
     addCardToPlayerHand(suit: string, name: string, isFromDiscardPile: boolean) {
         let card: Card;
-        let targetHand:Card[] = isFromDiscardPile? this.DiscardPile.Cards:this.Pile.Cards;
+        let targetHand: Card[] = isFromDiscardPile ? this.DiscardPile.Cards : this.Pile.Cards;
         //if it's not in the discard pile, it must be in the draw pile
-        card = _.filter( targetHand, function (c: Card) { return c.Name == name && c.Suit == suit })[0];
+        card = _.filter(targetHand, function (c: Card) { return c.Name == name && c.Suit == suit })[0];
         this.PlayerHand.Cards.push(card);
-        targetHand  = _.filter( targetHand, function (c: Card) { return c.Name != name && c.Suit!= suit });
         this.CurrentGame.CurrentStatus = GameStatus.PlayerDiscard;
+
+        //remove card from correct pile
+        if (isFromDiscardPile) {
+            this.DiscardPile.Cards = _.filter(targetHand, function (c: Card) { return c.toString() !== card.toString() });
+        }
+        else {
+            this.Pile.Cards = _.filter(targetHand, function (c: Card) { return c.toString() !== card.toString() });
+        }
 
 
     }
 
 
     //removes a card from the playerhand and puts it in the pile
-    discardFromPlayerHand(suit: string, name: string)
-    {
+    discardFromPlayerHand(suit: string, name: string) {
 
-    let card: Card = _.filter(this.PlayerHand.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0];
-    this.DiscardPile.Cards.unshift(card);
-    this.PlayerHand.Cards = _.filter(this.PlayerHand.Cards, function (c: Card) { return c.Name !== name && c.Suit !== suit })
-    this.CurrentGame.CurrentStatus == GameStatus.ComputerTurn;
-    this.computerTurn();
-        
+        let card: Card = _.filter(this.PlayerHand.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0];
+        this.DiscardPile.Cards.unshift(card);
+        this.PlayerHand.Cards = _.filter(this.PlayerHand.Cards, function (c: Card) { return c.toString() !== card.toString() })
+        this.CurrentGame.CurrentStatus == GameStatus.ComputerTurn;
+        this.computerTurn();
+
     }
 
     //will put this card on the top of the stack, so it will be picked by the computer and played
@@ -251,7 +257,7 @@ export class JRummy {
         //check if computer should call
         if (this.ComputerShouldCall()) {
 
-           this.CurrentGame.CurrentStatus == GameStatus.ComputerCall;
+            this.CurrentGame.CurrentStatus == GameStatus.ComputerCall;
         }
         //first, try the discarded cards
         if (this.cardRejectedByComputer(this.DiscardPile)) {
@@ -268,8 +274,10 @@ export class JRummy {
         console.log(this.DiscardPile.Cards);
         console.log(this.ComputerHand.Cards);
         console.log('Current Points for Computer:' + this.CountHandValue(this.ComputerHand));
+        
+        //increment the round number and hand control back to the player
         this.CurrentRound++;
-         this.CurrentGame.CurrentStatus == GameStatus.PlayerPickup;
+        this.CurrentGame.CurrentStatus = GameStatus.PlayerPickup;
     }
 
     //this the computer adding or removing a card (either from the discard or pile)
@@ -331,7 +339,7 @@ export class JRummy {
         }
 
         //do not evaludate against high unmelded cards
-        let cardsToEvaluateAgainst: Card[]= _.filter(this.ComputerHand.Cards, function (c: Card) { return c.Meld !== 'deadwood' });
+        let cardsToEvaluateAgainst: Card[] = _.filter(this.ComputerHand.Cards, function (c: Card) { return c.Meld !== 'deadwood' });
 
         //first, determine the horizontal points by checking if other cards have the same hValue
         //make sure to exclude the current card, because it will always match itself!
@@ -353,8 +361,8 @@ export class JRummy {
         if (card.VPoints >= 2) {
 
             card.Meld = 'run';
-            _.filter(this.Pile.Cards, function (c: Card) { return c.FaceValue == onePointHigher && c.Suit == card.Suit })[0].Meld = 'run';
-            _.filter(this.Pile.Cards, function (c: Card) { return c.FaceValue == onePointLower && c.Suit == card.Suit })[0].Meld = 'run';
+            _.filter(this.ComputerHand.Cards, function (c: Card) { return c.FaceValue == onePointHigher && c.Suit == card.Suit })[0].Meld = 'run';
+            _.filter(this.ComputerHand.Cards, function (c: Card) { return c.FaceValue == onePointLower && c.Suit == card.Suit })[0].Meld = 'run';
 
         }
         return card;

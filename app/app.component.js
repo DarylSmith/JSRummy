@@ -41,7 +41,7 @@ System.register(['angular2/core', '.././services/jrummy'], function(exports_1, c
                     }
                 };
                 AppComponent.prototype.discardPlayerCard = function (suit, name) {
-                    if (this.currentGame.CurrentStatus == jrummy_1.GameStatus.PlayerPickup) {
+                    if (this.currentGame.CurrentStatus == jrummy_1.GameStatus.PlayerDiscard) {
                         this._jrummy.discardFromPlayerHand(suit, name);
                     }
                     else {

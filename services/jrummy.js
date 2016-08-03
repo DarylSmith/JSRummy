@@ -176,14 +176,20 @@ System.register(["angular2/core", 'lodash'], function(exports_1, context_1) {
                     //if it's not in the discard pile, it must be in the draw pile
                     card = _.filter(targetHand, function (c) { return c.Name == name && c.Suit == suit; })[0];
                     this.PlayerHand.Cards.push(card);
-                    targetHand = _.filter(targetHand, function (c) { return c.Name != name && c.Suit != suit; });
                     this.CurrentGame.CurrentStatus = GameStatus.PlayerDiscard;
+                    //remove card from correct pile
+                    if (isFromDiscardPile) {
+                        this.DiscardPile.Cards = _.filter(targetHand, function (c) { return c.toString() !== card.toString(); });
+                    }
+                    else {
+                        this.Pile.Cards = _.filter(targetHand, function (c) { return c.toString() !== card.toString(); });
+                    }
                 };
                 //removes a card from the playerhand and puts it in the pile
                 JRummy.prototype.discardFromPlayerHand = function (suit, name) {
                     var card = _.filter(this.PlayerHand.Cards, function (c) { return c.Name == name && c.Suit == suit; })[0];
                     this.DiscardPile.Cards.unshift(card);
-                    this.PlayerHand.Cards = _.filter(this.PlayerHand.Cards, function (c) { return c.Name !== name && c.Suit !== suit; });
+                    this.PlayerHand.Cards = _.filter(this.PlayerHand.Cards, function (c) { return c.toString() !== card.toString(); });
                     this.CurrentGame.CurrentStatus == GameStatus.ComputerTurn;
                     this.computerTurn();
                 };
@@ -217,8 +223,9 @@ System.register(["angular2/core", 'lodash'], function(exports_1, context_1) {
                     console.log(this.DiscardPile.Cards);
                     console.log(this.ComputerHand.Cards);
                     console.log('Current Points for Computer:' + this.CountHandValue(this.ComputerHand));
+                    //increment the round number and hand control back to the player
                     this.CurrentRound++;
-                    this.CurrentGame.CurrentStatus == GameStatus.PlayerPickup;
+                    this.CurrentGame.CurrentStatus = GameStatus.PlayerPickup;
                 };
                 //this the computer adding or removing a card (either from the discard or pile)
                 JRummy.prototype.cardRejectedByComputer = function (hand) {
@@ -277,8 +284,8 @@ System.register(["angular2/core", 'lodash'], function(exports_1, context_1) {
                     //of the card is in run, flag this one, and the one below and above it
                     if (card.VPoints >= 2) {
                         card.Meld = 'run';
-                        _.filter(this.Pile.Cards, function (c) { return c.FaceValue == onePointHigher && c.Suit == card.Suit; })[0].Meld = 'run';
-                        _.filter(this.Pile.Cards, function (c) { return c.FaceValue == onePointLower && c.Suit == card.Suit; })[0].Meld = 'run';
+                        _.filter(this.ComputerHand.Cards, function (c) { return c.FaceValue == onePointHigher && c.Suit == card.Suit; })[0].Meld = 'run';
+                        _.filter(this.ComputerHand.Cards, function (c) { return c.FaceValue == onePointLower && c.Suit == card.Suit; })[0].Meld = 'run';
                     }
                     return card;
                 };
