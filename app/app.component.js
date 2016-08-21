@@ -33,16 +33,25 @@ System.register(['angular2/core', '.././services/jrummy'], function(exports_1, c
                     this._jrummy.computerPlay();
                 };
                 AppComponent.prototype.pickupPlayerCard = function (suit, name, isFromDiscardPile) {
-                    if (this.currentGame.CurrentStatus == jrummy_1.GameStatus.PlayerPickup) {
+                    //special case for first round (must choose from discard pile in first round)
+                    if (this.currentGame.CurrentStatus === jrummy_1.GameStatus.FirstTurnPlayerPickup && !isFromDiscardPile) {
+                        window.alert("On first turn, you must choose from the discard pile\n           .Otherwise allow computer to go first");
+                    }
+                    if (this.currentGame.CurrentStatus === jrummy_1.GameStatus.PlayerPickup || this.currentGame.CurrentStatus === jrummy_1.GameStatus.FirstTurnPlayerPickup) {
                         this._jrummy.addCardToPlayerHand(suit, name, isFromDiscardPile);
                     }
                     else {
                         window.alert('Not time to pickup');
                     }
                 };
+                //allows the computer to go first if this is first draw, and player doesn;t want discard
+                AppComponent.prototype.allowComputerFirstTurn = function () {
+                    this.currentGame.CurrentStatus = jrummy_1.GameStatus.FirstTurnComputerPickup;
+                    this.computerCalls = this._jrummy.computerTurn();
+                };
                 AppComponent.prototype.discardPlayerCard = function (suit, name) {
                     if (this.currentGame.CurrentStatus == jrummy_1.GameStatus.PlayerDiscard) {
-                        this._jrummy.discardFromPlayerHand(suit, name);
+                        this.computerCalls = this._jrummy.discardFromPlayerHand(suit, name);
                     }
                     else {
                         window.alert('Not time to discard');

@@ -19,7 +19,8 @@
 
         <li style="display:inline;cursor:pointer;text-decoration:underline" (click)="pickupPlayerCard(card.Suit,card.Name,false)">
 
-           XXXX
+              {{card.Name}} -- {{card.Suit}}
+
 
         </li>
 
@@ -58,3 +59,14 @@
 
 
 </div>
+
+<div *ngIf="_jrummy.CurrentGame.CurrentStatus ===8">
+
+    <a href="javascript:void(0);" (click)="allowComputerFirstTurn()">Allow computer to select first</a>
+
+    </div>
+
+<div *ngIf="computerCalls">
+
+DARYL Calls!
+    </div>
