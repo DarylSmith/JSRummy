@@ -81,4 +81,22 @@ export class AppComponent {
         this._jrummy.startGame(this.currentGame);
         
     }
+
+    private scoreGameAndPlayAgain():void
+    {
+
+       this._jrummy.compareHands();
+
+       let winningPlaterStr = this._jrummy.CurrentGame.CurrentStatus ==GameStatus.ComputerWon?"Computer Won" : "Player Won";
+        
+
+        if(window.confirm(winningPlaterStr + "Do you wish to continue?"))
+        {
+
+
+
+
+        }
+
+    }
 }

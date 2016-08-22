@@ -152,6 +152,8 @@ System.register(["angular2/core", 'lodash'], function(exports_1, context_1) {
                 function JRummy() {
                     this.CurrentDeck = new Deck();
                     this.CurrentRound = 0;
+                    this.PlayerPoints = 0;
+                    this.ComputerPoints = 0;
                 }
                 JRummy.prototype.startGame = function (game) {
                     //set game config values
@@ -229,6 +231,34 @@ System.register(["angular2/core", 'lodash'], function(exports_1, context_1) {
                     //remove items from cards
                     this.Pile.Cards = _.filter(this.Pile.Cards, function (card) { return card.toString() != testCard.toString(); });
                     this.computerTurn();
+                };
+                //compare the cards and determine who won
+                JRummy.prototype.compareHands = function () {
+                    //first get the score for player and computer
+                    var playerScore = this.PlayerHand.getCurrentPoints();
+                    var computerScore = this.ComputerHand.getCurrentPoints();
+                    if (this.CurrentGame.CurrentStatus === GameStatus.PlayerCall) {
+                        var result = this.getScore(playerScore, computerScore);
+                        if (result < 0) {
+                            this.ComputerPoints = this.ComputerPoints + (result * -1);
+                            this.CurrentGame.CurrentStatus = GameStatus.ComputerWon;
+                        }
+                        else {
+                            this.PlayerPoints = this.PlayerPoints + result;
+                            this.CurrentGame.CurrentStatus = GameStatus.PlayerWon;
+                        }
+                    }
+                    else {
+                        var result = this.getScore(computerScore, playerScore);
+                        if (result < 0) {
+                            this.PlayerPoints = this.PlayerPoints + (result * -1);
+                            this.CurrentGame.CurrentStatus = GameStatus.PlayerWon;
+                        }
+                        else {
+                            this.ComputerPoints = this.ComputerPoints + result;
+                            this.CurrentGame.CurrentStatus = GameStatus.ComputerWon;
+                        }
+                    }
                 };
                 //test to evaluation computer play
                 //takes a card from pile, sorts cards by value, and returns the worst card
@@ -421,6 +451,20 @@ System.register(["angular2/core", 'lodash'], function(exports_1, context_1) {
                     console.log(this.ComputerHand.Cards);
                     console.log('Player Points:' + this.PlayerHand.getCurrentPoints());
                     console.log('Computer Points:' + this.CountHandValue(this.ComputerHand));
+                };
+                //returns a positive integer for a caller win, negative for an opponent win
+                JRummy.prototype.getScore = function (callerPoints, opponentPoints) {
+                    //if a runner gets gin, 25+ oppenent points
+                    if (callerPoints === 0) {
+                        return 25 + opponentPoints;
+                    }
+                    else if (callerPoints - opponentPoints >= 0) {
+                        var diff = callerPoints - opponentPoints;
+                        return -25 - diff;
+                    }
+                    else {
+                        return opponentPoints - callerPoints;
+                    }
                 };
                 __decorate([
                     core_1.Injectable(), 

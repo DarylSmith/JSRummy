@@ -57,6 +57,12 @@ System.register(['angular2/core', '.././services/jrummy'], function(exports_1, c
                         window.alert('Not time to discard');
                     }
                 };
+                AppComponent.prototype.scoreGameAndPlayAgain = function () {
+                    this._jrummy.compareHands();
+                    var winningPlaterStr = this._jrummy.CurrentGame.CurrentStatus == jrummy_1.GameStatus.ComputerWon ? "Computer Won" : "Player Won";
+                    if (window.confirm(winningPlaterStr + "Do you wish to continue?")) {
+                    }
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'jrummy',

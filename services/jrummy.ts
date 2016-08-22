@@ -45,7 +45,7 @@ export class Card {
     HPos: number;
     Meld: string;
     Location: CardLocation;
-    PlayerDiscard:boolean;
+    PlayerDiscard: boolean;
 
     //these are the number of points the computer assigns to a cards based on others with the same face value
     HPoints: number;
@@ -62,9 +62,9 @@ export class Card {
 
     }
 
-    public inMeld():boolean{
+    public inMeld(): boolean {
 
-        return this.Meld =='set' || this.Meld =='run';
+        return this.Meld == 'set' || this.Meld == 'run';
     }
     toString(): string {
 
@@ -104,7 +104,7 @@ export class Hand {
         let cardsInMeld = _.sortBy(_.filter(this.Cards, function (c: Card) { return c.inMeld() }), function (c: Card) { return c.FaceValue });
 
         //next get cards oppenent is collecting
-        let oppenentCards = _.sortBy(_.filter(this.Cards, function (c: Card) { return c.Meld=="opponentcollecting" }), function (c: Card) { return c.PointValue});
+        let oppenentCards = _.sortBy(_.filter(this.Cards, function (c: Card) { return c.Meld == "opponentcollecting" }), function (c: Card) { return c.PointValue });
 
         //then get all the cards with points
         let cardsWithTwoPoints = _.sortBy(_.filter(this.Cards, function (c: Card) { return c.Meld === 'none' && (c.VPoints + c.HPoints == 2) }), function (c: Card) { return (c.PointValue) });
@@ -116,7 +116,7 @@ export class Hand {
         let cardsWithoutPoints = _.sortBy(_.filter(this.Cards, function (c: Card) { return c.Meld === 'deadwood' || (c.Meld === 'none' && (c.VPoints + c.HPoints === 0)) }), function (c: Card) { return (c.PointValue) });
 
         //concatenate cards 
-        let cardsSorted: Array<Card> = cardsInMeld.concat(cardsWithTwoPoints,oppenentCards, cardsWithOnePoint, cardsWithoutPoints);
+        let cardsSorted: Array<Card> = cardsInMeld.concat(cardsWithTwoPoints, oppenentCards, cardsWithOnePoint, cardsWithoutPoints);
 
         //new concatenate the arrays and return
         this.Cards = cardsSorted;
@@ -168,6 +168,8 @@ export class Deck {
 @Injectable()
 export class JRummy {
 
+    PlayerPoints: number;
+    ComputerPoints: number
     CurrentGame: Game;
     CurrentDeck: Deck;
     CurrentRound: number;
@@ -180,6 +182,8 @@ export class JRummy {
     constructor() {
         this.CurrentDeck = new Deck();
         this.CurrentRound = 0;
+        this.PlayerPoints = 0;
+        this.ComputerPoints = 0;
 
     }
 
@@ -239,9 +243,9 @@ export class JRummy {
         //if it's not in the discard pile, it must be in the draw pile
         card = _.filter(targetHand, function (c: Card) { return c.Name == name && c.Suit == suit })[0];
         this.PlayerHand.Cards.push(card);
-        
+
         //add item to computer memory
-        this.addOrModifyCardInComputerMemory(card, CardLocation.InPlayerHand,false);
+        this.addOrModifyCardInComputerMemory(card, CardLocation.InPlayerHand, false);
         this.CurrentGame.CurrentStatus = GameStatus.PlayerDiscard;
 
         //remove card from correct pile
@@ -257,24 +261,24 @@ export class JRummy {
 
 
     //removes a card from the playerhand and puts it in the pile
-    discardFromPlayerHand(suit: string, name: string):boolean {
+    discardFromPlayerHand(suit: string, name: string): boolean {
 
         let card: Card = _.filter(this.PlayerHand.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0];
         this.DiscardPile.Cards.unshift(card);
         this.PlayerHand.Cards = _.filter(this.PlayerHand.Cards, function (c: Card) { return c.toString() !== card.toString() })
-        
+
         //add this item to the computer memory
-        this.addOrModifyCardInComputerMemory(card, CardLocation.InDiscardPile,true);
+        this.addOrModifyCardInComputerMemory(card, CardLocation.InDiscardPile, true);
         this.CurrentGame.CurrentStatus == GameStatus.ComputerTurn;
 
         let self = this;
 
         this.PlayerHand.Cards.forEach(function (card) {
 
-            card = self.evaluateCard(card,self.PlayerHand);
+            card = self.evaluateCard(card, self.PlayerHand);
 
         });
-       return this.computerTurn();
+        return this.computerTurn();
 
     }
 
@@ -294,11 +298,44 @@ export class JRummy {
 
     }
 
+
+    //compare the cards and determine who won
+    public compareHands(): void {
+        //first get the score for player and computer
+        let playerScore: number = this.PlayerHand.getCurrentPoints();
+        let computerScore: number = this.ComputerHand.getCurrentPoints();
+
+        if (this.CurrentGame.CurrentStatus === GameStatus.PlayerCall) {
+            let result: number = this.getScore(playerScore, computerScore);
+            if (result < 0) {
+                this.ComputerPoints = this.ComputerPoints + (result * -1);
+                this.CurrentGame.CurrentStatus = GameStatus.ComputerWon;
+            }
+            else {
+                this.PlayerPoints = this.PlayerPoints + result;
+                this.CurrentGame.CurrentStatus = GameStatus.PlayerWon;
+            }
+        }
+        else {
+            let result: number = this.getScore(computerScore, playerScore);
+            if (result < 0) {
+                this.PlayerPoints = this.PlayerPoints + (result * -1);
+                this.CurrentGame.CurrentStatus = GameStatus.PlayerWon;
+            }
+            else {
+                this.ComputerPoints = this.ComputerPoints + result;
+                this.CurrentGame.CurrentStatus = GameStatus.ComputerWon;
+            }
+
+        }
+
+    }
+
     //test to evaluation computer play
     //takes a card from pile, sorts cards by value, and returns the worst card
     //boolean returns a true value of computer should call
     @Injectable()
-    computerTurn():boolean {
+    computerTurn(): boolean {
 
         //check if computer should call
         if (this.ComputerShouldCall()) {
@@ -307,7 +344,7 @@ export class JRummy {
             return true;
         }
         //first, try the discarded cards (also the computer must choose only the discard on first turn)
-        if (this.cardRejectedByComputer(this.DiscardPile) || this.CurrentGame.CurrentStatus!==GameStatus.FirstTurnComputerPickup ) {
+        if (this.cardRejectedByComputer(this.DiscardPile) || this.CurrentGame.CurrentStatus !== GameStatus.FirstTurnComputerPickup) {
             console.log('Discard card was rejected.  Move to pile');
 
             //if the card is rejected, try again with the regular pile
@@ -317,7 +354,7 @@ export class JRummy {
 
             console.log('Discard card was accepted. continue');
         }
-   
+
 
         //increment the round number and hand control back to the player
         this.CurrentRound++;
@@ -334,7 +371,7 @@ export class JRummy {
         console.log(discardedCard);
 
         //first check if cards has any points - if it's 0
-        discardedCard = this.evaluateCard(discardedCard,this.ComputerHand)
+        discardedCard = this.evaluateCard(discardedCard, this.ComputerHand)
         if (discardedCard.HPoints + discardedCard.VPoints < 1) {
 
             //if there is another card that is higher points and fewer outs, keep this one
@@ -352,7 +389,7 @@ export class JRummy {
         this.ComputerHand.Cards.push(discardedCard);
 
         //log this in the computer memory (since it's no longer in the computer hand, remove from the )
-        this.addOrModifyCardInComputerMemory(discardedCard, CardLocation.InComputerHand,false);
+        this.addOrModifyCardInComputerMemory(discardedCard, CardLocation.InComputerHand, false);
 
         //evaluate the current hand with card in it
         this.evaluateComputerHand();
@@ -369,7 +406,7 @@ export class JRummy {
         this.DiscardPile.Cards.unshift(deadwoodCard);
 
         //log this in computer memory
-        this.addOrModifyCardInComputerMemory(deadwoodCard,CardLocation.InDiscardPile,false);
+        this.addOrModifyCardInComputerMemory(deadwoodCard, CardLocation.InDiscardPile, false);
 
         //checks if the same card that was added was rejected
         return deadwoodCard.toString() === discardedCard.toString();
@@ -378,10 +415,10 @@ export class JRummy {
     }
 
     //this is the main evaluation algorithm, determining the worth of a card
-    evaluateCard(card: Card, hand:Hand): Card {
+    evaluateCard(card: Card, hand: Hand): Card {
 
-                //after a certain point, start removing unmelded high point cards
-        if (hand.Name==="Computer Hand" && this.checkForHighDeadwood(card).Meld == 'deadwood') {
+        //after a certain point, start removing unmelded high point cards
+        if (hand.Name === "Computer Hand" && this.checkForHighDeadwood(card).Meld == 'deadwood') {
             return card;
         }
 
@@ -417,9 +454,8 @@ export class JRummy {
         }
 
         //check if the oppenent is trying to collect this card
-        if(!card.inMeld() && this.oppenentCollectingCard(card))
-        {
-            card.Meld ="opponentcollecting"
+        if (!card.inMeld() && this.oppenentCollectingCard(card)) {
+            card.Meld = "opponentcollecting"
 
         }
 
@@ -436,7 +472,7 @@ export class JRummy {
 
 
             // console.log(self);
-            card = self.evaluateCard(card,self.ComputerHand);
+            card = self.evaluateCard(card, self.ComputerHand);
 
         });
 
@@ -467,13 +503,11 @@ export class JRummy {
         }
 
         //this evaulates high cards with sets -- if there is more than match in the discard pile, evealuate as deadwood
-        if(card.HPoints>0)
-        {   
-            let discardsWithSameValue:number = _.filter(this.PlayedCards.Cards,function(c:Card){return c.FaceValue===card.FaceValue}).length;
+        if (card.HPoints > 0) {
+            let discardsWithSameValue: number = _.filter(this.PlayedCards.Cards, function (c: Card) { return c.FaceValue === card.FaceValue }).length;
 
-            if(discardsWithSameValue >0)
-            {
-                card.Meld='deadwood';
+            if (discardsWithSameValue > 0) {
+                card.Meld = 'deadwood';
                 console.log(`${card.toString()} evaluated as deadwood because matching cards have already been discarded or added to player hand`);
 
             }
@@ -487,25 +521,22 @@ export class JRummy {
 
         let computerPointCount = this.CountHandValue(this.ComputerHand);
 
-        let upperLimitForCall:number;
+        let upperLimitForCall: number;
 
-        if(this.CurrentRound<5)
-        {
+        if (this.CurrentRound < 5) {
 
-            upperLimitForCall=10;
+            upperLimitForCall = 10;
         }
-        else if(this.CurrentRound >= 5 && this.CurrentRound <9)
-        {
+        else if (this.CurrentRound >= 5 && this.CurrentRound < 9) {
 
-            upperLimitForCall=6
+            upperLimitForCall = 6
         }
-        else if (this.CurrentRound >=9)
-        {
+        else if (this.CurrentRound >= 9) {
 
-            upperLimitForCall=2;
+            upperLimitForCall = 2;
         }
 
-        return computerPointCount <=upperLimitForCall;
+        return computerPointCount <= upperLimitForCall;
 
 
     }
@@ -523,7 +554,7 @@ export class JRummy {
     }
 
     //this acts as the computer's 'memory' -- keeping track of what cards have been played and what is still in the deck
-    private addOrModifyCardInComputerMemory(card: Card,location: CardLocation, playerDiscard:boolean) {
+    private addOrModifyCardInComputerMemory(card: Card, location: CardLocation, playerDiscard: boolean) {
 
         //card exists already exists in played card list
         let cardInPlayedHand: Card[] = _.filter(this.PlayedCards.Cards, function (c: Card) { return c.toString() === card.toString() });
@@ -539,53 +570,71 @@ export class JRummy {
             clonedCard.Location = location;
             clonedCard.PlayerDiscard = playerDiscard;
             this.PlayedCards.Cards.push(clonedCard);
-           
+
 
         }
-        
+
     }
 
     //hold onto a card if oppenent is collecting, only for cards less than 6
-    private oppenentCollectingCard(card:Card):boolean
-    {
-        if(card.FaceValue>5)
+    private oppenentCollectingCard(card: Card): boolean {
+        if (card.FaceValue > 5)
             return false;
 
-       let playerCards:Card[] = _.filter(this.PlayedCards.Cards,function(c:Card){return c.PlayerDiscard});
-       
-       return _.filter(playerCards,function(c:Card){ return c.FaceValue === card.FaceValue}).length >1;
+        let playerCards: Card[] = _.filter(this.PlayedCards.Cards, function (c: Card) { return c.PlayerDiscard });
+
+        return _.filter(playerCards, function (c: Card) { return c.FaceValue === card.FaceValue }).length > 1;
 
     }
 
     //removes and cards from the played hand list if it's been removed
-    private removeCardFromComputerMemory(card: Card)
-    {
-        _.remove(this.PlayedCards.Cards,function(c:Card){c.toString()===card.toString()});
+    private removeCardFromComputerMemory(card: Card) {
+        _.remove(this.PlayedCards.Cards, function (c: Card) { c.toString() === card.toString() });
 
     }
 
-    private logStatus()
-    {
+    private logStatus() {
         console.log(`Current Status at the end of round ${this.CurrentRound}`);
         console.log('---------------------------------------------------------');
         console.log('DiscardPile:');
         console.log(this.DiscardPile.Cards);
         console.log('Played Cards');
         console.log(this.PlayedCards.Cards);
-         console.log('Player Cards:');
+        console.log('Player Cards:');
         console.log(this.PlayerHand.Cards);
         console.log('Computer Projected PlayerCards');
-        console.log(_.filter(this.PlayedCards.Cards,function(c:Card){return c.Location ===CardLocation.InPlayerHand}));
+        console.log(_.filter(this.PlayedCards.Cards, function (c: Card) { return c.Location === CardLocation.InPlayerHand }));
         console.log('Cards discarded by Player');
-        console.log(_.filter(this.PlayedCards.Cards,function(c:Card){return c.PlayerDiscard}));
+        console.log(_.filter(this.PlayedCards.Cards, function (c: Card) { return c.PlayerDiscard }));
         console.log('Computer Cards');
         console.log(this.ComputerHand.Cards);
         console.log('Player Points:' + this.PlayerHand.getCurrentPoints());
         console.log('Computer Points:' + this.CountHandValue(this.ComputerHand));
 
-
-
     }
+
+
+
+    //returns a positive integer for a caller win, negative for an opponent win
+    private getScore(callerPoints: number, opponentPoints: number) {
+        //if a runner gets gin, 25+ oppenent points
+        if (callerPoints === 0) {
+            return 25 + opponentPoints;
+
+        }
+
+        //in the case of undercutting, the opponent gets 25 + 
+        else if (callerPoints - opponentPoints >= 0) {
+            let diff: number = callerPoints - opponentPoints;
+
+            return -25 - diff;
+
+        }
+        else {
+            return opponentPoints - callerPoints;
+        }
+    }
+
 
 
 
