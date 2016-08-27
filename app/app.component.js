@@ -51,16 +51,27 @@ System.register(['angular2/core', '.././services/jrummy'], function(exports_1, c
                 };
                 AppComponent.prototype.discardPlayerCard = function (suit, name) {
                     if (this.currentGame.CurrentStatus == jrummy_1.GameStatus.PlayerDiscard) {
-                        this.computerCalls = this._jrummy.discardFromPlayerHand(suit, name);
+                        //Check if the computer has called -- if it has companre cards
+                        if (this._jrummy.discardFromPlayerHand(suit, name)) {
+                            this.computerCalls = true;
+                            this._jrummy.CurrentGame.CurrentStatus = jrummy_1.GameStatus.ComputerCall;
+                            this.scoreGameAndPlayAgain();
+                        }
                     }
                     else {
                         window.alert('Not time to discard');
                     }
                 };
+                AppComponent.prototype.playerCall = function () {
+                    this._jrummy.CurrentGame.CurrentStatus = jrummy_1.GameStatus.PlayerCall;
+                    this.scoreGameAndPlayAgain();
+                };
                 AppComponent.prototype.scoreGameAndPlayAgain = function () {
                     this._jrummy.compareHands();
                     var winningPlaterStr = this._jrummy.CurrentGame.CurrentStatus == jrummy_1.GameStatus.ComputerWon ? "Computer Won" : "Player Won";
                     if (window.confirm(winningPlaterStr + "Do you wish to continue?")) {
+                        this.currentGame = new jrummy_1.Game();
+                        this._jrummy.startGame(this.currentGame);
                     }
                 };
                 AppComponent = __decorate([

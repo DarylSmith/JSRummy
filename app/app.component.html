@@ -1,4 +1,12 @@
-﻿<div class="current-round">
+﻿<div class="points">
+<span>Player Points:{{_jrummy.PlayerPoints}}</span>
+<span>Computer Points:{{_jrummy.ComputerPoints}}</span>
+
+
+</div>
+
+
+<div class="current-round">
 
     <h3> Current Round: {{_jrummy.CurrentRound}}</h3>
 </div>
@@ -9,23 +17,23 @@
 
 
 </div>
-    <input type="button" (click)="getCard()" value="Get Card" />
+<input type="button" (click)="getCard()" value="Get Card" />
 
-    <h3>Pile</h3>
+<h3>Pile</h3>
 <div style="display:inline;cursor:pointer;text-decoration:underline" (click)="unitTestCard('hearts','jak')">sd</div>
 
 {{ _jrummy.Pile.Cards.length}}
-    <ul *ngFor="#card of _jrummy.Pile.Cards" style="display:inline">
+<ul *ngFor="#card of _jrummy.Pile.Cards" style="display:inline">
 
-        <li style="display:inline;cursor:pointer;text-decoration:underline" (click)="pickupPlayerCard(card.Suit,card.Name,false)">
+    <li style="display:inline;cursor:pointer;text-decoration:underline" (click)="pickupPlayerCard(card.Suit,card.Name,false)">
 
-              {{card.Name}} -- {{card.Suit}}
-
-
-        </li>
+        {{card.Name}} -- {{card.Suit}}
 
 
-    </ul>
+    </li>
+
+
+</ul>
 
 
 <h3>Discard</h3>
@@ -36,10 +44,10 @@
     <li style="display:inline">
 
         <div *ngIf="i!=0">
-          XXXX
+            XXXX
         </div>
         <div *ngIf="i==0">
-            <a href="javascript:void(0);" (click)="pickupPlayerCard(card.Suit,card.Name,true)" >{{card.toString()}}</a>
+            <a href="javascript:void(0);" (click)="pickupPlayerCard(card.Suit,card.Name,true)">{{card.toString()}}</a>
         </div>
     </li>
 
@@ -54,7 +62,7 @@
 </div>
 -->
 <div *ngFor="#card of _jrummy.PlayerHand.Cards">
-     <a href="javascript:void(0);" (click)="discardPlayerCard(card.Suit,card.Name,true)" > {{card.Name}} -- {{card.Suit}} </a>
+    <a href="javascript:void(0);" (click)="discardPlayerCard(card.Suit,card.Name,true)"> {{card.Name}} -- {{card.Suit}} </a>
 
 
 
@@ -64,9 +72,16 @@
 
     <a href="javascript:void(0);" (click)="allowComputerFirstTurn()">Allow computer to select first</a>
 
-    </div>
+</div>
+
+
+<div *ngIf="_jrummy.PlayerHand.getCurrentPoints() <=10">
+
+    <a href="javascript:void(0);" (click)="playerKnock()">knock</a>
+
+</div>
 
 <div *ngIf="computerCalls">
 
-DARYL Calls!
-    </div>
+    DARYL Calls!
+</div>
