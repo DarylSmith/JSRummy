@@ -3,7 +3,42 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 
 html, body {
  height: 100%;
+ width:100%
 }
+
+body{
+
+    background-color:#007cb8;
+}
+
+@media (max-height:667px)
+{
+.title{
+
+ 
+  background-image:url('/images/title_sm.jpg');
+  background-repeat:no-repeat;
+  margin-left:20%;
+    height:186px;
+  width:360px
+
+}
+}
+
+
+@media (min-height:667px)
+{
+.title{
+
+ height:258px;
+  width:499px;
+  background-image:url('/images/title.jpg');
+  background-repeat:no-repeat;
+    margin-left:20%;
+
+}
+}
+
 
 div, ul, ol, li, h1, h2, h3, h4, h5, h6, a, p {
   margin: 0;
