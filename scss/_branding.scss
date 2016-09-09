@@ -1,0 +1,64 @@
+// variables - ONLY variables should be declared here, nothing else
+/*$ciel: #53BBEB;*/
+$ciel: #006B91;
+$light-ciel: #90D3F2;
+$dark-ciel: #4397CC;
+
+$poppy: #EE6A53;
+$dark-poppy: #E3604C;
+
+$sunlight: #FEBE10;
+$dark-sunlight: #FDAD0F;
+
+$field: #73C9B8;
+$dark-field: #69B8A8;
+
+$glacier: #12E3FF;
+$light-glacier: #A6F9FF;
+$dark-glacier: #006B91;
+
+$light-grey: #D9D9D9;
+$med-grey: #8F8F8F;
+$dark-grey: #707070;
+
+$primary: $dark-glacier;
+$light-primary: $light-glacier;
+$accent: $glacier;
+$accent-dark: $dark-glacier;
+
+$font-primary: $dark-grey;
+$font-secondary: #FFFFFF;
+
+// font colour classes
+.f-primary {
+  color: $font-primary;
+}
+
+.f-secondary {
+  color: $font-secondary;
+}
+
+.f-dark-glacier {
+  color: $dark-glacier;
+}
+
+.f-dark-grey {
+  color: $dark-grey;
+}
+
+.f-white {
+  color: #FFF;
+}
+
+// background colour classes
+.b-white {
+  background-color: #ffffff;
+}
+
+.b-dark-glacier {
+  background-color: $dark-glacier;
+}
+
+.b-dark-sunlight {
+  background-color: $dark-sunlight; 
+}

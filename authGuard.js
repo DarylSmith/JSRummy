@@ -8,18 +8,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var router_1 = require('@angular/router');
 var core_1 = require('@angular/core');
-var WelcomeComponent = (function () {
-    function WelcomeComponent() {
-        this.pageTitle = 'Welcome';
+var emsConfig_1 = require('./shared/emsConfig');
+var AuthGuard = (function () {
+    function AuthGuard(router, emsConfig) {
+        this.router = router;
+        this.emsConfig = emsConfig;
     }
-    WelcomeComponent = __decorate([
-        core_1.Component({
-            templateUrl: 'app/home/welcome.component.html'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], WelcomeComponent);
-    return WelcomeComponent;
+    AuthGuard.prototype.canActivate = function (route, state) {
+        if (!this.emsConfig.getLoginToken().IsValid) {
+            this.router.navigate(['/login']);
+            return false;
+        }
+        return true;
+    };
+    AuthGuard = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [router_1.Router, emsConfig_1.EmsConfig])
+    ], AuthGuard);
+    return AuthGuard;
 }());
-exports.WelcomeComponent = WelcomeComponent;
-//# sourceMappingURL=welcome.component.js.map
+exports.AuthGuard = AuthGuard;

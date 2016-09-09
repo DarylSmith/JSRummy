@@ -9,22 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var http_1 = require('@angular/http');
 var router_1 = require('@angular/router');
-var jrummy_1 = require('./services/jrummy');
+var AuthGuard_1 = require('./AuthGuard');
+var emsConfig_1 = require('./shared/emsConfig');
 var AppComponent = (function () {
-    function AppComponent() {
-        this.pageTitle = 'Beat Daryl@Gin Rummy';
+    function AppComponent(emsConfig, router) {
+        this.emsConfig = emsConfig;
+        this.router = router;
+        this.pageTitle = 'LifeSpeak - Engagement Management System';
+        var currentToken = this.emsConfig.getLoginToken();
+        this.isLoggedIn = currentToken !== null && currentToken.IsValid;
     }
+    AppComponent.prototype.logOut = function () {
+        this.emsConfig.deleteLoginToken();
+        this.router.navigateByUrl('/login');
+    };
     AppComponent = __decorate([
         core_1.Component({
-            selector: 'jrummy-app',
+            selector: 'ems-app',
             templateUrl: 'app/shared/app.component.html',
             directives: [router_1.ROUTER_DIRECTIVES],
-            providers: [jrummy_1.JRummy]
+            providers: [http_1.HTTP_PROVIDERS, AuthGuard_1.AuthGuard]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [emsConfig_1.EmsConfig, router_1.Router])
     ], AppComponent);
     return AppComponent;
 }());
 exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map

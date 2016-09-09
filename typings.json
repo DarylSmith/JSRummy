@@ -1,8 +1,8 @@
 {
-  "ambientDependencies": {
-    "es6-shim": "github:DefinitelyTyped/DefinitelyTyped/es6-shim/es6-shim.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd"
-  },
-  "dependencies": {
-    "lodash": "registry:npm/lodash#4.0.0+20160723033700"
+  "globalDependencies": {
+    "core-js": "registry:dt/core-js#0.0.0+20160602141332",
+    "lodash": "registry:dt/lodash#4.14.0+20160830145422",
+    "node": "registry:dt/node#6.0.0+20160621231320",
+    "underscore": "registry:dt/underscore#1.8.3+20160908111004"
   }
 }

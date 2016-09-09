@@ -1,0 +1,64 @@
+// nav styles
+.nav__inner-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.nav__list {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 10px 25px;
+}
+
+.nav__user-list {
+  width: 15%;
+  align-items: center;
+}
+
+.nav__links-list {
+  width: 85%;
+  align-items: flex-end;
+}
+
+.nav__list-item {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.nav__links-list-item {
+  flex: 1 auto;
+  text-align: center;
+}
+
+.nav__user-image-container {
+  flex: 2 auto;
+}
+
+.nav__notification-icon, .nav__settings-icon {
+  flex: 1 auto;
+  text-align: center;
+} 
+
+.nav__user-id {
+  flex: 1 100%;
+}
+
+.nav__link {
+  padding: 0 22px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.nav__user-image {
+  width: 65px;
+  height: 65px;
+  background: url('http://www.simpsoncrazy.com/content/pictures/marge/MargeSimpson2.gif');
+  background-size: cover;
+  border-radius: 50%;
+  background-position: center center;
+}
+
+.nav__user-id {
+  padding: 18px 0 0 0;
+}

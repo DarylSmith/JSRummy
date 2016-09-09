@@ -1,0 +1,87 @@
+<div class="points">
+<span>Player Points:{{_jrummy.PlayerPoints}}</span>
+<span>Computer Points:{{_jrummy.ComputerPoints}}</span>
+
+
+</div>
+
+
+<div class="current-round">
+
+    <h3> Current Round: {{_jrummy.CurrentRound}}</h3>
+</div>
+
+<div *ngFor="let card of _jrummy.ComputerHand.Cards">
+    {{card.Name}} -- {{card.Suit}}
+
+
+
+</div>
+<input type="button" (click)="getCard()" value="Get Card" />
+
+<h3>Pile</h3>
+<div style="display:inline;cursor:pointer;text-decoration:underline" (click)="unitTestCard('hearts','jak')">sd</div>
+
+{{ _jrummy.Pile.Cards.length}}
+<ul *ngFor="let card of _jrummy.Pile.Cards" style="display:inline">
+
+    <li style="display:inline;cursor:pointer;text-decoration:underline" (click)="pickupPlayerCard(card.Suit,card.Name,false)">
+
+        {{card.Name}} -- {{card.Suit}}
+
+
+    </li>
+
+
+</ul>
+
+
+<h3>Discard</h3>
+
+{{ _jrummy.DiscardPile.Cards.length}}
+<ul *ngFor="let card of _jrummy.DiscardPile.Cards;let i=index;" style="display:inline">
+
+    <li style="display:inline">
+
+        <div *ngIf="i!=0">
+            XXXX
+        </div>
+        <div *ngIf="i==0">
+            <a href="javascript:void(0);" (click)="pickupPlayerCard(card.Suit,card.Name,true)">{{card.toString()}}</a>
+        </div>
+    </li>
+
+
+</ul>
+<!--
+
+
+<div *ngIf="CurrentGame!==undefined && CurrentGame.CurrentStatus == GameStatus.ComputerCall">
+
+    <h2>I CALL</h2>
+</div>
+-->
+<div *ngFor="let card of _jrummy.PlayerHand.Cards">
+    <a href="javascript:void(0);" (click)="discardPlayerCard(card.Suit,card.Name,true)"> {{card.Name}} -- {{card.Suit}} </a>
+
+
+
+</div>
+
+<div *ngIf="_jrummy.CurrentGame.CurrentStatus ===8">
+
+    <a href="javascript:void(0);" (click)="allowComputerFirstTurn()">Allow computer to select first</a>
+
+</div>
+
+
+<div *ngIf="_jrummy.PlayerHand.getCurrentPoints() <=10">
+
+    <a href="javascript:void(0);" (click)="playerCall()">knock</a>
+
+</div>
+
+<div *ngIf="computerCalls">
+
+    DARYL Calls!
+</div>

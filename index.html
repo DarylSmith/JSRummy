@@ -1,51 +1,35 @@
 ﻿<!DOCTYPE html>
 <html>
 
-<head>
-  <title>Acme Product Management</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<head lang="en">
+    <base href=".">
+    <title>LifeSpeak - Engagement Management System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-  <link href="app/app.component.css" rel="stylesheet" />
+    <!--Load typekit Lato font-->
+    <script src="https://use.typekit.net/qfp1hir.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
 
-  <!-- 1. Load libraries -->
-  <!-- IE required polyfills, in this exact order -->
-  <script src="node_modules/systemjs/dist/system.src.js"></script>
-  <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
-  <script src="node_modules/es6-shim/es6-shim.min.js"></script>
-  <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-  <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-  <script src="node_modules/rxjs/bundles/Rx.js"></script>
-  <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+    <!--Load stylesheets-->
+    <link rel="stylesheet" href="css/style.css">
 
-  <!-- 2. Configure SystemJS -->
-  <script>
-        System.config({
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
 
-        packages: {        
-          app: {
-            format: 'register',
-            defaultExtension: 'js'
-          },
-           services: {
-            format: 'register',
-            defaultExtension: 'js'
-          }
-        },
-         map:
-          {
-
-             lodash: 'node_modules/lodash/lodash.js'
-          }
-      });
-      System.import('app/main')
-            .then(null, console.error.bind(console));
+    <!-- Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+      System.import('app').catch(function(err){ console.error(err);  });
     </script>
 </head>
 
 <body>
-  <jrummy>Loading App...</jrummy>
+    <jrummy-app>Loading EMS...</jrummy-app>
 </body>
 
 </html>
