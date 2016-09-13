@@ -18,9 +18,9 @@ body{
  
   background-image:url('/images/title_sm.jpg');
   background-repeat:no-repeat;
-  margin-left:20%;
-    height:186px;
-  width:360px
+  margin:0 auto;
+  height:186px;
+  width:400px
 
 }
 }
@@ -37,6 +37,44 @@ body{
     margin-left:20%;
 
 }
+} 
+
+
+.options{
+
+  width:90%;
+  margin:10px auto 0 auto; 
+} 
+
+ul.btn-options{ 
+  width:100%;
+  margin:0 auto;
+
+  li{
+
+    display:inline;
+    }
+
+  @media (min-height:330px)
+{
+    li{
+      margin-right:5%;
+
+  }
+
+}
+  
+
+  li.hc,li.rules{
+
+    position:relative;
+    top:25px;
+  }
+  
+  img{
+    height:70px;  
+  }
+
 }
 
 
