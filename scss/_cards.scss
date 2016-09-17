@@ -1,0 +1,27 @@
+.card{
+    background-image:url('/images/card_faces.png');
+    background-repeat:no-repeat;
+    height:75px;
+    width:54px;
+ 
+}
+
+.diamonds{
+    background-position-y:0px;
+
+}
+.hearts{
+    background-position-y:-75px;
+
+}
+.clubs{
+    background-position-y:-150px;
+
+}
+.spades{
+    background-position-y:-225px; 
+
+}
+
+
+
