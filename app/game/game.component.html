@@ -2,7 +2,7 @@
     <div class="btn-back">
         <img src="/images/btn_back.png" />
     </div>
-      <div class="btn-play-again">
+    <div class="btn-play-again">
         <img src="/images/btn_play_again.png" />
     </div>
 
@@ -14,7 +14,7 @@
 
 </div>
 <div class="card">
-     
+
 </div>
 
 
@@ -23,43 +23,33 @@
     <h3> Current Round: {{_jrummy.CurrentRound}}</h3>
 </div>
 
-<div *ngFor="let card of _jrummy.ComputerHand.Cards">
+<!--<div *ngFor="let card of _jrummy.ComputerHand.Cards">
     {{card.Name}} -- {{card.Suit}}
 
 
 
-</div>
+</div>-->
 <input type="button" (click)="getCard()" value="Get Card" />
 
 <h3>Pile</h3>
 <div style="display:inline;cursor:pointer;text-decoration:underline" (click)="unitTestCard('hearts','jak')">sd</div>
 
 {{ _jrummy.Pile.Cards.length}}
-<ul *ngFor="let card of _jrummy.Pile.Cards" style="display:inline">
 
-    <li style="display:inline;cursor:pointer;text-decoration:underline" (click)="pickupPlayerCard(card.Suit,card.Name,false)">
-
-        {{card.Name}} -- {{card.Suit}}
-
-
-    </li>
-
-
-</ul>
 
 
 <h3>Discard</h3>
 
 {{ _jrummy.DiscardPile.Cards.length}}
-<ul *ngFor="let card of _jrummy.DiscardPile.Cards;let i=index;" style="display:inline">
+<ul *ngFor="let card of _jrummy.DiscardPile.Cards;let i=index; " style="display:inline ">
 
-    <li style="display:inline">
+    <li style="display:inline ">
 
-        <div *ngIf="i!=0">
+        <div *ngIf="i!=0 ">
             XXXX
         </div>
-        <div *ngIf="i==0">
-            <a href="javascript:void(0);" (click)="pickupPlayerCard(card.Suit,card.Name,true)">{{card.toString()}}</a>
+        <div *ngIf="i==0 ">
+            <a href="javascript:void(0); " (click)="pickupPlayerCard(card.Suit,card.Name,true) ">{{card.toString()}}</a>
         </div>
     </li>
 
@@ -68,32 +58,37 @@
 <!--
 
 
-<div *ngIf="CurrentGame!==undefined && CurrentGame.CurrentStatus == GameStatus.ComputerCall">
+<div *ngIf="CurrentGame!==undefined && CurrentGame.CurrentStatus==G ameStatus.ComputerCall ">
 
     <h2>I CALL</h2>
 </div>
 -->
-<div *ngFor="let card of _jrummy.PlayerHand.Cards">
-    <a href="javascript:void(0);" (click)="discardPlayerCard(card.Suit,card.Name,true)"> {{card.Name}} -- {{card.Suit}} </a>
-
-
-
-</div>
-
-<div *ngIf="_jrummy.CurrentGame.CurrentStatus ===8">
-
-    <a href="javascript:void(0);" (click)="allowComputerFirstTurn()">Allow computer to select first</a>
+<div class="hand">
+<div *ngFor="let card of _jrummy.PlayerHand.Cards ">
+    <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true) "> 
+        
+        <div class="card {{card.Suit}} {{card.FaceValueString}}"></div>
+        
+      </a>
 
 </div>
 
+</div>
 
-<div *ngIf="_jrummy.PlayerHand.getCurrentPoints() <=10">
+<div *ngIf="_jrummy.CurrentGame.CurrentStatus===8 ">
 
-    <a href="javascript:void(0);" (click)="playerCall()">knock</a>
+    <a href="javascript:void(0); " (click)="allowComputerFirstTurn() ">Allow computer to select first</a>
 
 </div>
 
-<div *ngIf="computerCalls">
+
+<div *ngIf="_jrummy.PlayerHand.getCurrentPoints() <=10 ">
+
+    <a href="javascript:void(0); " (click)="playerCall() ">knock</a>
+
+</div>
+
+<div *ngIf="computerCalls ">
 
     DARYL Calls!
 </div>

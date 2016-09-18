@@ -39,7 +39,7 @@ export class Card {
     Name: string;
     FaceValue: number;
     PointValue: number;
-    FaceImagePath: string;
+    FaceValueString: string;
     Suit: string;
     VPos: number;
     HPos: number;
@@ -52,13 +52,14 @@ export class Card {
 
     //these are the points a computer assigns based on runs
     VPoints: number;
-    constructor(faceValue: number, suit: string, cardName: string, pointValue: number) {
+    constructor(faceValue: number, suit: string, cardName: string, pointValue: number, faceValueString:string) {
 
         this.Name = cardName;
         this.FaceValue = faceValue;
         this.Suit = suit;
         this.PointValue = pointValue;
         this.Meld = 'none';
+        this.FaceValueString=faceValueString;
 
     }
 
@@ -129,6 +130,7 @@ export class Deck {
 
     private _suits: Array<string> = ["spades", "hearts", "diamonds", "clubs"];
     private _cardName: Array<string> = ["a", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k"];
+    private _faceValueString: Array<string> = ["ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "jack", "queen", "king"];
     private _faceValue: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     private _pointValue: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
     private _cards: Array<Card> = [];
@@ -141,7 +143,7 @@ export class Deck {
             mySuit = this._suits[i];
             for (var j = 0; j <= this._faceValue.length - 1; j++) {
 
-                var myCard = new Card(this._faceValue[j], mySuit, this._cardName[j], this._pointValue[j]);
+                var myCard = new Card(this._faceValue[j], mySuit, this._cardName[j], this._pointValue[j], this._faceValueString[j]);
                 this._cards.push(myCard);
             }
 
