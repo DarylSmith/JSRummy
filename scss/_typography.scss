@@ -1,6 +1,6 @@
 // typography
 html, body {
-  font-family: Lato, Arial, sans-serif !important; 
+    font-family: 'Carter One', cursive;
 }
 
 // set root element font size (which all rem's are based from)
@@ -8,127 +8,12 @@ html {
   font-size: 62.5%;  
 }
 
-body {  
-  font-size: 16px;
-  font-size: 1.6rem;
+.callout-beige{
+  font-size:1rem;
+  color:#8b5400;
 }
 
-h1,h2,h3,h4,h5,h6,p {
-  margin: 0;
-}
-
-// typography classes
-.ls-bold {  
-  font-size: 56px;
-  font-size: 5.6rem;
-  line-height: 1.15;
-  font-weight: 800;
-}
-
-.ls-display {
-  font-size: 45px;
-  font-size: 4.5rem;
-  line-height: 1.15;
-  font-weight: 300;
-}
-
-.ls-headline {
-  font-size: 24px;
-  font-size: 2.4rem;  
-  line-height: 1.15;
-  font-weight: 800;
-}
-
-.ls-title {
-  font-size: 20px;
-  font-size: 2.0rem;  
-  line-height: 1.15;
-  font-weight: 500;
-}
-
-.ls-subheading {
-  font-size: 16px;
-  font-size: 1.6rem;  
-  line-height: 1.15;
-  font-weight: 400;
-}
-
-.ls-body-2 {
-  font-size: 13px;
-  font-size: 1.3rem;  
-  line-height: 20px;
-  font-weight: 700;
-}
-
-.ls-body-1,
-p, td, li {
-  font-size: 13px;
-  font-size: 1.3rem;  
-  line-height: 20px;
-  font-weight: 400;
-}
-
-.ls-button-2 {
-  font-size: 18px;
-  font-size: 1.8rem;  
-  line-height: 1.15;
-  font-weight: 700;  
-}
-
-.ls-button-1 {
-  font-size: 13px;
-  font-size: 1.3rem;  
-  line-height: 1.15;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-// helper classes
-.uppercase {
-  text-transform: uppercase;
-}
-
-.lowercase {
-  text-transform: lowercase;
-}
-
-// responsive styles
-// 4 cards wide
-@media screen and (max-width: 1316px) {
-  h1,
-  .ls-bold {
-    font-size: 3.6rem;
-  }
-}
-
-// 3 cards wide
-@media screen and (max-width: 1056px) {
-  h1,
-  .ls-bold {
-    font-size: 3.2rem;
-  }
-}
-
-// 2 cards wide
-@media screen and (max-width: 800px) {
-  h1,
-  .ls-bold {
-    font-size: 2.8rem;
-  }
-}
-
-// 1 card wide
-@media screen and (max-width: 535px) {
-  h1,
-  .ls-bold {
-    font-size: 2.6rem;
-  }
-}
-
-//smallest possible screen width
-@media screen and (max-width: 320px) {
-  h1,
-  .ls-bold {
-    font-size: 2.4rem;
-  }
+.callout-white{
+  font-size:1rem;
+  color:#ffffff;
 }

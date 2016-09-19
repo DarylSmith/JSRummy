@@ -5,6 +5,12 @@
     <div class="btn-play-again">
         <img src="/images/btn_play_again.png" />
     </div>
+    <div class="game-round">
+        <span class="callout-beige">Round</span>
+        <div class="game-round-block">
+            xxx
+        </div>
+    </div>
 
 </div>
 <div class="points">
@@ -64,14 +70,14 @@
 </div>
 -->
 <div class="hand">
-<div *ngFor="let card of _jrummy.PlayerHand.Cards ">
-    <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true) "> 
-        
-        <div class="card {{card.Suit}} {{card.FaceValueString}}"></div>
-        
-      </a>
+    <div *ngFor="let card of _jrummy.PlayerHand.Cards ">
+        <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true) ">
 
-</div>
+            <div class="card {{card.Suit}} {{card.FaceValueString}}"></div>
+
+        </a>
+
+    </div>
 
 </div>
 
