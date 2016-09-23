@@ -9,7 +9,7 @@ import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../services/jrummy'
 export class GameComponent {
     pageTitle: string = 'Acme Product Management';
 
-    private _jrummy: JRummy;
+    private _jrummy: JRummy = new JRummy();
 
     public currentGame: Game;
 

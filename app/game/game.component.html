@@ -1,14 +1,14 @@
 <div class="game-header">
-    <div class="btn-back">
+    <div class="header-elem btn-back">
         <img src="/images/btn_back.png" />
     </div>
-    <div class="btn-play-again">
+    <div class="header-elem btn-play-again">
         <img src="/images/btn_play_again.png" />
     </div>
-    <div class="game-round">
-        <span class="callout-beige">Round</span>
+    <div class="header-elem-right game-round">
+        <span class="callout-beige header-callout">Round</span>
         <div class="game-round-block">
-            xxx
+            <span class="callout-white"> xxx</span>
         </div>
     </div>
 
@@ -36,39 +36,32 @@
 
 </div>-->
 <input type="button" (click)="getCard()" value="Get Card" />
+<div style="clear:both"></div>
+<div class="pile-container">
+    <div class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,true) ">
 
-<h3>Pile</h3>
-<div style="display:inline;cursor:pointer;text-decoration:underline" (click)="unitTestCard('hearts','jak')">sd</div>
+        <img src="/images/card_back.png" />
 
-{{ _jrummy.Pile.Cards.length}}
-
-
-
-<h3>Discard</h3>
-
-{{ _jrummy.DiscardPile.Cards.length}}
-<ul *ngFor="let card of _jrummy.DiscardPile.Cards;let i=index; " style="display:inline ">
-
-    <li style="display:inline ">
-
-        <div *ngIf="i!=0 ">
-            XXXX
-        </div>
-        <div *ngIf="i==0 ">
-            <a href="javascript:void(0); " (click)="pickupPlayerCard(card.Suit,card.Name,true) ">{{card.toString()}}</a>
-        </div>
-    </li>
+    </div>
 
 
-</ul>
+    <div *ngIf="_jrummy.DiscardPile.Cards.length >0 ">
+
+        <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">
+            <div class="card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"></div>
+        </a>
+
+
+    </div>
+</div>
 <!--
-
 
 <div *ngIf="CurrentGame!==undefined && CurrentGame.CurrentStatus==G ameStatus.ComputerCall ">
 
     <h2>I CALL</h2>
 </div>
 -->
+<div style="clear:both"></div>
 <div class="hand">
     <div *ngFor="let card of _jrummy.PlayerHand.Cards ">
         <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true) ">

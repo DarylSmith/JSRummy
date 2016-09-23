@@ -21,10 +21,24 @@ border-bottom-right-radius: 100%30px;
 box-shadow: 0px 6px 5px 0px  #005c9c;
 
 
-    div{
+    .header-elem{ 
 
       float:left;
     }
+
+    .header-callout{
+
+      float:left;
+      margin-right:15px;
+    }
+
+.header-elem-right{
+
+      float: right !important;
+     width: 167px;
+     margin-top: 13px;
+}
+
     .btn-play-again{
 
       position:relative;
