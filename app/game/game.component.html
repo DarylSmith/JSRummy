@@ -13,21 +13,9 @@
     </div>
 
 </div>
-<div class="points">
-    <span>Player Points:{{_jrummy.PlayerPoints}}</span>
-    <span>Computer Points:{{_jrummy.ComputerPoints}}</span>
 
 
-</div>
-<div class="card">
 
-</div>
-
-
-<div class="current-round">
-
-    <h3> Current Round: {{_jrummy.CurrentRound}}</h3>
-</div>
 
 <!--<div *ngFor="let card of _jrummy.ComputerHand.Cards">
     {{card.Name}} -- {{card.Suit}}
@@ -35,10 +23,14 @@
 
 
 </div>-->
-<input type="button" (click)="getCard()" value="Get Card" />
+
+<div class="player">
+    <img src="/images/player.png" style="height:125px"/>
+    </div>
+
 <div style="clear:both"></div>
 <div class="pile-container">
-    <div class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,true) ">
+    <div class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
 
         <img src="/images/card_back.png" />
 
