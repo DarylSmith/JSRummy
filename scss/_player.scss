@@ -1,4 +1,17 @@
 .player{
 
     margin-left:28%;
+    height:140px;
+    width:260px; 
+    background-image: url('/images/player_bg.png');
+    background-repeat:no-repeat; 
+    background-position-x:center;
+}
+
+.player-hand-container{
+
+    position:relative;
+    top:33px;
+    left:36px;
+
 }
