@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var jrummy_1 = require('./services/jrummy');
+var animationCallback_1 = require('./services/animationCallback');
 var AppComponent = (function () {
     function AppComponent() {
         this.pageTitle = 'Beat Daryl@Gin Rummy';
@@ -20,7 +21,7 @@ var AppComponent = (function () {
             selector: 'jrummy-app',
             templateUrl: 'app/shared/app.component.html',
             directives: [router_1.ROUTER_DIRECTIVES],
-            providers: [jrummy_1.JRummy]
+            providers: [jrummy_1.JRummy, animationCallback_1.AnimationCallback]
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

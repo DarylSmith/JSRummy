@@ -1,6 +1,7 @@
 {
   "globalDependencies": {
     "core-js": "registry:dt/core-js#0.0.0+20160602141332",
+    "jquery": "registry:dt/jquery#1.10.0+20160929162922",
     "lodash": "registry:dt/lodash#4.14.0+20160830145422",
     "node": "registry:dt/node#6.0.0+20160621231320",
     "underscore": "registry:dt/underscore#1.8.3+20160908111004"

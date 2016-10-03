@@ -1,17 +1,33 @@
-.hand{
-    height:80px;
-    width:100%;
-    margin-left:5px;
-}
 
-.card{
+@mixin card-front{
     background-image:url('/images/card_faces.png');
     background-repeat:no-repeat;
     height:75px;
     width:54px;
     -webkit-box-shadow: 1px 4px 0px 0px #005c9c;
     -moz-box-shadow: 1px 3px 0px 0px  #005c9c;
-    box-shadow: 1px 3px 0px 0px  #005c9c;
+    box-shadow: 1px 3px 0px 0px  #005c9c; 
+}
+
+@mixin keyframe-call($animation)
+{
+
+       -webkit-animation: $animation 1s 1; 
+      -moz-animation:    $animation 1s 1; 
+       animation:        $animation 1s 1;
+
+}
+
+.hand{ 
+    height:80px;
+    width:100%;
+    margin-left:5px;
+    position:relative;
+    bottom:40px;
+}
+
+.card{
+    @include card-front;
     float:left;
     margin-right:2px;
  
@@ -50,9 +66,26 @@
       position:relative;
       bottom:8px;
       right:58px;
+
 }
 
-.card-container {  
+.right-hand-selected{
+
+      @include  keyframe-call(hand-move);
+}
+
+.card-container-selected{
+
+      @include  keyframe-call(card-move); 
+}
+
+
+.selected-card-selected{
+
+      @include  keyframe-call(card-flip);
+}
+
+.card-container {   
      width: 39px;
     height: 50px;
     position: relative;
@@ -60,14 +93,15 @@
     left: 105px;
 
     .front {
-    background-image:url('/images/card_back.png');
+    background-image:url('/images/card_back.png'); 
 }
  .back {
-  background: blue;
+@include card-front;
   transform: rotateY( 180deg );
 }
 
 .flipped {
+  @include card-front;
   transform: rotateY( 180deg );
 }
 
@@ -79,10 +113,6 @@
   height: 100%;
   position: absolute;
   transform-style: preserve-3d;
-  transition: transform 1s;
-
-
-
 
 }
 
@@ -183,8 +213,10 @@
 .pile-container{
 
     margin: 2px 0px 87px 36%;
+    position:relative;
+    bottom:45px;
       
-}
+} 
 
 
 

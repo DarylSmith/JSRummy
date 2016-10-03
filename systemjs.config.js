@@ -39,7 +39,8 @@
     packages: packages,
     paths: {
      "underscore": "/node_modules/underscore/underscore.js",
-        "lodash": "/node_modules/lodash/lodash.js"
+        "lodash": "/node_modules/lodash/lodash.js",
+       "jquery": "/node_modules/jquery/dist/jquery.js"
     }
   };
 

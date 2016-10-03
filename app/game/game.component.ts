@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component,ElementRef } from '@angular/core';
 import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../services/jrummy'
+import {AnimationCallback} from '../services/animationCallback'
+import * as $ from 'jquery'
 
 @Component({
     selector: 'jrummy-game',
@@ -15,6 +17,8 @@ export class GameComponent {
 
     public computerCalls: boolean;
 
+    public showAnimation:string = "none";
+
     //this is a test method for running the computer by itself
     public getCard() {
 
@@ -23,13 +27,25 @@ export class GameComponent {
 
     public CurrentGameStatus: GameStatus;
 
-    constructor(jrummy: JRummy) {
+    constructor(jrummy: JRummy, private elementRef:ElementRef,private animationCallback:AnimationCallback) {
 
         this._jrummy = jrummy;
 
         this.currentGame = new Game();
 
         this._jrummy.startGame(this.currentGame);
+
+    }
+
+    ngOnInit(){
+
+        let transitionEvent = this.animationCallback.whichAnimationEvent();
+        let self = this;
+         $(".card-container").on("animationend",
+              function(event) {
+                self.showAnimation = "none";
+         });
+
 
     }
 
@@ -41,8 +57,6 @@ export class GameComponent {
            .Otherwise allow computer to go first`);
 
         }
-
-
         if (this.currentGame.CurrentStatus === GameStatus.PlayerPickup || this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup) {
 
             this._jrummy.addCardToPlayerHand(suit, name, isFromDiscardPile);
@@ -71,6 +85,12 @@ export class GameComponent {
                 this.computerCalls = true;
                 this._jrummy.CurrentGame.CurrentStatus = GameStatus.ComputerCall;
                 this.scoreGameAndPlayAgain()
+
+            }
+            //play animation for computer discarding
+            else
+            {
+                this.showAnimation = "discard";
 
             }
         }
