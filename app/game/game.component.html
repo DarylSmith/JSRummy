@@ -24,49 +24,49 @@
 
 </div>-->
 <div class="top-container">
-<div class="player">
-    <div class="player-hand-container">
-        <div class="card-back card-back-lh"></div>
-        <div class="card-back"></div>
-        <div class="card-back"></div>
-        <div class="card-back"></div>
-        <div class="card-back"></div>
-        <div class="card-back"></div>
-        <div class="card-back"></div>
-        <div class="card-back"></div>
-        <div class="card-back"></div>
-        <section class="card-container" [ngClass]="{'card-container-selected':showAnimation==='discard'}" >
-            <div id="selected-card"  [ngClass]="{'selected-card-selected':showAnimation==='discard'}">
-                <figure class="front"></figure>
-                
-                <figure  class="back  {{_jrummy.ComputerHand.Cards[0].Suit}} {{_jrummy.ComputerHand.Cards[0].FaceValueString}}"></figure>
-            </div>
-        </section>
-    </div>
-    <div class="right-hand" [ngClass]="{'right-hand-selected':showAnimation==='discard'}">
-        <img src="/images/righthand.png">
-    </div>
+    <div class="player">
+        <div class="player-hand-container">
+            <div class="card-back card-back-lh"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <section class="card-container" [ngClass]="{'card-container-selected':showAnimation==='discard'}">
+                <div id="selected-card" [ngClass]="{'selected-card-selected':showAnimation==='discard'}">
+                    <figure class="front"></figure>
 
-</div>
-
-<div style="clear:both"></div>
-<div class="pile-container">
-    <div class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
-
-        <img src="/images/card_back.png" />
+                    <figure class="back  {{_jrummy.ComputerHand.Cards[0].Suit}} {{_jrummy.ComputerHand.Cards[0].FaceValueString}}"></figure>
+                </div>
+            </section>
+        </div>
+        <div class="right-hand" [ngClass]="{'right-hand-selected':showAnimation==='discard'}">
+            <img src="/images/righthand.png">
+        </div>
 
     </div>
 
+    <div style="clear:both"></div>
+    <div class="pile-container">
+        <div class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
 
-    <div *ngIf="_jrummy.DiscardPile.Cards.length >0 ">
+            <img src="/images/card_back.png" />
 
-        <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">
-            <div class="card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"></div>
-        </a>
+        </div>
 
 
+        <div *ngIf="_jrummy.DiscardPile.Cards.length >0 ">
+
+            <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">
+                <div class="card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"></div>
+            </a>
+
+
+        </div>
     </div>
-</div>
 </div>
 <!--
 
@@ -77,16 +77,22 @@
 -->
 <div style="clear:both"></div>
 <div class="hand">
-    <div *ngFor="let card of _jrummy.PlayerHand.Cards ">
-        <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true) ">
+    <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">
+        <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true);">
 
-            <div class="card {{card.Suit}} {{card.FaceValueString}}"></div>
+            <div class="card {{card.Suit}} {{card.FaceValueString}}" [ngClass]="{'player-card-move-selected-active':selectSortCard.Suit===card.Suit && selectSortCard.Name ===card.Name}"></div>
+
 
         </a>
+        <div class="player-card-move {{playerSortActive}}" [ngClass]="{'player-card-move-active':playerSortActive, 'player-card-move-inactive': !playerSortActive}">
+            <div class="player-move-inner" (click)="movePlayerCard(card.Suit, card.Name)" [hidden]="!playerSortActive || i=== selectedCardIndex|| i=== (selectedCardIndex-1)">
+                <img src="/images/add.png" /></div>
 
+        </div>
     </div>
 
 </div>
+
 
 <div *ngIf="_jrummy.CurrentGame.CurrentStatus===8 ">
 

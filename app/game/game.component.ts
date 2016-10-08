@@ -1,10 +1,12 @@
 import { Component,ElementRef } from '@angular/core';
 import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../services/jrummy'
 import {AnimationCallback} from '../services/animationCallback'
-import * as $ from 'jquery'
+import * as $ from 'jquery';
+import * as _ from 'lodash';
+
 
 @Component({
-    selector: 'jrummy-game',
+    selector: 'jrummy-game', 
     templateUrl: 'app/game/game.component.html',
   
 })
@@ -18,6 +20,12 @@ export class GameComponent {
     public computerCalls: boolean;
 
     public showAnimation:string = "none";
+
+    public selectSortCard:Card;
+
+    public selectedCardIndex:number;
+
+    public playerSortActive:boolean=false;
 
     //this is a test method for running the computer by itself
     public getCard() {
@@ -38,7 +46,7 @@ export class GameComponent {
     }
 
     ngOnInit(){
-
+        this.selectSortCard= this._jrummy.ComputerHand.Cards[0];
         let transitionEvent = this.animationCallback.whichAnimationEvent();
         let self = this;
          $(".card-container").on("animationend",
@@ -95,8 +103,23 @@ export class GameComponent {
             }
         }
         else {
+            //user can sort cards
+                 //select a card for player to sort
+            if(!this.playerSortActive)
+            {
+                console.log('Time to sort');
+                this.selectSortCard = _.filter(this._jrummy.PlayerHand.Cards, function(c:Card){return c.Suit===suit && c.Name ===name})[0];
+                this.selectedCardIndex =_.findIndex(this._jrummy.PlayerHand.Cards, function(c:Card){return c.Suit===suit && c.Name ===name});
 
-            window.alert('Not time to discard');
+                 this.playerSortActive=true;
+            }
+            //if the player clicks again, set to files
+            else
+            {
+                this.playerSortActive=false;
+                this.selectSortCard = this._jrummy.ComputerHand.Cards[0];
+            }
+
         }
 
     }
@@ -107,7 +130,13 @@ export class GameComponent {
         this.scoreGameAndPlayAgain();
     }
 
-
+    public movePlayerCard(suit: string, name: string) 
+    {
+        let  targetCard:Card = _.filter(this._jrummy.PlayerHand.Cards, function(c:Card){return c.Suit===suit && c.Name ===name})[0];
+        this._jrummy.PlayerHand.moveCardInHand(this.selectSortCard, targetCard);
+        this.playerSortActive=false;
+        this.selectSortCard = this._jrummy.ComputerHand.Cards[0];
+    }
 
     private scoreGameAndPlayAgain(): void {
 

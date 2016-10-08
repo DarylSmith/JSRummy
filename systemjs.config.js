@@ -40,7 +40,8 @@
     paths: {
      "underscore": "/node_modules/underscore/underscore.js",
         "lodash": "/node_modules/lodash/lodash.js",
-       "jquery": "/node_modules/jquery/dist/jquery.js"
+       "jquery": "/node_modules/jquery/dist/jquery.js",
+        "jqueryui": "/node_modules/jqueryui/dist/jquery-ui.min..js"
     }
   };
 

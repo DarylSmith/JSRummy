@@ -52,16 +52,17 @@ export class Card {
 
     //these are the points a computer assigns based on runs
     VPoints: number;
-    constructor(faceValue: number, suit: string, cardName: string, pointValue: number, faceValueString:string) {
+    constructor(faceValue: number, suit: string, cardName: string, pointValue: number, faceValueString: string) {
 
         this.Name = cardName;
         this.FaceValue = faceValue;
         this.Suit = suit;
         this.PointValue = pointValue;
         this.Meld = 'none';
-        this.FaceValueString=faceValueString;
+        this.FaceValueString = faceValueString;
 
     }
+
 
     public inMeld(): boolean {
 
@@ -90,9 +91,13 @@ export class Hand {
         this.Cards = new Array<Card>();
     }
 
+    public moveCardInHand(selectedCard: Card, targetCard: Card) {
+        let old_index: number = _.findIndex(this.Cards, function (c: Card) { return selectedCard.Suit === c.Suit && selectedCard.Name === c.Name });
+        let new_index: number = _.findIndex(this.Cards, function (c: Card) { return targetCard.Suit === c.Suit && targetCard.Name === c.Name }) +1;
+        this.Cards = this.moveItemInArray(old_index,new_index,this.Cards);
+    }
+
     public getCurrentPoints() {
-
-
         let total: number = _.reduce(this.Cards, function (sum: number, c: Card) { return c.Meld === 'set' || c.Meld === 'run' ? sum : sum + c.PointValue }, 0);
         return total;
     }
@@ -122,6 +127,18 @@ export class Hand {
         //new concatenate the arrays and return
         this.Cards = cardsSorted;
     }
+
+    private moveItemInArray(old_index: number, new_index: number, target: Card[]): Card[] {
+        if (new_index >= target.length) {
+            var k = new_index - target.length;
+            while ((k--) + 1) {
+                target.push(undefined);
+            }
+        }
+        target.splice(new_index, 0, target.splice(old_index, 1)[0]);
+        return target;
+    };
+
 }
 
 

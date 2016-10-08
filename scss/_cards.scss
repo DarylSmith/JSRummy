@@ -4,9 +4,9 @@
     background-repeat:no-repeat;
     height:75px;
     width:54px;
-    -webkit-box-shadow: 1px 4px 0px 0px #005c9c;
-    -moz-box-shadow: 1px 3px 0px 0px  #005c9c;
-    box-shadow: 1px 3px 0px 0px  #005c9c; 
+    -webkit-box-shadow: 1px 4px 0px 0px #000;
+    -moz-box-shadow: 1px 3px 0px 0px  #000;
+    box-shadow: 1px 3px 0px 0px  #000; 
 }
 
 @mixin keyframe-call($animation)
@@ -16,6 +16,13 @@
       -moz-animation:    $animation 1s 1; 
        animation:        $animation 1s 1;
 
+} 
+
+@mixin player-width-transition{
+        -webkit-transition: width 1s;
+      transition: width 1s;
+        height:75px;
+      float:left;
 }
 
 .hand{ 
@@ -29,7 +36,7 @@
 .card{
     @include card-front;
     float:left;
-    margin-right:2px;
+    margin-right:2px; 
  
 }
 
@@ -216,7 +223,42 @@
     position:relative;
     bottom:45px;
       
+}
+
+
+ .player-card-move-active
+{
+       width:4px;
+       @include player-width-transition;
+}
+
+.player-card-move-inactive
+{
+      width:0px;
+      @include player-width-transition;
+   
 } 
+
+.player-card-move-selected-active{
+      box-shadow: 2px 3px 50px 0px #000;
+      transition: box-shadow 1s;
+}
+
+.player-card-move-selected-inactive{
+      box-shadow: 2px 3px 0px 0px #000;
+      transition: box-shadow 1s;
+}
+
+.player-move-inner{
+      width:20px;
+      height:50px;
+      position:relative;
+      z-index:10000;
+      right:8px;
+
+
+}
+
 
 
 
