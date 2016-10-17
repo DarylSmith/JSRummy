@@ -190,8 +190,9 @@ export class JRummy {
     PlayerPoints: number;
     ComputerPoints: number
     CurrentGame: Game;
+    CurrentGameNumber: number;
     CurrentDeck: Deck;
-    CurrentRound: number;
+    CurrentTurn: number;
     PlayerHand: Hand;
     ComputerHand: Hand;
     DiscardPile: Hand;
@@ -199,11 +200,17 @@ export class JRummy {
     Pile: Hand;
 
     constructor() {
+   
+        this.reset();
+    }
+
+    private reset(){
+
         this.CurrentDeck = new Deck();
-        this.CurrentRound = 0;
+        this.CurrentTurn = 0;
         this.PlayerPoints = 0;
         this.ComputerPoints = 0;
-
+        this.CurrentGameNumber = 1;
     }
 
     startGame(game: Game) {
@@ -346,9 +353,30 @@ export class JRummy {
                 this.CurrentGame.CurrentStatus = GameStatus.ComputerWon;
             }
 
-        }
+        }    
+
+        this.getStatusOfGame();
 
     }
+
+
+    //determines if the game is over, and if so, whether to continue on
+    private getStatusOfGame():void
+    {
+        if(this.ComputerPoints>=100)
+        {
+            alert('Game Over! Daryl has won!')
+        }
+        else  if(this.PlayerPoints>=100)
+        {
+            alert('Game Over! Player has won!')
+        }
+        else
+        {
+            this.CurrentGameNumber++;
+        }
+    }
+
 
     //test to evaluation computer play
     //takes a card from pile, sorts cards by value, and returns the worst card
@@ -376,7 +404,7 @@ export class JRummy {
 
 
         //increment the round number and hand control back to the player
-        this.CurrentRound++;
+        this.CurrentTurn++;
         this.CurrentGame.CurrentStatus = GameStatus.PlayerPickup;
         this.logStatus();
         return false;
@@ -384,6 +412,8 @@ export class JRummy {
 
     //this the computer adding or removing a card (either from the discard or pile)
     cardRejectedByComputer(hand: Hand): boolean {
+        if(this.ComputerHand.Cards.length===11)
+        {}
 
         var discardedCard: Card = hand.Cards.shift();
         console.log(`Added to comp hand from ${hand.Name}`);
@@ -400,7 +430,7 @@ export class JRummy {
 
                 //if the card isn't useful, put it back to the top of the stack
                 this.DiscardPile.Cards.unshift(discardedCard);
-                console.log('Card had no points. Continuing...');
+                console.log(`Card in ${hand.Name} had no points. Continuing...`);
                 return true;
             }
         }
@@ -417,7 +447,7 @@ export class JRummy {
         this.ComputerHand.sortByValue();
         var deadwoodCard: Card = this.ComputerHand.Cards.pop();
         console.log(`Removed ${deadwoodCard.toString()} from comp hand because ${deadwoodCard.VPoints} and  ${deadwoodCard.HPoints}
-                    and   ${discardedCard.toString()} had ${discardedCard.VPoints} and  ${discardedCard.HPoints}
+                    and   ${discardedCard.toString()}   in ${hand.Name} had ${discardedCard.VPoints} and  ${discardedCard.HPoints}
                     `);
         console.log(deadwoodCard);
 
@@ -496,7 +526,7 @@ export class JRummy {
         });
 
         //order the cards by value
-        this.ComputerHand.Cards = _.sortBy(this.ComputerHand.Cards, function (card) { return card.VPoints + card.HPoints });
+        this.ComputerHand.Cards = _.sortBy(this.ComputerHand.Cards, function (card:Card) { return card.VPoints + card.HPoints });
 
     }
 
@@ -509,7 +539,7 @@ export class JRummy {
         let cutOffValue = 13;
 
         //cutoff number is the point at which a card is too high and should be discarded, even if matched
-        let cutOffNumber: number = this.CurrentRound + card.PointValue;
+        let cutOffNumber: number = this.CurrentTurn + card.PointValue;
 
         let numberOfCardsWithoutMeld: number = _.filter(this.ComputerHand.Cards, function (c: Card) { return c.Meld === 'none' || c.Meld === 'deadwood' }).length;
 
@@ -518,7 +548,7 @@ export class JRummy {
         if ((cutOffNumber >= cutOffValue) || numberOfCardsWithoutMeld < 3) {
             card.Meld = 'deadwood';
 
-            console.log(`${card.toString()} evaluated as deadwood (unmatched high card on round ${this.CurrentRound})`);
+            console.log(`${card.toString()} evaluated as deadwood (unmatched high card on round ${this.CurrentTurn})`);
         }
 
         //this evaulates high cards with sets -- if there is more than match in the discard pile, evealuate as deadwood
@@ -542,15 +572,15 @@ export class JRummy {
 
         let upperLimitForCall: number;
 
-        if (this.CurrentRound < 5) {
+        if (this.CurrentTurn < 5) {
 
             upperLimitForCall = 10;
         }
-        else if (this.CurrentRound >= 5 && this.CurrentRound < 9) {
+        else if (this.CurrentTurn >= 5 && this.CurrentTurn < 9) {
 
             upperLimitForCall = 6
         }
-        else if (this.CurrentRound >= 9) {
+        else if (this.CurrentTurn >= 9) {
 
             upperLimitForCall = 2;
         }
@@ -564,7 +594,7 @@ export class JRummy {
 
         let cardsWithPoints: Card[] = _.filter(hand.Cards, function (c: Card) { return c.Meld !== 'set' && c.Meld !== 'run' });
 
-        let handPoints: number = _.reduce(cardsWithPoints, function (memo, c: Card) { return memo + c.PointValue }, 0);
+        let handPoints: number = _.reduce(cardsWithPoints, function (memo:any, c: Card) { return memo + c.PointValue }, 0);
 
         return handPoints;
 
@@ -613,7 +643,7 @@ export class JRummy {
     }
 
     private logStatus() {
-        console.log(`Current Status at the end of round ${this.CurrentRound}`);
+        console.log(`Current Status at the end of turn ${this.CurrentTurn}`);
         console.log('---------------------------------------------------------');
         console.log('DiscardPile:');
         console.log(this.DiscardPile.Cards);

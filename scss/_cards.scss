@@ -33,6 +33,20 @@
     bottom:40px;
 }
 
+@media (max-height:321px)
+{
+      .hand{
+
+        bottom:55px !important;
+      }
+
+      .pile-container{
+
+            bottom:66px !important;
+      }
+
+}
+
 .card{
     @include card-front;
     float:left;
