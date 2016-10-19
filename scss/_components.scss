@@ -10,3 +10,19 @@
     float:left;
 }
 
+.generic-btn-container{
+
+    height: 37px;
+    width: 100px;
+    background: url(/images/generic_btn.png);
+    cursor: pointer;
+    font-size: 1.3em;
+    background-repeat: no-repeat;
+    text-align: center;
+    top: 19px;
+    position: relative;
+    padding-top: 11px;
+    color: #ffffff;
+    font-weight: 600;
+}
+

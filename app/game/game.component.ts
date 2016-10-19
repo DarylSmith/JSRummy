@@ -120,12 +120,12 @@ export class GameComponent {
                 this.selectSortCard = this._jrummy.ComputerHand.Cards[0];
             }
 
-        }
+        }  
 
     }
 
     public playerCall() {
-
+        console.log('player called');
         this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
         this.scoreGameAndPlayAgain();
     }
