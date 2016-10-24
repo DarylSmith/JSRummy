@@ -85,7 +85,15 @@ export class GameComponent {
 
     public discardPlayerCard(suit: string, name: string) {
 
-        if (this.currentGame.CurrentStatus == GameStatus.PlayerDiscard) {
+        if( this._jrummy.gameIsDraw())
+        {
+            alert('The game is a draw');
+            
+            this.startNewGame("The game is a draw.Do you wish to continue?");
+
+        }
+
+        else if (this.currentGame.CurrentStatus == GameStatus.PlayerDiscard) {
 
             //Check if the computer has called -- if it has companre cards
             if (this._jrummy.discardFromPlayerHand(suit, name)) {
@@ -144,14 +152,15 @@ export class GameComponent {
 
         let winningPlaterStr = this._jrummy.CurrentGame.CurrentStatus == GameStatus.ComputerWon ? "Computer Won" : "Player Won";
 
+        this.startNewGame(winningPlaterStr + "Do you wish to continue?");
+    }
 
-        if (window.confirm(winningPlaterStr + "Do you wish to continue?")) {
-
+    private startNewGame(message:string):void
+    {
+          if (window.confirm(message)) {
             this.currentGame = new Game();
 
             this._jrummy.startGame(this.currentGame);
-
-        }
-
+          }
     }
 }

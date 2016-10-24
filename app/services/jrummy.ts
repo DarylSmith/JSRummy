@@ -73,12 +73,7 @@ export class Card {
         return `${this.Name} of ${this.Suit}`
     }
 
-    resetPoints() {
 
-        this.HPoints = 0;
-        this.VPoints = 0;
-
-    }
 }
 
 
@@ -93,13 +88,23 @@ export class Hand {
 
     public moveCardInHand(selectedCard: Card, targetCard: Card) {
         let old_index: number = _.findIndex(this.Cards, function (c: Card) { return selectedCard.Suit === c.Suit && selectedCard.Name === c.Name });
-        let new_index: number = _.findIndex(this.Cards, function (c: Card) { return targetCard.Suit === c.Suit && targetCard.Name === c.Name }) +1;
-        this.Cards = this.moveItemInArray(old_index,new_index,this.Cards);
+        let new_index: number = _.findIndex(this.Cards, function (c: Card) { return targetCard.Suit === c.Suit && targetCard.Name === c.Name }) + 1;
+        this.Cards = this.moveItemInArray(old_index, new_index, this.Cards);
     }
 
     public getCurrentPoints() {
         let total: number = _.reduce(this.Cards, function (sum: number, c: Card) { return c.Meld === 'set' || c.Meld === 'run' ? sum : sum + c.PointValue }, 0);
         return total;
+    }
+
+    resetPointsInHand() {
+
+        for (var i = 0; i < this.Cards.length; i++) {
+            this.Cards[i].HPoints = 0;
+            this.Cards[i].VPoints = 0;
+            this.Cards[i].Meld = "none";
+        }
+
     }
 
     public sortByValue(): void {
@@ -200,11 +205,11 @@ export class JRummy {
     Pile: Hand;
 
     constructor() {
-   
+
         this.reset();
     }
 
-    private reset(){
+    private reset() {
 
         this.CurrentDeck = new Deck();
         this.CurrentTurn = 0;
@@ -257,7 +262,7 @@ export class JRummy {
     computerPlay() {
 
         //first, evaluate the current hand
-        this.evaluateComputerHand();
+        this.evaluateHand("ComputerHand");
 
         //now, evaluate card from the discard pile
         // discardCard: Card = this.evaluateNewCard(this.DiscardPile[0])       
@@ -299,11 +304,7 @@ export class JRummy {
 
         let self = this;
 
-        this.PlayerHand.Cards.forEach(function (card) {
-
-            card = self.evaluateCard(card, self.PlayerHand);
-
-        });
+        this.evaluateHand("PlayerHand");
         return this.computerTurn();
 
     }
@@ -353,7 +354,7 @@ export class JRummy {
                 this.CurrentGame.CurrentStatus = GameStatus.ComputerWon;
             }
 
-        }    
+        }
 
         this.getStatusOfGame();
 
@@ -361,18 +362,14 @@ export class JRummy {
 
 
     //determines if the game is over, and if so, whether to continue on
-    private getStatusOfGame():void
-    {
-        if(this.ComputerPoints>=100)
-        {
+    private getStatusOfGame(): void {
+        if (this.ComputerPoints >= 100) {
             alert('Game Over! Daryl has won!')
         }
-        else  if(this.PlayerPoints>=100)
-        {
+        else if (this.PlayerPoints >= 100) {
             alert('Game Over! Player has won!')
         }
-        else
-        {
+        else {
             this.CurrentGameNumber++;
         }
     }
@@ -406,14 +403,17 @@ export class JRummy {
         //increment the round number and hand control back to the player
         this.CurrentTurn++;
         this.CurrentGame.CurrentStatus = GameStatus.PlayerPickup;
+
+        //after the cards have been selected, re-evaluate
+        this.evaluateHand("ComputerHand");
         this.logStatus();
         return false;
     }
 
     //this the computer adding or removing a card (either from the discard or pile)
     cardRejectedByComputer(hand: Hand): boolean {
-        if(this.ComputerHand.Cards.length===11)
-        {}
+        if (this.ComputerHand.Cards.length === 11)
+        { }
 
         var discardedCard: Card = hand.Cards.shift();
         console.log(`Added to comp hand from ${hand.Name}`);
@@ -441,7 +441,7 @@ export class JRummy {
         this.addOrModifyCardInComputerMemory(discardedCard, CardLocation.InComputerHand, false);
 
         //evaluate the current hand with card in it
-        this.evaluateComputerHand();
+        this.evaluateHand("ComputerHand");
 
         //next, take the top card from the top (the worst card, and discard)
         this.ComputerHand.sortByValue();
@@ -471,8 +471,6 @@ export class JRummy {
             return card;
         }
 
-        //each hand, set the cards back to 0 and recalculate
-        card.resetPoints();
 
         //do not evaludate against high unmelded cards
         let cardsToEvaluateAgainst: Card[] = _.filter(hand.Cards, function (c: Card) { return c.Meld !== 'deadwood' });
@@ -497,8 +495,21 @@ export class JRummy {
         if (card.VPoints >= 2) {
 
             card.Meld = 'run';
-            _.filter(hand.Cards, function (c: Card) { return c.FaceValue == onePointHigher && c.Suit == card.Suit })[0].Meld = 'run';
-            _.filter(hand.Cards, function (c: Card) { return c.FaceValue == onePointLower && c.Suit == card.Suit })[0].Meld = 'run';
+
+            let lowerCard: Card[] = _.filter(hand.Cards, function (c: Card) { return c.FaceValue == onePointHigher && c.Suit == card.Suit });
+            let upperCard: Card[] = _.filter(hand.Cards, function (c: Card) { return c.FaceValue == onePointLower && c.Suit == card.Suit });
+
+            //if the cards cannot be matched, something is seriously wrong here.  Make sure to log the exception
+            if (lowerCard.length == 0 || upperCard.length == 0) {
+                console.log(`Error occured in evaluation of ${hand.Name}. ${card.toString()} was flagged as a run, but could't find matched cards `);
+                console.log(hand.Cards);
+
+            }
+            else
+            {
+                lowerCard[0].Meld="run";
+                upperCard[0].Meld="run";
+            }
 
         }
 
@@ -512,23 +523,50 @@ export class JRummy {
         return card;
     }
 
+    //if there are only 2 cards left in the pile, the game is over;
+    public gameIsDraw():boolean
+    {
+        return this.Pile.Cards.length<3;
+
+    }
+
     //this is the algorithm for the computer determing the value of its hand
     //each time its turn is complete, the computer will run through and revaluate
-    evaluateComputerHand() {
+    evaluateHand(handName: string) {
 
         var self = this;
-        this.ComputerHand.Cards.forEach(function (card) {
-
-
+        this[handName].resetPointsInHand();
+        this[handName].Cards.forEach(function (card: Card) {
             // console.log(self);
-            card = self.evaluateCard(card, self.ComputerHand);
+            card = self.evaluateCard(card, self[handName]);
 
         });
 
+        //if there is a conflict between a run and a set, the run always takes precedent
+        let cardWithConflict: Card[] = _.filter(this[handName].Cards, function (c: Card) { return c.VPoints === 2 && c.HPoints === 2 });
+        if (cardWithConflict.length > 0) {
+            let card: Card = cardWithConflict[0];
+            console.log(`found conflict with ${card.toString()}`);
+            cardWithConflict[0].Meld = "run";
+            let matchedCards: Card[] = _.filter(this[handName].Cards, function (c: Card) { return (card.toString() != c.toString()) && (card.FaceValue == c.FaceValue) });
+
+            matchedCards.forEach(function (matchedCard: Card) {
+                if (matchedCard.Meld === "set") {
+                    matchedCard.Meld = "none";
+                }
+            });
+            console.log(matchedCards);
+        }
+
         //order the cards by value
-        this.ComputerHand.Cards = _.sortBy(this.ComputerHand.Cards, function (card:Card) { return card.VPoints + card.HPoints });
+        if (handName === "ComputerHand") {
+            this.ComputerHand.Cards = _.sortBy(this.ComputerHand.Cards, function (card: Card) { return card.VPoints + card.HPoints });
+        }
 
     }
+
+
+
 
     //high unmatch cards are deadwood at a certain point in the game
     private checkForHighDeadwood(card: Card): Card {
@@ -594,7 +632,7 @@ export class JRummy {
 
         let cardsWithPoints: Card[] = _.filter(hand.Cards, function (c: Card) { return c.Meld !== 'set' && c.Meld !== 'run' });
 
-        let handPoints: number = _.reduce(cardsWithPoints, function (memo:any, c: Card) { return memo + c.PointValue }, 0);
+        let handPoints: number = _.reduce(cardsWithPoints, function (memo: any, c: Card) { return memo + c.PointValue }, 0);
 
         return handPoints;
 
@@ -656,6 +694,7 @@ export class JRummy {
         console.log('Cards discarded by Player');
         console.log(_.filter(this.PlayedCards.Cards, function (c: Card) { return c.PlayerDiscard }));
         console.log('Computer Cards');
+        console.log(`${this.ComputerHand.Cards.length} cards in computer hand`);
         console.log(this.ComputerHand.Cards);
         console.log('Player Points:' + this.PlayerHand.getCurrentPoints());
         console.log('Computer Points:' + this.CountHandValue(this.ComputerHand));
