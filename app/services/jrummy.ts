@@ -486,13 +486,13 @@ export class JRummy {
         card.VPoints += _.filter(cardsToEvaluateAgainst, function (c: Card) { return c.Meld != 'set' && c.FaceValue == onePointLower && c.Suit == card.Suit }).length;     //each hand, set the cards back to 0 and recalculate
 
         //if card is in set, note, flag that
-        if (card.HPoints >= 2) {
+        if (card.HPoints >= 2 && card.Meld!=="run") {
 
             card.Meld = 'set';
         }
 
         //of the card is in run, flag this one, and the one below and above it
-        if (card.VPoints >= 2) {
+        if (card.VPoints >= 2   && card.Meld!=="set" ) {
 
             card.Meld = 'run';
 
@@ -543,7 +543,7 @@ export class JRummy {
         });
 
         //if there is a conflict between a run and a set, the run always takes precedent
-        let cardWithConflict: Card[] = _.filter(this[handName].Cards, function (c: Card) { return c.VPoints === 2 && c.HPoints === 2 });
+        let cardWithConflict: Card[] = _.filter(this[handName].Cards, function (c: Card) { return (c.VPoints === 2 && c.HPoints === 2) || (c.Meld === "run" && c.HPoints === 2)  });
         if (cardWithConflict.length > 0) {
             let card: Card = cardWithConflict[0];
             console.log(`found conflict with ${card.toString()}`);
