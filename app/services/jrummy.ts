@@ -445,17 +445,27 @@ export class JRummy {
 
         //next, take the top card from the top (the worst card, and discard)
         this.ComputerHand.sortByValue();
-        var deadwoodCard: Card = this.ComputerHand.Cards.pop();
-        console.log(`Removed ${deadwoodCard.toString()} from comp hand because ${deadwoodCard.VPoints} and  ${deadwoodCard.HPoints}
+
+        if (this.ComputerHand.Cards.length < 11) {
+            console.log(`Attempt to remove extra card!`);
+            console.log(discardedCard);
+            console.log(deadwoodCard);
+            return false;
+
+        }
+        else {
+            var deadwoodCard: Card = this.ComputerHand.Cards.pop();
+            console.log(`Removed ${deadwoodCard.toString()} from comp hand because ${deadwoodCard.VPoints} and  ${deadwoodCard.HPoints}
                     and   ${discardedCard.toString()}   in ${hand.Name} had ${discardedCard.VPoints} and  ${discardedCard.HPoints}
                     `);
-        console.log(deadwoodCard);
+            console.log(deadwoodCard);
 
-        //take the unused cards and put into discard pile
-        this.DiscardPile.Cards.unshift(deadwoodCard);
+            //take the unused cards and put into discard pile
+            this.DiscardPile.Cards.unshift(deadwoodCard);
 
-        //log this in computer memory
-        this.addOrModifyCardInComputerMemory(deadwoodCard, CardLocation.InDiscardPile, false);
+            //log this in computer memory
+            this.addOrModifyCardInComputerMemory(deadwoodCard, CardLocation.InDiscardPile, false);
+        }
 
         //checks if the same card that was added was rejected
         return deadwoodCard.toString() === discardedCard.toString();
@@ -486,13 +496,13 @@ export class JRummy {
         card.VPoints += _.filter(cardsToEvaluateAgainst, function (c: Card) { return c.Meld != 'set' && c.FaceValue == onePointLower && c.Suit == card.Suit }).length;     //each hand, set the cards back to 0 and recalculate
 
         //if card is in set, note, flag that
-        if (card.HPoints >= 2 && card.Meld!=="run") {
+        if (card.HPoints >= 2 && card.Meld !== "run") {
 
             card.Meld = 'set';
         }
 
         //of the card is in run, flag this one, and the one below and above it
-        if (card.VPoints >= 2   && card.Meld!=="set" ) {
+        if (card.VPoints >= 2 && card.Meld !== "set") {
 
             card.Meld = 'run';
 
@@ -505,10 +515,9 @@ export class JRummy {
                 console.log(hand.Cards);
 
             }
-            else
-            {
-                lowerCard[0].Meld="run";
-                upperCard[0].Meld="run";
+            else {
+                lowerCard[0].Meld = "run";
+                upperCard[0].Meld = "run";
             }
 
         }
@@ -524,9 +533,8 @@ export class JRummy {
     }
 
     //if there are only 2 cards left in the pile, the game is over;
-    public gameIsDraw():boolean
-    {
-        return this.Pile.Cards.length<3;
+    public gameIsDraw(): boolean {
+        return this.Pile.Cards.length < 3;
 
     }
 
@@ -543,7 +551,7 @@ export class JRummy {
         });
 
         //if there is a conflict between a run and a set, the run always takes precedent
-        let cardWithConflict: Card[] = _.filter(this[handName].Cards, function (c: Card) { return (c.VPoints === 2 && c.HPoints === 2) || (c.Meld === "run" && c.HPoints === 2)  });
+        let cardWithConflict: Card[] = _.filter(this[handName].Cards, function (c: Card) { return (c.VPoints === 2 && c.HPoints === 2) || (c.Meld === "run" && c.HPoints === 2) });
         if (cardWithConflict.length > 0) {
             let card: Card = cardWithConflict[0];
             console.log(`found conflict with ${card.toString()}`);
