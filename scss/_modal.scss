@@ -1,0 +1,27 @@
+.modal-window {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 9999;
+}
+
+.modal-container {
+   background: #710100;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    outline: 0;
+    border: 2px solid #ffffff;
+    border-radius: 16%;
+    padding: 23px;
+    font-size: 1.5em;
+    box-shadow: 2px 4px 5px #000;
+    color: #ffffff
+}

@@ -1,5 +1,7 @@
 import { Component,ElementRef } from '@angular/core';
+import {ModalComponent} from '../shared/modal.component'
 import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../services/jrummy'
+import {JRummyText} from '../services/jrummyText'
 import {AnimationCallback} from '../services/animationCallback'
 import * as $ from 'jquery';
 import * as _ from 'lodash';
@@ -8,6 +10,7 @@ import * as _ from 'lodash';
 @Component({
     selector: 'jrummy-game', 
     templateUrl: 'app/game/game.component.html',
+    directives:[ModalComponent]
   
 })
 export class GameComponent {
@@ -27,6 +30,10 @@ export class GameComponent {
 
     public playerSortActive:boolean=false;
 
+    public modalIsActive:boolean=false;
+
+    public modalBody:string;
+
     //this is a test method for running the computer by itself
     public getCard() {
 
@@ -35,7 +42,7 @@ export class GameComponent {
 
     public CurrentGameStatus: GameStatus;
 
-    constructor(jrummy: JRummy, private elementRef:ElementRef,private animationCallback:AnimationCallback) {
+    constructor(jrummy: JRummy,private jrummyText:JRummyText, private elementRef:ElementRef,private animationCallback:AnimationCallback) {
 
         this._jrummy = jrummy;
 
@@ -61,8 +68,7 @@ export class GameComponent {
     public pickupPlayerCard(suit: string, name: string, isFromDiscardPile: boolean) {
         //special case for first round (must choose from discard pile in first round)
         if (this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup && !isFromDiscardPile) {
-            window.alert(`On first turn, you must choose from the discard pile
-           .Otherwise allow computer to go first`);
+            this.displayModal(this.jrummyText.PICK_FIRST_CARD);
 
         }
         if (this.currentGame.CurrentStatus === GameStatus.PlayerPickup || this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup) {
@@ -71,7 +77,7 @@ export class GameComponent {
         }
         else {
 
-            window.alert('Not time to pickup');
+            window.alert(this.jrummyText.NOT_PICKUP_TIME);
         }
 
     }
@@ -87,7 +93,7 @@ export class GameComponent {
 
         if( this._jrummy.gameIsDraw())
         {
-            alert('The game is a draw');
+            alert(this.jrummyText.GAME_IS_DRAW);
             
             this.startNewGame("The game is a draw.Do you wish to continue?");
 
@@ -162,5 +168,12 @@ export class GameComponent {
 
             this._jrummy.startGame(this.currentGame);
           }
+    }
+
+    private displayModal(modalText:string):void
+    {
+        this.modalIsActive=true;
+        this.modalBody=modalText;
+
     }
 }
