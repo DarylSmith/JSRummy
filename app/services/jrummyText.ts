@@ -10,6 +10,10 @@ export class JRummyText {
 
     public GAME_IS_DRAW_CONTINUE: string = "The game is a draw.Do you wish to continue?";
 
-    public GAME_TITLE = "Beat Daryl @ Gin Rummy";
+    public GAME_TITLE:string = "Beat Daryl @ Gin Rummy";
+
+    public DARYL_WON:string="Game Over! Daryl has won!";
+
+    public PlAYER_WON:string="Game Over! You has won!";
 
 }

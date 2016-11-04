@@ -1,4 +1,5 @@
 ﻿import {Injectable} from "@angular/core";
+import {JRummyText} from '../services/jrummyText'
 import * as _ from 'lodash';
 @Injectable()
 export class Game {
@@ -327,7 +328,7 @@ export class JRummy {
 
 
     //compare the cards and determine who won
-    public compareHands(): void {
+    public compareHands(): string {
         //first get the score for player and computer
         let playerScore: number = this.PlayerHand.getCurrentPoints();
         let computerScore: number = this.ComputerHand.getCurrentPoints();
@@ -356,22 +357,25 @@ export class JRummy {
 
         }
 
-        this.getStatusOfGame();
+        return this.getStatusOfGame();
 
     }
 
 
     //determines if the game is over, and if so, whether to continue on
-    private getStatusOfGame(): void {
+    private getStatusOfGame(): string {
+
+        let status:string ="";
         if (this.ComputerPoints >= 100) {
-            alert('Game Over! Daryl has won!')
+            status = "computerwon";
         }
         else if (this.PlayerPoints >= 100) {
-            alert('Game Over! Player has won!')
+           status="playerwon";
         }
         else {
             this.CurrentGameNumber++;
         }
+        return status
     }
 
 

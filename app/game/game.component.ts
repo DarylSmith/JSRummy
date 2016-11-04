@@ -14,7 +14,7 @@ import * as _ from 'lodash';
   
 })
 export class GameComponent {
-    pageTitle: string = 'Acme Product Management';
+    pageTitle: string = 'Beat Daryl @ ';
 
     private _jrummy: JRummy = new JRummy();
 
@@ -77,7 +77,7 @@ export class GameComponent {
         }
         else {
 
-            window.alert(this.jrummyText.NOT_PICKUP_TIME);
+            this.displayModal(this.jrummyText.NOT_PICKUP_TIME);
         }
 
     }
@@ -93,9 +93,9 @@ export class GameComponent {
 
         if( this._jrummy.gameIsDraw())
         {
-            alert(this.jrummyText.GAME_IS_DRAW);
+            this.displayModal(this.jrummyText.GAME_IS_DRAW);
             
-            this.startNewGame("The game is a draw.Do you wish to continue?");
+            this.startNewGame(this.jrummyText.GAME_IS_DRAW_CONTINUE);
 
         }
 
@@ -154,7 +154,7 @@ export class GameComponent {
 
     private scoreGameAndPlayAgain(): void {
 
-        this._jrummy.compareHands();
+        let result:string = this._jrummy.compareHands();
 
         let winningPlaterStr = this._jrummy.CurrentGame.CurrentStatus == GameStatus.ComputerWon ? "Computer Won" : "Player Won";
 
