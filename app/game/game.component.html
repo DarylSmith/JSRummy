@@ -129,4 +129,4 @@
     DARYL Calls!
 </div>
 
-<jrummy-modal [modalBody]="modalBody" *ngIf="modalIsActive" ></jrummy-modal>
+<jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive" ></jrummy-modal>

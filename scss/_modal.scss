@@ -25,3 +25,24 @@
     box-shadow: 2px 4px 5px #000;
     color: #ffffff
 }
+
+
+.modal-close {
+      position: absolute;
+    right: 18px;
+    top: 18px;
+    z-index: 1000;
+    margin: 0;
+    padding: 5px;
+    background: none;
+
+
+    span{
+            display: block;
+        width: 20px;
+        height: 20px;
+        background: url(/images/modal-close.png);
+
+
+    }
+}

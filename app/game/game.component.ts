@@ -1,4 +1,4 @@
-import { Component,ElementRef } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import {ModalComponent} from '../shared/modal.component'
 import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../services/jrummy'
 import {JRummyText} from '../services/jrummyText'
@@ -8,13 +8,13 @@ import * as _ from 'lodash';
 
 
 @Component({
-    selector: 'jrummy-game', 
+    selector: 'jrummy-game',
     templateUrl: 'app/game/game.component.html',
-    directives:[ModalComponent]
-  
+    directives: [ModalComponent]
+
 })
 export class GameComponent {
-    pageTitle: string = 'Beat Daryl @ ';
+    pageTitle: string = 'Beat Daryl @ Gin Rummy';
 
     private _jrummy: JRummy = new JRummy();
 
@@ -22,17 +22,17 @@ export class GameComponent {
 
     public computerCalls: boolean;
 
-    public showAnimation:string = "none";
+    public showAnimation: string = "none";
 
-    public selectSortCard:Card;
+    public selectSortCard: Card;
 
-    public selectedCardIndex:number;
+    public selectedCardIndex: number;
 
-    public playerSortActive:boolean=false;
+    public playerSortActive: boolean = false;
 
-    public modalIsActive:boolean=false;
+    public modalIsActive: boolean = false;
 
-    public modalBody:string;
+    public modalBody: string;
 
     //this is a test method for running the computer by itself
     public getCard() {
@@ -42,7 +42,7 @@ export class GameComponent {
 
     public CurrentGameStatus: GameStatus;
 
-    constructor(jrummy: JRummy,private jrummyText:JRummyText, private elementRef:ElementRef,private animationCallback:AnimationCallback) {
+    constructor(jrummy: JRummy, private jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback) {
 
         this._jrummy = jrummy;
 
@@ -52,14 +52,14 @@ export class GameComponent {
 
     }
 
-    ngOnInit(){
-        this.selectSortCard= this._jrummy.ComputerHand.Cards[0];
+    ngOnInit() {
+        this.selectSortCard = this._jrummy.ComputerHand.Cards[0];
         let transitionEvent = this.animationCallback.whichAnimationEvent();
         let self = this;
-         $(".card-container").on("animationend",
-              function(event) {
+        $(".card-container").on("animationend",
+            function (event) {
                 self.showAnimation = "none";
-         });
+            });
 
 
     }
@@ -91,10 +91,9 @@ export class GameComponent {
 
     public discardPlayerCard(suit: string, name: string) {
 
-        if( this._jrummy.gameIsDraw())
-        {
+        if (this._jrummy.gameIsDraw()) {
             this.displayModal(this.jrummyText.GAME_IS_DRAW);
-            
+
             this.startNewGame(this.jrummyText.GAME_IS_DRAW_CONTINUE);
 
         }
@@ -110,31 +109,28 @@ export class GameComponent {
 
             }
             //play animation for computer discarding
-            else
-            {
+            else {
                 this.showAnimation = "discard";
 
             }
         }
         else {
             //user can sort cards
-                 //select a card for player to sort
-            if(!this.playerSortActive)
-            {
+            //select a card for player to sort
+            if (!this.playerSortActive) {
                 console.log('Time to sort');
-                this.selectSortCard = _.filter(this._jrummy.PlayerHand.Cards, function(c:Card){return c.Suit===suit && c.Name ===name})[0];
-                this.selectedCardIndex =_.findIndex(this._jrummy.PlayerHand.Cards, function(c:Card){return c.Suit===suit && c.Name ===name});
+                this.selectSortCard = _.filter(this._jrummy.PlayerHand.Cards, function (c: Card) { return c.Suit === suit && c.Name === name })[0];
+                this.selectedCardIndex = _.findIndex(this._jrummy.PlayerHand.Cards, function (c: Card) { return c.Suit === suit && c.Name === name });
 
-                 this.playerSortActive=true;
+                this.playerSortActive = true;
             }
             //if the player clicks again, set to files
-            else
-            {
-                this.playerSortActive=false;
+            else {
+                this.playerSortActive = false;
                 this.selectSortCard = this._jrummy.ComputerHand.Cards[0];
             }
 
-        }  
+        }
 
     }
 
@@ -144,36 +140,49 @@ export class GameComponent {
         this.scoreGameAndPlayAgain();
     }
 
-    public movePlayerCard(suit: string, name: string) 
-    {
-        let  targetCard:Card = _.filter(this._jrummy.PlayerHand.Cards, function(c:Card){return c.Suit===suit && c.Name ===name})[0];
+    public movePlayerCard(suit: string, name: string) {
+        let targetCard: Card = _.filter(this._jrummy.PlayerHand.Cards, function (c: Card) { return c.Suit === suit && c.Name === name })[0];
         this._jrummy.PlayerHand.moveCardInHand(this.selectSortCard, targetCard);
-        this.playerSortActive=false;
+        this.playerSortActive = false;
         this.selectSortCard = this._jrummy.ComputerHand.Cards[0];
     }
 
     private scoreGameAndPlayAgain(): void {
 
-        let result:string = this._jrummy.compareHands();
+        let result: string = this._jrummy.compareHands();
 
-        let winningPlaterStr = this._jrummy.CurrentGame.CurrentStatus == GameStatus.ComputerWon ? "Computer Won" : "Player Won";
+        if (result === "computerwon") {
 
-        this.startNewGame(winningPlaterStr + "Do you wish to continue?");
+            this.displayModal(this.jrummyText.DARYL_WON);
+        }
+        else if (result === "playerwon") {
+
+             this.displayModal(this.jrummyText.PLAYER_WON);
+        }
+        else {
+
+            let winningPlaterStr = this._jrummy.CurrentGame.CurrentStatus == GameStatus.ComputerWon ? "Computer Won" : "Player Won";
+
+            this.startNewGame(winningPlaterStr + this.jrummyText.CONTINUE_TEXT);
+        }
     }
 
-    private startNewGame(message:string):void
-    {
-          if (window.confirm(message)) {
+    private startNewGame(message: string): void {
+        if (window.confirm(message)) {
             this.currentGame = new Game();
 
             this._jrummy.startGame(this.currentGame);
-          }
+        }
     }
 
-    private displayModal(modalText:string):void
-    {
-        this.modalIsActive=true;
-        this.modalBody=modalText;
+    private displayModal(modalText: string): void {
+        this.modalIsActive = true;
+        this.modalBody = modalText;
+
+    }
+
+        private onModalClosed(msg:string): void {
+        this.modalIsActive = false
 
     }
 }

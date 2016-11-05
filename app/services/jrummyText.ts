@@ -14,6 +14,8 @@ export class JRummyText {
 
     public DARYL_WON:string="Game Over! Daryl has won!";
 
-    public PlAYER_WON:string="Game Over! You has won!";
+    public PLAYER_WON:string="Game Over! You have won!";
+
+    public CONTINUE_TEXT:string ="Do you wish to continue?";
 
 }
