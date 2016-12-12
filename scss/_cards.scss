@@ -12,7 +12,7 @@
 @mixin keyframe-call($animation)
 {
 
-       -webkit-animation: $animation 1s 1; 
+            -webkit-animation: $animation 1s 1; 
       -moz-animation:    $animation 1s 1; 
        animation:        $animation 1s 1;
 
@@ -54,6 +54,12 @@
  
 }
 
+@media (max-width:569px)
+{
+   margin-right:-6px !important;
+}
+
+
 .card-back {
 
       background-image:url('/images/card_back.png');
@@ -66,19 +72,32 @@
        width:25px;
        margin-left:-13px; 
 
-
+ 
            
 }
 
+.give-to-player{
 
-.card-back-lh {
+      float:left;
+      position:absolute;
+      display:block !important;
+           @include  keyframe-call(give-card-to-player);
+}
 
-             background-image:url('/images/card_back_lh.png') !important;
-             width:60px !important;
+
+.left-hand {
+
+             background-image:url('/images/left-hand-sprite.png') !important;
+             width:39px !important;
+             height:50px;
                -webkit-box-shadow: none !important;
              -moz-box-shadow: none !important;
              box-shadow: none !important;
+             position:relative;
+             z-index:10000;
+             float:left;
 }
+
 
 
 .right-hand{

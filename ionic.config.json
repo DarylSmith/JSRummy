@@ -1,0 +1,14 @@
+{
+  "name": "jrummy-ionic",
+  "app_id": "",
+  "v2": true,
+  "typescript": true,
+  "gulpStartupTasks": [
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*",
+    "!www/**/*.map"
+  ]
+}

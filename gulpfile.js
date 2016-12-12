@@ -1,34 +1,28 @@
-// dependencies
-var gulp       = require('gulp');
-var sass       = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var concat = require('gulp-concat');
+var sass = require('gulp-sass');
+var minifyCss = require('gulp-minify-css');
+var rename = require('gulp-rename');
+var sh = require('shelljs');
 
-// var paths = {
-//     appJavascript: ['**/*.ts', '!node_modules/**/*.*']
-// }
+var paths = {
+  sass: ['./scss/**/*.scss', './www/**/*.scss']
+};
 
-// var tsProject = ts.createProject('tsconfig.json'); // loads our configuration
+gulp.task('default', ['sass']);
 
-// gulp tasks
-// gulp.task('ts', function () {
-//    var tsResult = tsProject.src(paths.appJavascript) // load all files from our pathspecification
-//         .pipe(ts(tsProject)); // transpile the files into .js
-    
-//     return tsResult.js.pipe(gulp.dest('')); // save the .js in the same place as the original .ts-file
-// });
-
-gulp.task('sass', function () {
-  return gulp.src('scss/**/*.scss')
-    .pipe(sourcemaps.init())
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('css/'))
+gulp.task('sass', function(done) {
+  gulp.src('./scss/ionic.app.scss')
+    .pipe(sass())
+    .pipe(gulp.dest('./www/css/'))
+    .pipe(minifyCss({
+      keepSpecialComments: 0
+    }))
+    .pipe(gulp.dest('./www/'))
+    .on('end', done);
 });
 
-// gulp watch
-gulp.task('watch', function () {
-    // gulp.watch(paths.appJavascript, ['ts']); // run the ts-task any time stuff in appJavascript changes
-    gulp.watch(['scss/**/*.scss'], ['sass']);
+gulp.task('watch', function() {
+  gulp.watch(paths.sass, ['sass']);
 });
-
-gulp.task('default', ['watch']);

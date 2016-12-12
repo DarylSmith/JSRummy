@@ -1,0 +1,134 @@
+
+<div class="game-header">
+    <div  class="header-elem btn-back">
+        <img src="/images/btn_back.png" />
+    </div>
+    <div class="header-elem btn-play-again" (click)="startNewGame('Do you want to play again?')">
+        <img src="/images/btn_play_again.png" />
+    </div>
+    <div class="header-elem-right game-round">
+        <span class="callout-beige header-callout">Round</span>
+        <div class="game-round-block">
+            <span class="callout-white"> {{_jrummy.CurrentGameNumber}}</span>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<!--<div *ngFor="let card of _jrummy.ComputerHand.Cards">
+    {{card.Name}} -- {{card.Suit}}
+
+
+
+</div>-->
+<div class="top-container">
+    <div class="score-container-outer">
+
+        <div class="score-container-inner">
+            <h3> Computer Score:</h3>
+
+            <span class="points-callout">{{_jrummy.ComputerPoints}}</span>
+
+        </div>
+
+        <div class="score-container-inner">
+            <h3> Player Score:</h3>
+
+            <span class="points-callout">{{_jrummy.PlayerPoints}}</span>
+
+        </div>
+
+        <div *ngIf="_jrummy.PlayerHand.getCurrentPoints()<=10" (click)="playerCall()" class="generic-btn-container">
+            Call
+        </div>
+
+    </div>
+
+    <div class="player">
+        <div class="player-hand-container">
+            <div class="left-hand" [ngStyle]="{'background-position-x':leftHandLocation + 'px'}"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>
+            <div class="card-back"></div>  
+            <div class="card-back"></div>
+            <section class="card-container" [ngClass]="{'card-container-selected':showAnimation==='discard'}">
+                <div id="selected-card" [ngClass]="{'selected-card-selected':showAnimation==='discard'}">
+                    <figure class="front"></figure>
+
+                    <figure class="back  {{_jrummy.ComputerHand.Cards[0].Suit}} {{_jrummy.ComputerHand.Cards[0].FaceValueString}}"></figure>
+                </div>
+            </section>
+        </div> 
+        <div class="right-hand" [ngClass]="{'right-hand-selected':showAnimation==='discard'}">
+            <img src="/images/righthand.png">
+        </div>
+
+    </div>
+
+    <div style="clear:both"></div>
+    <div class="pile-container">
+        <div id="stock-pile" class="card"    (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
+
+             <img src="/images/card_back.png"  class="move-card-item" [ngClass]="{'give-to-player':showAnimation==='take-stock'}"  style="display:none" [ngClass]="{'give-to-player':showAnimation==='take-stock'}"  />
+
+            <img src="/images/card_back.png"  />
+
+        </div>
+
+
+        <div *ngIf="_jrummy.DiscardPile.Cards.length >0 ">
+
+            <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">
+                <div   id="discard-pile"  [ngClass]="{'give-to-player':showAnimation==='take-discard'}"  class="card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"></div>
+            </a>
+
+
+        </div>
+    </div>
+</div>
+
+<div style="clear:both"></div>
+<div class="hand">
+    <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">
+        <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true);">
+
+            <div class="card {{card.Suit}} {{card.FaceValueString}}"></div>
+
+
+        </a>
+        <div class="player-card-move {{playerSortActive}}" [ngClass]="{'player-card-move-active':playerSortActive, 'player-card-move-inactive': !playerSortActive}">
+            <div class="player-move-inner" (click)="movePlayerCard(card.Suit, card.Name)" [hidden]="!playerSortActive || i=== selectedCardIndex|| i=== (selectedCardIndex-1)">
+                <img src="/images/add.png" /></div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<div *ngIf="_jrummy.CurrentGame.CurrentStatus===8 ">
+
+    <a href="javascript:void(0); " (click)="allowComputerFirstTurn() ">Allow computer to select first</a>
+
+</div>
+
+
+<div *ngIf="_jrummy.PlayerHand.getCurrentPoints() <=10 ">
+
+    <a href="javascript:void(0); " (click)="playerCall() ">knock</a>
+
+</div>
+
+<div *ngIf="computerCalls ">
+
+    DARYL Calls!
+</div>-->
+
+<jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive" ></jrummy-modal>
