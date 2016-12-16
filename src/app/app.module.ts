@@ -10,6 +10,7 @@ import {Utilities} from '../providers/utilities'
 
 //components
 import {ModalComponent} from '../shared/modal.component'
+import {GameCompletedComponent} from '../shared/gamecompleted.component'
 import { MyApp } from './app.component';
 import {DragulaModule, DragulaService} from "../../node_modules/ng2-dragula/ng2-dragula"
 
@@ -23,6 +24,7 @@ import { GamePage } from '../pages/game/game';
     MyApp,
     HomePage,
     ModalComponent,
+    GameCompletedComponent,
     GamePage
   ],
   imports: [

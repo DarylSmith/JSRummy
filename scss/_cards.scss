@@ -54,9 +54,17 @@
  
 }
 
+.player-card {
+
+margin-right:-5px !important; 
+
+}
+
 @media (max-width:569px)
 {
-   margin-right:-6px !important;
+.player-card {
+        margin-right:-9px !important;
+}
 }
 
 

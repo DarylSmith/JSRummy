@@ -1,0 +1,31 @@
+<div class="modal-window" (click)="closeModal();">
+    <div class="modal-container">
+        <a href="javascript:void(0);" (click)="closeModal();">
+            <div class="modal-close"><span></span>
+            </div>
+        </a>
+
+        <h2>DARYL Wins!</h2>
+
+        <h3>DARYL's Cards</h3>
+        <div class="hand">
+            <div *ngFor="let card of _jrummy.ComputerHand.Cards;let i = index ">
+                <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>
+            </div>
+
+        </div>
+
+
+        <h3>Your Cards</h3>
+
+        <div class="hand">
+            <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">
+                <div *ngFor="let card of _jrummy.ComputerHand.Cards;let i = index ">
+                    <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

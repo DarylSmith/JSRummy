@@ -14,6 +14,7 @@ import { JRummyText } from '../providers/jrummy-text';
 import { AnimationCallback } from '../providers/animation-callback';
 import { Utilities } from '../providers/utilities';
 import { ModalComponent } from '../shared/modal.component';
+import { GameCompletedComponent } from '../shared/gamecompleted.component';
 import { MyApp } from './app.component';
 import { DragulaModule, DragulaService } from "../../node_modules/ng2-dragula/ng2-dragula";
 import { HomePage } from '../pages/home/home';
@@ -27,6 +28,7 @@ export var AppModule = (function () {
                 MyApp,
                 HomePage,
                 ModalComponent,
+                GameCompletedComponent,
                 GamePage
             ],
             imports: [

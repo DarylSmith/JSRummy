@@ -233,7 +233,7 @@ h3 {
   10% {
     height: 39px;
     width: 50px;
-    left: 105px;
+    left: 120px;
     top: -10px;
     -webkit-transform: rotate(0deg);
     z-index: -20; }
@@ -247,9 +247,9 @@ h3 {
 
 @keyframes hand-move {
   0% {
-    right: 51px; }
+    right: 55px; }
   100% {
-    right: 60px;
+    right: 68px;
     bottom: 30px; } }
 
 @keyframes card-flip {
@@ -270,7 +270,7 @@ h3 {
     height: 1px;
     width: 1px;
     bottom: 20px;
-    left: 200px; } }
+    left: 166px; } }
 
 html, body {
   font-family: 'Carter One', cursive; }
@@ -337,8 +337,12 @@ html {
   float: left;
   margin-right: 2px; }
 
+.player-card {
+  margin-right: -5px !important; }
+
 @media (max-width: 569px) {
-  margin-right: -6px !important; }
+  .player-card {
+    margin-right: -9px !important; } }
 
 .card-back {
   background-image: url("/images/card_back.png");
@@ -542,6 +546,11 @@ html {
   font-size: 1.5em;
   box-shadow: 2px 4px 5px #000;
   color: #ffffff; }
+
+.game-completed {
+  width: 90%; }
+  .game-completed .hand {
+    bottom: 0px !important; }
 
 .modal-close {
   position: absolute;

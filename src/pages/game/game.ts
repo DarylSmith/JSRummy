@@ -2,6 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import {ModalComponent} from '../../shared/modal.component'
+import {GameCompletedComponent} from '../../shared/gamecompleted.component'
 import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../../providers/jrummy/jrummy'
 import {JRummyText} from '../../providers/jrummy-text'
 import {AnimationCallback} from '../../providers/animation-callback'
@@ -78,7 +79,7 @@ export class GamePage {
             });
 
 
-
+            
 
     }
 
