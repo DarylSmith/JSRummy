@@ -35,6 +35,26 @@
     }
 }
 
+.game-completed-header
+{
+    span, a{
+
+        font-size:1.5em;
+        color:#ffffff;
+    }
+
+    li{
+
+        display:inline-block;
+        margin-left:4%;
+        
+    }
+    ul{
+        display:inline;
+    }
+
+
+}
 
 .modal-close {
       position: absolute;

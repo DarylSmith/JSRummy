@@ -5,7 +5,12 @@
             </div>
         </a>
 
-        <h2>DARYL Wins!</h2>
+        <div class="game-completed-header"><span>DARYL Wins!</span>
+            <ul>
+                <li><a href="javascript:void(0);">Play Again</a></li>
+                <li>Quit</li>
+            </ul>
+        </div>
 
         <h5>DARYL's Cards</h5>
         <div class="hand">
@@ -16,11 +21,11 @@
         </div>
 
 
-          <h5>Your Cards</h5>
+        <h5>Your Cards</h5>
 
         <div class="hand">
             <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">
-                    <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>
+                <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>
             </div>
 
         </div>

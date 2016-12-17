@@ -37,7 +37,7 @@
 {
       .hand{
 
-        bottom:55px !important;
+        bottom:55px;
       }
 
       .pile-container{
@@ -46,6 +46,8 @@
       }
 
 }
+
+
 
 .card{
     @include card-front;

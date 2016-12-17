@@ -24,7 +24,7 @@ export var ModalComponent = (function () {
     ], ModalComponent.prototype, "modalBody", void 0);
     __decorate([
         Output(), 
-        __metadata('design:type', EventEmitter)
+        __metadata('design:type', (typeof (_a = typeof EventEmitter !== 'undefined' && EventEmitter) === 'function' && _a) || Object)
     ], ModalComponent.prototype, "modalClosed", void 0);
     ModalComponent = __decorate([
         Component({
@@ -33,5 +33,6 @@ export var ModalComponent = (function () {
         __metadata('design:paramtypes', [])
     ], ModalComponent);
     return ModalComponent;
+    var _a;
 }());
 //# sourceMappingURL=modal.component.js.map
