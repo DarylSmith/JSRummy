@@ -23,4 +23,10 @@ export class JRummyText {
 
     public CONTINUE_TEXT:string ="Do you wish to continue?";
 
+    public DARYL_CARDS:string ="Daryl's Cards";
+
+    public PLAYER_CARDS:string="Player's Cards";
+
+     public ROUND:string="Round";
+
 }

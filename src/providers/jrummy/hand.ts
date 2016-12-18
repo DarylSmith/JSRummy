@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Card} from './card';
-import {GameStatus,CardLocation} from './enums';
+import {GameStatus, CardLocation} from './enums';
 import * as _ from 'lodash';
 
 @Injectable()
@@ -57,7 +57,9 @@ export class Hand {
 
         //new concatenate the arrays and return
         this.Cards = cardsSorted;
+
     }
+
 
     private moveItemInArray(old_index: number, new_index: number, target: Card[]): Card[] {
         if (new_index >= target.length) {
@@ -69,6 +71,6 @@ export class Hand {
         target.splice(new_index, 0, target.splice(old_index, 1)[0]);
         return target;
     };
- 
+
 }
 

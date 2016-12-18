@@ -19,6 +19,7 @@ import { MyApp } from './app.component';
 import { DragulaModule, DragulaService } from "../../node_modules/ng2-dragula/ng2-dragula";
 import { HomePage } from '../pages/home/home';
 import { GamePage } from '../pages/game/game';
+import { SortHandPipe } from '../pipes/SortHandPipe';
 export var AppModule = (function () {
     function AppModule() {
     }
@@ -29,7 +30,8 @@ export var AppModule = (function () {
                 HomePage,
                 ModalComponent,
                 GameCompletedComponent,
-                GamePage
+                GamePage,
+                SortHandPipe
             ],
             imports: [
                 IonicModule.forRoot(MyApp), DragulaModule

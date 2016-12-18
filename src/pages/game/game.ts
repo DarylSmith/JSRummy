@@ -33,7 +33,7 @@ export class GamePage {
 
     public modalIsActive: boolean = false;
 
-    public gameCompletedResult: string = '';
+    public gameCompletedResult: string='';
 
     public modalBody: string;
 
@@ -152,6 +152,8 @@ export class GamePage {
 
 
 
+
+
     public playerCall() {
         console.log('player called');
         this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
@@ -192,8 +194,7 @@ export class GamePage {
     }
 
     private onGameCompleted(completedAction: string) {
-
-        if (completedAction == "playagain") {
+        if (completedAction === "play") {
             this.startNewGame('');
         }
         else {

@@ -10,6 +10,9 @@ export var JRummyText = (function () {
         this.DARYL_WON_ROUND = "Daryl wins the round!";
         this.PLAYER_WON_ROUND = "You win the round!";
         this.CONTINUE_TEXT = "Do you wish to continue?";
+        this.DARYL_CARDS = "Daryl's Cards";
+        this.PLAYER_CARDS = "Player's Cards";
+        this.ROUND = "Round";
     }
     return JRummyText;
 }());

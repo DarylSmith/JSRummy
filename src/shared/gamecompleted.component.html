@@ -2,23 +2,23 @@
     <div class="modal-container game-completed">
        
 
-        <div class="game-completed-header"><span>{{getCompletedGameText()}}</span>
+        <div class="game-completed-header"><span>{{ headerText }}</span>
             <ul>
                 <li><a href="javascript:void(0);" (click)="completeGame('play')">Play Again</a></li>
                 <li><a href="javascript:void(0);" (click)="completeGame('quit')">Quit</a></li>
             </ul>
         </div>
 
-        <h5>DARYL's Cards</h5>
+        <h5>{{ _jrummyText.DARYL_CARDS}} -  {{_jrummy.ComputerHand.getCurrentPoints()}} Points</h5>
         <div class="hand">
-            <div *ngFor="let card of _jrummy.ComputerHand.Cards;let i = index ">
+            <div *ngFor="let card of  _jrummy.ComputerHand.Cards;let i = index ">
                 <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>
             </div>
 
         </div>
 
 
-        <h5>Your Cards</h5>
+         <h5>{{ _jrummyText.PLAYER_CARDS}} - {{_jrummy.PlayerHand.getCurrentPoints()}}  Points</h5>
 
         <div class="hand">
             <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">

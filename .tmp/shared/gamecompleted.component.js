@@ -21,13 +21,24 @@ export var GameCompletedComponent = (function () {
         this.gameCompletedAction.emit(completedAction);
     };
     GameCompletedComponent.prototype.getCompletedGameText = function () {
-        return this.gameCompletedResult = this._jrummyText[this.gameCompletedResult];
+        if (this.gameCompletedResult !== undefined) {
+            this.headerText = this.gameCompletedResult = this._jrummyText[this.gameCompletedResult];
+            console.log(this.headerText);
+        }
+    };
+    GameCompletedComponent.prototype.sortByValue = function (hand) {
+        this._jrummy.ComputerHand.sortByValue();
+        console.log(this._jrummy.ComputerHand.Cards);
+        return this._jrummy.ComputerHand.Cards;
+    };
+    GameCompletedComponent.prototype.ngOnChanges = function (changes) {
+        this.getCompletedGameText();
     };
     GameCompletedComponent.prototype.ngOnInit = function () {
     };
     __decorate([
         Output(), 
-        __metadata('design:type', (typeof (_a = typeof EventEmitter !== 'undefined' && EventEmitter) === 'function' && _a) || Object)
+        __metadata('design:type', EventEmitter)
     ], GameCompletedComponent.prototype, "gameCompletedAction", void 0);
     __decorate([
         Input(), 
@@ -35,11 +46,10 @@ export var GameCompletedComponent = (function () {
     ], GameCompletedComponent.prototype, "gameCompletedResult", void 0);
     GameCompletedComponent = __decorate([
         Component({
-            selector: 'jrummy-completed',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\gamecompleted.component.html"*/'<div class="modal-window">\n\n    <div class="modal-container game-completed">\n\n       \n\n\n\n        <div class="game-completed-header"><span>{{getCompletedGameText()}}</span>\n\n            <ul>\n\n                <li><a href="javascript:void(0);" (click)="completeGame(\'play\')">Play Again</a></li>\n\n                <li><a href="javascript:void(0);" (click)="completeGame(\'quit\')">Quit</a></li>\n\n            </ul>\n\n        </div>\n\n\n\n        <h5>DARYL\'s Cards</h5>\n\n        <div class="hand">\n\n            <div *ngFor="let card of _jrummy.ComputerHand.Cards;let i = index ">\n\n                <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>\n\n            </div>\n\n\n\n        </div>\n\n\n\n\n\n        <h5>Your Cards</h5>\n\n\n\n        <div class="hand">\n\n            <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">\n\n                <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>\n\n            </div>\n\n\n\n        </div>\n\n\n\n    </div>\n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\gamecompleted.component.html"*/
+            selector: 'jrummy-completed',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\gamecompleted.component.html"*/'<div class="modal-window">\n\n    <div class="modal-container game-completed">\n\n       \n\n\n\n        <div class="game-completed-header"><span>{{ headerText }}</span>\n\n            <ul>\n\n                <li><a href="javascript:void(0);" (click)="completeGame(\'play\')">Play Again</a></li>\n\n                <li><a href="javascript:void(0);" (click)="completeGame(\'quit\')">Quit</a></li>\n\n            </ul>\n\n        </div>\n\n\n\n        <h5>{{ _jrummyText.DARYL_CARDS}} -  {{_jrummy.ComputerHand.getCurrentPoints()}} Points</h5>\n\n        <div class="hand">\n\n            <div *ngFor="let card of  _jrummy.ComputerHand.Cards;let i = index ">\n\n                <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>\n\n            </div>\n\n\n\n        </div>\n\n\n\n\n\n         <h5>{{ _jrummyText.PLAYER_CARDS}} - {{_jrummy.PlayerHand.getCurrentPoints()}}  Points</h5>\n\n\n\n        <div class="hand">\n\n            <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">\n\n                <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>\n\n            </div>\n\n\n\n        </div>\n\n\n\n    </div>\n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\gamecompleted.component.html"*/
         }), 
-        __metadata('design:paramtypes', [(typeof (_b = typeof JRummy !== 'undefined' && JRummy) === 'function' && _b) || Object, (typeof (_c = typeof JRummyText !== 'undefined' && JRummyText) === 'function' && _c) || Object])
+        __metadata('design:paramtypes', [JRummy, JRummyText])
     ], GameCompletedComponent);
     return GameCompletedComponent;
-    var _a, _b, _c;
 }());
 //# sourceMappingURL=gamecompleted.component.js.map

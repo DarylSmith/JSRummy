@@ -1,39 +1,58 @@
-import { Component, Input,Output,OnInit,EventEmitter} from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, SimpleChanges} from '@angular/core';
 import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../providers/jrummy/jrummy'
 import {JRummyText} from '../providers/jrummy-text'
 
 
 @Component({
-    selector: 'jrummy-completed', 
+    selector: 'jrummy-completed',
     templateUrl: 'gamecompleted.component.html'
-  
+
 })
 export class GameCompletedComponent implements OnInit {
 
-    @Output() gameCompletedAction:EventEmitter<string> = new EventEmitter<string> ();
+    @Output() public gameCompletedAction: EventEmitter<string> = new EventEmitter<string>();
 
-    @Input() gameCompletedResult:string;
- 
-    constructor(private _jrummy:JRummy, private _jrummyText:JRummyText) {
+    @Input() public gameCompletedResult: string;
+
+    private sortedPlayerHand: Hand;
+
+    public headerText: string;
+
+    constructor(private _jrummy: JRummy, private _jrummyText: JRummyText) {
 
     }
 
-    public completeGame(completedAction:string):void{
+    public completeGame(completedAction: string): void {
 
         console.log('modal closed event');
-        this. gameCompletedAction.emit(completedAction);
+        this.gameCompletedAction.emit(completedAction);
 
     }
 
-    public getCompletedGameText()
-    {
+    public getCompletedGameText() {
 
-        return this.gameCompletedResult = this._jrummyText[this.gameCompletedResult];
+        if (this.gameCompletedResult !== undefined) {
+            
+            this.headerText = this.gameCompletedResult = this._jrummyText[this.gameCompletedResult];
+            console.log(this.headerText);
+        }
     }
 
-    ngOnInit(){
+    public sortByValue(hand: Hand): Card[] {
+
+        this._jrummy.ComputerHand.sortByValue();
+        console.log(this._jrummy.ComputerHand.Cards);
+        return this._jrummy.ComputerHand.Cards;
 
     }
 
-    
+    ngOnChanges(changes: SimpleChanges) {
+        this.getCompletedGameText();
+    }
+
+    ngOnInit() {
+
+    }
+
+
 }
