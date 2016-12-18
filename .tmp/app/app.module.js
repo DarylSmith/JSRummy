@@ -32,7 +32,7 @@ export var AppModule = (function () {
                 GamePage
             ],
             imports: [
-                IonicModule.forRoot(MyApp)
+                IonicModule.forRoot(MyApp), DragulaModule
             ],
             bootstrap: [IonicApp],
             entryComponents: [

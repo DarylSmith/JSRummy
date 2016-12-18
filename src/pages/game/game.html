@@ -95,7 +95,7 @@
 </div>
 
 <div style="clear:both"></div>
-<div class="hand">
+<div class="hand"  [dragula]='"bag-one"' [dragulaModel]='_jrummy.PlayerHand.Cards'>
     <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">
         <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true);">
 
@@ -103,11 +103,6 @@
 
 
         </a>
-        <div class="player-card-move {{playerSortActive}} " [ngClass]="{'player-card-move-active':playerSortActive, 'player-card-move-inactive': !playerSortActive}">
-            <div class="player-move-inner" (click)="movePlayerCard(card.Suit, card.Name)" [hidden]="!playerSortActive || i=== selectedCardIndex|| i=== (selectedCardIndex-1)">
-                <img src="/images/add.png" /></div>
-
-        </div>
     </div>
 
 </div>
@@ -125,11 +120,6 @@
     <a href="javascript:void(0); " (click)="playerCall() ">knock</a>
 
 </div>
-
-<div *ngIf="computerCalls ">
-
-    DARYL Calls!
-</div>-->
 
 <jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive" ></jrummy-modal>
 <jrummy-completed  (gameCompletedAction)="onGameCompleted($event)" [gameCompletedResult]="gameCompletedResult" *ngIf="gameCompletedResult!==''" ></jrummy-completed>

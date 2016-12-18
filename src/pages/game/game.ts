@@ -6,6 +6,7 @@ import {GameCompletedComponent} from '../../shared/gamecompleted.component'
 import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../../providers/jrummy/jrummy'
 import {JRummyText} from '../../providers/jrummy-text'
 import {AnimationCallback} from '../../providers/animation-callback'
+import {DragulaModule, DragulaService} from "../../../node_modules/ng2-dragula/ng2-dragula"
 import * as $ from 'jquery';
 import * as _ from 'lodash';
 
@@ -47,7 +48,7 @@ export class GamePage {
     }
 
 
-    constructor(public navCtrl: NavController, private jrummy: JRummy, private jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback) {
+    constructor(public navCtrl: NavController, private jrummy: JRummy, private jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService:DragulaService) {
 
         this._jrummy = jrummy;
 

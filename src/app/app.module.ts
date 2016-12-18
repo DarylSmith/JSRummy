@@ -28,7 +28,7 @@ import { GamePage } from '../pages/game/game';
     GamePage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),DragulaModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
