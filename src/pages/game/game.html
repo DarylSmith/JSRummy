@@ -1,13 +1,12 @@
-
 <div class="game-header">
-    <div  class="header-elem btn-back">
+    <div class="header-elem btn-back" (click)="navCtrl.pop()">
         <img src="/images/btn_back.png" />
     </div>
     <div class="header-elem btn-play-again" (click)="startNewGame('Do you want to play again?')">
         <img src="/images/btn_play_again.png" />
     </div>
     <div class="header-elem-right game-round">
-        <span class="callout-beige header-callout">Round</span>
+        <span class="callout-beige header-callout">Game</span>
         <div class="game-round-block">
             <span class="callout-white"> {{_jrummy.CurrentGameNumber}}</span>
         </div>
@@ -56,7 +55,7 @@
             <div class="card-back"></div>
             <div class="card-back"></div>
             <div class="card-back"></div>
-            <div class="card-back"></div>  
+            <div class="card-back"></div>
             <div class="card-back"></div>
             <section class="card-container" [ngClass]="{'card-container-selected':showAnimation==='discard'}">
                 <div id="selected-card" [ngClass]="{'selected-card-selected':showAnimation==='discard'}">
@@ -65,7 +64,7 @@
                     <figure class="back  {{_jrummy.ComputerHand.Cards[0].Suit}} {{_jrummy.ComputerHand.Cards[0].FaceValueString}}"></figure>
                 </div>
             </section>
-        </div> 
+        </div>
         <div class="right-hand" [ngClass]="{'right-hand-selected':showAnimation==='discard'}">
             <img src="/images/righthand.png">
         </div>
@@ -74,11 +73,12 @@
 
     <div style="clear:both"></div>
     <div class="pile-container">
-        <div id="stock-pile" class="card"    (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
+        <div id="stock-pile" class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
 
-             <img src="/images/card_back.png"  class="move-card-item"   style="display:none" [ngClass]="{'give-to-player':showAnimation==='take-stock'}"  />
+            <img src="/images/card_back.png" class="move-card-item" style="display:none" [ngClass]="{'give-to-player':showAnimation==='take-stock'}"
+            />
 
-            <img src="/images/card_back.png"  />
+            <img src="/images/card_back.png" />
 
         </div>
 
@@ -86,7 +86,10 @@
         <div *ngIf="_jrummy.DiscardPile.Cards.length >0 ">
 
             <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">
-                <div   id="discard-pile"   class="card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"></div>
+
+ <!-- <div class="move-card-item card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"  style="display:none" [ngClass]="{'give-to-player':showAnimation==='take-discard'}"  ></div>-->
+
+                <div id="discard-pile" class="card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"></div>
             </a>
 
 
@@ -95,7 +98,7 @@
 </div>
 
 <div style="clear:both"></div>
-<div class="hand"  [dragula]='"bag-one"' [dragulaModel]='_jrummy.PlayerHand.Cards'>
+<div class="hand" [dragula]='"bag-one"' [dragulaModel]='_jrummy.PlayerHand.Cards'>
     <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">
         <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true);">
 
@@ -121,5 +124,5 @@
 
 </div>
 
-<jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive" ></jrummy-modal>
-<jrummy-completed  (gameCompletedAction)="onGameCompleted($event)" [gameCompletedResult]="gameCompletedResult" *ngIf="gameCompletedResult!==''" ></jrummy-completed>
+<jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive"></jrummy-modal>
+<jrummy-completed (gameCompletedAction)="onGameCompleted($event)" [gameCompletedResult]="gameCompletedResult" *ngIf="gameCompletedResult!==''"></jrummy-completed>

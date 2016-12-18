@@ -212,7 +212,7 @@ export class GamePage {
             if (index === handIndex.length - 1) {
                 clearInterval(this.leftHandInterval);
                 if (!moveIn) {
-                    this.showAnimation = 'take-stock';
+                    this.showAnimation = this._jrummy.CurrentGame.ComputerSelectedDiscard?'take-discard':'take-stock';
                 }
                 else {
                     this.showAnimation = "discard";

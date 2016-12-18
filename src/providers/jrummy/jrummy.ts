@@ -11,6 +11,7 @@ export class Game {
     ComputerPoints: number;
     Winner: string;
     CurrentStatus: GameStatus;
+    ComputerSelectedDiscard:boolean;
 }
 
 
@@ -396,9 +397,12 @@ export class JRummy {
             console.log('Discard card was rejected.  Move to pile');
 
             //if the card is rejected, try again with the regular pile
+            this.CurrentGame.ComputerSelectedDiscard=false;
             this.cardRejectedByComputer(this.Pile);
         }
         else {
+
+            this.CurrentGame.ComputerSelectedDiscard=true;
 
             console.log('Discard card was accepted. continue');
         }

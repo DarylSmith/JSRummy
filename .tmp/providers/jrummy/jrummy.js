@@ -296,9 +296,11 @@ export var JRummy = (function () {
         if (this.cardRejectedByComputer(this.DiscardPile) || this.CurrentGame.CurrentStatus !== GameStatus.FirstTurnComputerPickup) {
             console.log('Discard card was rejected.  Move to pile');
             //if the card is rejected, try again with the regular pile
+            this.CurrentGame.ComputerSelectedDiscard = false;
             this.cardRejectedByComputer(this.Pile);
         }
         else {
+            this.CurrentGame.ComputerSelectedDiscard = true;
             console.log('Discard card was accepted. continue');
         }
         //increment the round number and hand control back to the player
