@@ -132,4 +132,4 @@
 </div>-->
 
 <jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive" ></jrummy-modal>
-<jrummy-completed  (modalClosed)="onModalClosed($event)"></jrummy-completed>
+<jrummy-completed  (gameCompletedAction)="onGameCompleted($event)" [gameCompletedResult]="gameCompletedResult" *ngIf="gameCompletedResult!==''" ></jrummy-completed>

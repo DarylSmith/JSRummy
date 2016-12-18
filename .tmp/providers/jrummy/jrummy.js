@@ -272,13 +272,14 @@ export var JRummy = (function () {
     JRummy.prototype.getStatusOfGame = function () {
         var status = "";
         if (this.ComputerPoints >= 100) {
-            status = "computerwon";
+            status = "DARYL_WON_GAME";
         }
         else if (this.PlayerPoints >= 100) {
-            status = "playerwon";
+            status = "PLAYER_WON_GAME";
         }
         else {
             this.CurrentGameNumber++;
+            status = this.CurrentGame.CurrentStatus === GameStatus.ComputerWon ? "COMPUTER_WON_ROUND" : "PLAYER_WON_ROUND";
         }
         return status;
     };

@@ -12,9 +12,14 @@ export class JRummyText {
 
     public GAME_TITLE:string = "Beat Daryl @ Gin Rummy";
 
-    public DARYL_WON:string="Game Over! Daryl has won!";
+    public DARYL_WON_GAME:string="Daryl wins the game!";
 
-    public PLAYER_WON:string="Game Over! You have won!";
+    public PLAYER_WON_GAME:string="You win the game!";
+
+    public DARYL_WON_ROUND:string="Daryl wins the round!";
+
+    public PLAYER_WON_ROUND:string="You win the round!";
+
 
     public CONTINUE_TEXT:string ="Do you wish to continue?";
 

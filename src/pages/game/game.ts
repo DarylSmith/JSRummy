@@ -32,6 +32,8 @@ export class GamePage {
 
     public modalIsActive: boolean = false;
 
+    public gameCompletedResult: string = '';
+
     public modalBody: string;
 
     public leftHandLocation: number = 0;
@@ -77,10 +79,6 @@ export class GamePage {
                 self.moveLeftHand(true);
 
             });
-
-
-            
-
     }
 
     public pickupPlayerCard(suit: string, name: string, isFromDiscardPile: boolean) {
@@ -168,25 +166,15 @@ export class GamePage {
 
     private scoreGameAndPlayAgain(): void {
 
-        let result: string = this._jrummy.compareHands();
-
-        if (result === "computerwon") {
-
-            this.displayModal(this.jrummyText.DARYL_WON);
-        }
-        else if (result === "playerwon") {
-
-            this.displayModal(this.jrummyText.PLAYER_WON);
-        }
-        else {
-
-            let winningPlaterStr = this._jrummy.CurrentGame.CurrentStatus == GameStatus.ComputerWon ? "Computer Won" : "Player Won";
-
-            this.startNewGame(winningPlaterStr + this.jrummyText.CONTINUE_TEXT);
-        }
+        this.gameCompletedResult = this._jrummy.compareHands();
     }
 
     private startNewGame(message: string): void {
+        //if it's a new round start, otherwise reset
+        if (this.gameCompletedResult === "PLAYER_WON_GAME" || this.gameCompletedResult === "PLAYER_WON_GAME") {
+            this._jrummy.reset();
+        }
+        this.gameCompletedResult = "";
         this.currentGame = new Game();
         this._jrummy.startGame(this.currentGame);
     }
@@ -199,6 +187,17 @@ export class GamePage {
 
     private onModalClosed(msg: string): void {
         this.modalIsActive = false
+
+    }
+
+    private onGameCompleted(completedAction: string) {
+
+        if (completedAction == "playagain") {
+            this.startNewGame('');
+        }
+        else {
+            this.navCtrl.pop();
+        }
 
     }
 

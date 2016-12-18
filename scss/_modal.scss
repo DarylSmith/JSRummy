@@ -37,10 +37,16 @@
 
 .game-completed-header
 {
-    span, a{
+    span{
 
         font-size:1.5em;
+      
+    }
+
+    a{
+        font-size:1em;
         color:#ffffff;
+        text-decoration: none;
     }
 
     li{

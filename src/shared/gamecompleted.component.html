@@ -1,14 +1,11 @@
-<div class="modal-window" (click)="closeModal();">
+<div class="modal-window">
     <div class="modal-container game-completed">
-        <a href="javascript:void(0);" (click)="closeModal();">
-            <div class="modal-close"><span></span>
-            </div>
-        </a>
+       
 
-        <div class="game-completed-header"><span>DARYL Wins!</span>
+        <div class="game-completed-header"><span>{{getCompletedGameText()}}</span>
             <ul>
-                <li><a href="javascript:void(0);">Play Again</a></li>
-                <li>Quit</li>
+                <li><a href="javascript:void(0);" (click)="completeGame('play')">Play Again</a></li>
+                <li><a href="javascript:void(0);" (click)="completeGame('quit')">Quit</a></li>
             </ul>
         </div>
 

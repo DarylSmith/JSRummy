@@ -210,7 +210,7 @@ export class JRummy {
         this.reset();
     }
 
-    private reset() {
+    public reset() {
 
         this.CurrentDeck = new Deck();
         this.CurrentTurn = 0;
@@ -220,7 +220,6 @@ export class JRummy {
     }
 
     startGame(game: Game) {
-
         //set game config values
         this.CurrentGame = game;
         this.CurrentGame.CurrentStatus = GameStatus.GameStart;
@@ -367,13 +366,14 @@ export class JRummy {
 
         let status:string ="";
         if (this.ComputerPoints >= 100) {
-            status = "computerwon";
+            status = "DARYL_WON_GAME";
         }
         else if (this.PlayerPoints >= 100) {
-           status="playerwon";
+           status="PLAYER_WON_GAME";
         }
         else {
             this.CurrentGameNumber++;
+            status = this.CurrentGame.CurrentStatus === GameStatus.ComputerWon?"COMPUTER_WON_ROUND" :"PLAYER_WON_ROUND";
         }
         return status
     }

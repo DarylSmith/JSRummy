@@ -552,9 +552,13 @@ html {
   .game-completed .hand {
     bottom: 0px !important; }
 
-.game-completed-header span, .game-completed-header a {
-  font-size: 1.5em;
-  color: #ffffff; }
+.game-completed-header span {
+  font-size: 1.5em; }
+
+.game-completed-header a {
+  font-size: 1em;
+  color: #ffffff;
+  text-decoration: none; }
 
 .game-completed-header li {
   display: inline-block;
@@ -589,3 +593,25 @@ html {
   position: relative;
   top: 33px;
   left: 36px; }
+
+.left-hand {
+  background-image: url("/images/left-hand-sprite.png") !important;
+  width: 39px !important;
+  height: 50px;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  position: relative;
+  z-index: 9000;
+  float: left; }
+
+.right-hand {
+  float: right;
+  position: relative;
+  bottom: 8px;
+  right: 58px; }
+
+.right-hand-selected {
+  -webkit-animation: hand-move 1s 1;
+  -moz-animation: hand-move 1s 1;
+  animation: hand-move 1s 1; }

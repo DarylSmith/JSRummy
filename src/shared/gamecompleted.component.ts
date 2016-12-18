@@ -10,20 +10,28 @@ import {JRummyText} from '../providers/jrummy-text'
 })
 export class GameCompletedComponent implements OnInit {
 
-    @Output() modalClosed:EventEmitter<string> = new EventEmitter<string> ();
+    @Output() gameCompletedAction:EventEmitter<string> = new EventEmitter<string> ();
 
+    @Input() gameCompletedResult:string;
+ 
     constructor(private _jrummy:JRummy, private _jrummyText:JRummyText) {
 
     }
 
-    private closeModal():void{
+    public completeGame(completedAction:string):void{
 
         console.log('modal closed event');
-        this.modalClosed.emit('closed');
+        this. gameCompletedAction.emit(completedAction);
 
     }
-    ngOnInit(){
 
+    public getCompletedGameText()
+    {
+
+        return this.gameCompletedResult = this._jrummyText[this.gameCompletedResult];
+    }
+
+    ngOnInit(){
 
     }
 
