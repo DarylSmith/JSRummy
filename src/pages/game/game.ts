@@ -17,8 +17,6 @@ import * as _ from 'lodash';
 export class GamePage {
     pageTitle: string = 'Beat Daryl @ Gin Rummy';
 
-    private _jrummy: JRummy = new JRummy();
-
     public currentGame: Game;
 
     public computerCalls: boolean;
@@ -48,9 +46,7 @@ export class GamePage {
     }
 
 
-    constructor(public navCtrl: NavController, private jrummy: JRummy, private jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService:DragulaService) {
-
-        this._jrummy = jrummy;
+    constructor(public navCtrl: NavController, public _jrummy: JRummy, public jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService:DragulaService) {
 
         this.currentGame = new Game();
         this._jrummy.startGame(this.currentGame);
@@ -172,7 +168,7 @@ export class GamePage {
         this.gameCompletedResult = this._jrummy.compareHands();
     }
 
-    private startNewGame(message: string): void {
+    public startNewGame(message: string): void {
         //if it's a new round start, otherwise reset
         if (this.gameCompletedResult === "PLAYER_WON_GAME" || this.gameCompletedResult === "PLAYER_WON_GAME") {
             this._jrummy.reset();

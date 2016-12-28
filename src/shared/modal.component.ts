@@ -15,7 +15,7 @@ export class ModalComponent implements OnInit {
 
     }
 
-    private closeModal():void{
+    public closeModal():void{
 
         console.log('modal closed event');
         this.modalClosed.emit('closed');

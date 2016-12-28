@@ -18,7 +18,7 @@ export class GameCompletedComponent implements OnInit {
 
     public headerText: string;
 
-    constructor(private _jrummy: JRummy, private _jrummyText: JRummyText) {
+    constructor(public _jrummy: JRummy, public _jrummyText: JRummyText) {
 
     }
 
