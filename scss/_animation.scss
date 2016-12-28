@@ -64,24 +64,57 @@
 }
 
 
+
+
+
 @keyframes give-card-to-player{
 
+ $increase: pi() / 100;
+ $x:0;
+ $y:0;
+ $i:0;
+ $counter:0;
+ $percent:0;
+ $cardHeight:75;
+ $cardWidth:54;
+ $fixed:.0001;
+
+  @while $percent < 65
+  {
+       @if $percent== 0 {
+         -webkit-transform:  rotate(0deg);
+    transform: rotate(0deg);
+
+       }
+      $counter:$counter + $increase;
+      $y:sin($counter);
+      $cardHeight: $cardHeight + -.38;
+     $cardWidth:$cardWidth  + -.27;
+      $x:$i*100;
+      $percent: floor($x * 5);
+         #{$percent * 1%} {
+            bottom: #{-40 + ($x*2.8)}px ;
+            right:#{($y*300) + 280}px;
+            height:#{$cardHeight }px;
+             width:#{ $cardHeight}px;
+                
+        } 
+
+        $i:$i + 0.002;
+      
+  }
+  100%{
+
+     bottom: 15px;
+        right: 160px;
+        width: 2px;
+        height: 2px;
+    -webkit-transform:  rotate(3600deg);
+    transform: rotate(3600deg);
 
 
-    0%{
-      bottom:-40px ;
-        left:0px;
-     height:75px;
-        width:54px;
-     -webkit-transform: rotate(0deg);
-     transform: rotate(0deg);
-    }
-    100%{
-        height:1px ;
-        width:1px;
-        bottom:20px; 
-        left:166px;
-         -webkit-transform: rotate(3600deg);
-        transform: rotate(3600deg);
-    }
+
+  }
+
 }
+

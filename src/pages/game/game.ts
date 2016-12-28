@@ -76,6 +76,7 @@ export class GamePage {
                 self.moveLeftHand(true);
 
             });
+            
     }
 
     public pickupPlayerCard(suit: string, name: string, isFromDiscardPile: boolean) {
