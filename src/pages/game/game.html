@@ -75,8 +75,7 @@
     <div class="pile-container">
         <div id="stock-pile" class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
 
-            <img src="/images/card_back.png" class="move-card-item" style="display:none" [ngClass]="{'give-to-player':showAnimation==='take-stock'}"
-            />
+            <img src="/images/card_back.png" class="move-card-item" style="display:none" [ngClass]="getPlayerAnimation('take-stock')"/>
 
             <img src="/images/card_back.png" />
 

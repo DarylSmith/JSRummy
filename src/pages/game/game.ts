@@ -27,11 +27,13 @@ export class GamePage {
 
     public selectedCardIndex: number;
 
+    pubilc keyFrameAnsimation:string;
+
     public playerSortActive: boolean = false;
 
     public modalIsActive: boolean = false;
 
-    public gameCompletedResult: string='';
+    public gameCompletedResult: string = '';
 
     public modalBody: string;
 
@@ -46,7 +48,7 @@ export class GamePage {
     }
 
 
-    constructor(public navCtrl: NavController, public _jrummy: JRummy, public jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService:DragulaService) {
+    constructor(public navCtrl: NavController, public _jrummy: JRummy, public jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService: DragulaService) {
 
         this.currentGame = new Game();
         this._jrummy.startGame(this.currentGame);
@@ -76,7 +78,7 @@ export class GamePage {
                 self.moveLeftHand(true);
 
             });
-            
+
     }
 
     public pickupPlayerCard(suit: string, name: string, isFromDiscardPile: boolean) {
@@ -100,6 +102,17 @@ export class GamePage {
     public allowComputerFirstTurn() {
         this.currentGame.CurrentStatus = GameStatus.FirstTurnComputerPickup;
         this.computerCalls = this._jrummy.computerTurn();
+
+    }
+
+    public setPlayerAnimation(animationClass: string): string {
+        let className: string = '';
+        if (animationClass === this.showAnimation) {
+            let vals: number[] = [0, 4, 0, 3, 0, 2, 0, 1, 0, 4];
+            let version: number = vals[Math.floor(Math.random() * vals.length)];
+            className = `give-to-player give-to-player-${version}`
+        }
+        return className;
 
     }
 
@@ -210,7 +223,7 @@ export class GamePage {
             if (index === handIndex.length - 1) {
                 clearInterval(this.leftHandInterval);
                 if (!moveIn) {
-                    this.showAnimation = this._jrummy.CurrentGame.ComputerSelectedDiscard?'take-discard':'take-stock';
+                    this.showAnimation = this._jrummy.CurrentGame.ComputerSelectedDiscard ? 'take-discard' : 'take-stock';
                 }
                 else {
                     this.showAnimation = "discard";
