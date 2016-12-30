@@ -8,7 +8,7 @@
     <div class="header-elem-right game-round">
         <span class="callout-beige header-callout">{{jrummyText.ROUND}}</span>
         <div class="game-round-block">
-            <span class="callout-white"> {{_jrummy.CurrentGameNumber}}</span>
+            <span class="callout-white callout-white-centered"> {{_jrummy.CurrentGameNumber}}</span>
         </div>
     </div>
 
@@ -40,9 +40,13 @@
 
         </div>
 
-        <div *ngIf="_jrummy.PlayerHand.getCurrentPoints()<=10" (click)="playerCall()" class="generic-btn-container">
+        <div *ngIf="_jrummy.PlayerHand.getCurrentPoints()<=30" (click)="playerCall()" class="generic-btn-container">
             Call
         </div>
+        
+       <!-- <div *ngIf="_jrummy.CurrentGame.CurrentStatus===8"  (click)="allowComputerFirstTurn() " class="generic-btn-container">
+           Pass
+        </div>-->
 
     </div>
 
@@ -117,11 +121,6 @@
 </div>
 
 
-<div *ngIf="_jrummy.PlayerHand.getCurrentPoints() <=10 ">
-
-    <a href="javascript:void(0); " (click)="playerCall() ">knock</a>
-
-</div>
 
 <jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive"></jrummy-modal>
 <jrummy-completed (gameCompletedAction)="onGameCompleted($event)" [gameCompletedResult]="gameCompletedResult" *ngIf="gameCompletedResult!==''"></jrummy-completed>

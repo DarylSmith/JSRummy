@@ -11,8 +11,8 @@
 
         <h5>{{ _jrummyText.DARYL_CARDS}} -  {{_jrummy.ComputerHand.getCurrentPoints()}} Points</h5>
         <div class="hand">
-            <div *ngFor="let card of  _jrummy.ComputerHand.Cards;let i = index ">
-                <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>
+            <div *ngFor="let card of  _jrummy.ComputerHand|SortHand;let i = index ">
+                <div class="card {{card.Suit}} {{card.FaceValueString}} player-card-squeezed"></div>
             </div>
 
         </div>
@@ -21,8 +21,8 @@
          <h5>{{ _jrummyText.PLAYER_CARDS}} - {{_jrummy.PlayerHand.getCurrentPoints()}}  Points</h5>
 
         <div class="hand">
-            <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">
-                <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>
+            <div *ngFor="let card of _jrummy.PlayerHand|SortHand;let i = index ">
+                <div class="card {{card.Suit}} {{card.FaceValueString}} player-card-squeezed"></div>
             </div>
 
         </div>
