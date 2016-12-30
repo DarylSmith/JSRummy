@@ -86,12 +86,15 @@ margin-right:-5px !important;
            
 }
 
-.give-to-player{
+@for $g from 0 through 4
+{
+.give-to-player-#{$g}{
 
       float:left;
       position:absolute;
       display:block !important;
-           @include  keyframe-call(give-card-to-player);
+           @include  keyframe-call(give-card-to-player-#{$g});
+      }
 }
 
 

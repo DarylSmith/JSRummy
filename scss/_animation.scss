@@ -64,10 +64,31 @@
 }
 
 
+@keyframes give-card-to-player-0{
 
 
 
-@keyframes give-card-to-player{
+    0%{
+      bottom:-40px ;
+        left:0px;
+     height:75px;
+        width:54px;
+     -webkit-transform: rotate(0deg);
+     transform: rotate(0deg);
+    }
+    100%{
+        height:1px ;
+        width:1px;
+        bottom:20px; 
+        left:166px;
+         -webkit-transform: rotate(3600deg);
+        transform: rotate(3600deg);
+    }
+}
+
+@for $g from 1 through 4
+{
+@keyframes give-card-to-player-#{$g}{
 
  $increase: pi() / 100;
  $x:0;
@@ -94,7 +115,7 @@
       $percent: floor($x * 5);
          #{$percent * 1%} {
             bottom: #{-40 + ($x*2.8)}px ;
-            right:#{($y*300) + 280}px;
+            right:#{($y*$g) + 280}px;
             height:#{$cardHeight }px;
              width:#{ $cardHeight}px;
                 
@@ -112,7 +133,7 @@
     -webkit-transform:  rotate(3600deg);
     transform: rotate(3600deg);
 
-
+  }
 
   }
 

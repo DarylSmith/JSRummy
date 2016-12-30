@@ -27,7 +27,7 @@ export class GamePage {
 
     public selectedCardIndex: number;
 
-    pubilc keyFrameAnsimation:string;
+    public keyFrameAnimation:string;
 
     public playerSortActive: boolean = false;
 
@@ -105,17 +105,30 @@ export class GamePage {
 
     }
 
-    public setPlayerAnimation(animationClass: string): string {
+    public setPlayerAnimation(): void {
         let className: string = '';
-        if (animationClass === this.showAnimation) {
             let vals: number[] = [0, 4, 0, 3, 0, 2, 0, 1, 0, 4];
             let version: number = vals[Math.floor(Math.random() * vals.length)];
-            className = `give-to-player give-to-player-${version}`
+            this.keyFrameAnimation = `give-to-player-${version}`
+    }
+
+       public getPlayerAnimation(animationClass: string): string {
+        let className: string = '';
+        if (animationClass === this.showAnimation) {
+           
+           className = this.keyFrameAnimation;
         }
         return className;
 
     }
 
+
+       public getPlayer(): void {
+        let className: string = '';
+            let vals: number[] = [0, 4, 0, 3, 0, 2, 0, 1, 0, 4];
+            let version: number = vals[Math.floor(Math.random() * vals.length)];
+            this.keyFrameAnimation = `give-to-player give-to-player-${version}`
+    }
     public discardPlayerCard(suit: string, name: string) {
 
         if (this._jrummy.gameIsDraw()) {
@@ -223,6 +236,7 @@ export class GamePage {
             if (index === handIndex.length - 1) {
                 clearInterval(this.leftHandInterval);
                 if (!moveIn) {
+                    this.setPlayerAnimation();
                     this.showAnimation = this._jrummy.CurrentGame.ComputerSelectedDiscard ? 'take-discard' : 'take-stock';
                 }
                 else {
