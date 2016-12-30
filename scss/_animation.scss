@@ -109,8 +109,8 @@
        }
         @if $percent== 50 {
             
-            height:#{$cardHeight * (10-$g) }px;
-             width:#{ $cardHeight * (10-$g) }px;
+            height:#{$cardHeight * (20-$g) }px;
+             width:#{ $cardHeight * (20-$g) }px;
        }
       $counter:$counter + $increase;
       $y:sin($counter);

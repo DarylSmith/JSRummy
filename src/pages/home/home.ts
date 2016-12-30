@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 import {GamePage} from '../game/game'
+import {RulesPage} from '../rules/rules'
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
 
-  public pageTitle: string = 'Dashboard';
   constructor(public navCtrl: NavController) {
     
   }
@@ -18,5 +18,12 @@ export class HomePage {
 
     this.navCtrl.push(GamePage);
   }
+
+    public getRules():void
+  {
+
+    this.navCtrl.push(RulesPage);
+  }
+
 
 }

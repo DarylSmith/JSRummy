@@ -17,7 +17,7 @@ import {DragulaModule, DragulaService} from "../../node_modules/ng2-dragula/ng2-
 //pages
 import { HomePage } from '../pages/home/home';
 import { GamePage } from '../pages/game/game';
-
+import { RulesPage } from '../pages/rules/rules';
 //pipes 
 import {SortHandPipe} from '../pipes/SortHandPipe';
 
@@ -29,6 +29,7 @@ import {SortHandPipe} from '../pipes/SortHandPipe';
     ModalComponent,
     GameCompletedComponent,
     GamePage,
+    RulesPage,
     SortHandPipe
   ],
   imports: [
@@ -38,7 +39,8 @@ import {SortHandPipe} from '../pipes/SortHandPipe';
   entryComponents: [
     MyApp,
     HomePage,
-    GamePage
+    GamePage,
+    RulesPage
   ],
   providers: [JRummy,AnimationCallback,JRummyText,Utilities,DragulaModule, DragulaService]
 })

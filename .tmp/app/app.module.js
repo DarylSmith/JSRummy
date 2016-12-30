@@ -19,6 +19,7 @@ import { MyApp } from './app.component';
 import { DragulaModule, DragulaService } from "../../node_modules/ng2-dragula/ng2-dragula";
 import { HomePage } from '../pages/home/home';
 import { GamePage } from '../pages/game/game';
+import { RulesPage } from '../pages/rules/rules';
 import { SortHandPipe } from '../pipes/SortHandPipe';
 export var AppModule = (function () {
     function AppModule() {
@@ -31,6 +32,7 @@ export var AppModule = (function () {
                 ModalComponent,
                 GameCompletedComponent,
                 GamePage,
+                RulesPage,
                 SortHandPipe
             ],
             imports: [
@@ -40,7 +42,8 @@ export var AppModule = (function () {
             entryComponents: [
                 MyApp,
                 HomePage,
-                GamePage
+                GamePage,
+                RulesPage
             ],
             providers: [JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService]
         }), 
