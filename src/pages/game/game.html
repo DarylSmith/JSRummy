@@ -44,9 +44,9 @@
             Call
         </div>
         
-       <!-- <div *ngIf="_jrummy.CurrentGame.CurrentStatus===8"  (click)="allowComputerFirstTurn() " class="generic-btn-container">
+        <div *ngIf="isFirstPickup()"  (click)="allowComputerFirstTurn() " class="generic-btn-container">
            Pass
-        </div>-->
+        </div>
 
     </div>
 

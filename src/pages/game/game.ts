@@ -81,9 +81,14 @@ export class GamePage {
 
     }
 
+    public isFirstPickup():boolean
+    {
+        return this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup;
+    }
+
     public pickupPlayerCard(suit: string, name: string, isFromDiscardPile: boolean) {
         //special case for first round (must choose from discard pile in first round)
-        if (this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup && !isFromDiscardPile) {
+        if (this.isFirstPickup() && !isFromDiscardPile) {
             this.displayModal(this.jrummyText.PICK_FIRST_CARD);
 
         }
@@ -100,8 +105,10 @@ export class GamePage {
 
     //allows the computer to go first if this is first draw, and player doesn;t want discard
     public allowComputerFirstTurn() {
+        this.setPlayerAnimation();
         this.currentGame.CurrentStatus = GameStatus.FirstTurnComputerPickup;
         this.computerCalls = this._jrummy.computerTurn();
+        this.moveLeftHand(false);
 
     }
 
