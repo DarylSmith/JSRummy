@@ -107,7 +107,7 @@ export class GamePage {
 
     public setPlayerAnimation(): void {
         let className: string = '';
-            let vals: number[] = [0, 4, 0, 3, 0, 2, 0, 1, 0, 4];
+            let vals: number[] = [0, 4, 2, 3, 0, 2, 0, 1, 0, 4];
             let version: number = vals[Math.floor(Math.random() * vals.length)];
             this.keyFrameAnimation = `give-to-player-${version}`
     }
