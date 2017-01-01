@@ -12,6 +12,7 @@ export var SortHandPipe = (function () {
     function SortHandPipe() {
     }
     SortHandPipe.prototype.transform = function (hand) {
+        console.log(hand);
         hand.sortByValue();
         return hand.Cards;
     };

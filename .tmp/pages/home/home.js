@@ -10,17 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GamePage } from '../game/game';
+import { RulesPage } from '../rules/rules';
 export var HomePage = (function () {
     function HomePage(navCtrl) {
         this.navCtrl = navCtrl;
-        this.pageTitle = 'Dashboard';
     }
     HomePage.prototype.playGame = function () {
         this.navCtrl.push(GamePage);
     };
+    HomePage.prototype.getRules = function () {
+        this.navCtrl.push(RulesPage);
+    };
     HomePage = __decorate([
         Component({
-            selector: 'page-home',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\home\home.html"*/'<div class="panel panel-primary">\n\n    <div class="panel-heading">\n\n        {{pageTitle}}\n\n    </div>\n\n    <div class="panel-body">\n\n        <div class="title"> </div>\n\n        <div class="options">\n\n            <ul class="btn-options">\n\n                <li class="rules">\n\n                    <img src="/images/rules_bt_lg.jpg" />\n\n                </li>\n\n                <li class="play">\n\n                    <a href="javascript:void(0);" (click)="playGame();">\n\n                      <img src="/images/play_bt_lg.jpg" alt="play"/>\n\n                      </a>\n\n                </li>\n\n                <li class="hc">\n\n                    <img src="/images/hs_bt_lg.jpg" />\n\n                </li>\n\n\n\n            </ul>\n\n        </div>\n\n    </div>\n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\home\home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\home\home.html"*/'<div class="panel panel-primary">\n\n\n\n    <div class="panel-body">\n\n        <div class="title"> </div>\n\n        <div class="options">\n\n            <ul class="btn-options">\n\n                <li class="rules">\n\n                    <a href="javascript:void(0);" (click)="getRules();">\n\n                        <img src="http://lifespeak.s3.amazonaws.com/Images/rules_bt_lg.jpg" />\n\n                    </a>\n\n                </li>\n\n                <li class="play">\n\n                    <a href="javascript:void(0);" (click)="playGame();">\n\n                        <img src="http://lifespeak.s3.amazonaws.com/Images/play_bt_lg.jpg" alt="play" />\n\n                    </a>\n\n                </li>\n\n                <li class="hc">\n\n                    <img src="http://lifespeak.s3.amazonaws.com/Images/hs_bt_lg.jpg" />\n\n                </li>\n\n\n\n            </ul>\n\n        </div>\n\n    </div>\n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\home\home.html"*/
         }), 
         __metadata('design:paramtypes', [NavController])
     ], HomePage);

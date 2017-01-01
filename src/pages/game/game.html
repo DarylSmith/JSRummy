@@ -1,9 +1,9 @@
 <div class="game-header">
     <div class="header-elem btn-back" (click)="navCtrl.pop()">
-        <img src="/images/btn_back.png" />
+        <img src="http://lifespeak.s3.amazonaws.com/Images/btn_back.png" />
     </div>
     <div class="header-elem btn-play-again" (click)="startNewGame('Do you want to play again?')">
-        <img src="/images/btn_play_again.png" />
+        <img src="http://lifespeak.s3.amazonaws.com/Images/btn_play_again.png" />
     </div>
     <div class="header-elem-right game-round">
         <span class="callout-beige header-callout">{{jrummyText.ROUND}}</span>
@@ -70,7 +70,7 @@
             </section>
         </div>
         <div class="right-hand" [ngClass]="{'right-hand-selected':showAnimation==='discard'}">
-            <img src="/images/righthand.png">
+            <img src="http://lifespeak.s3.amazonaws.com/Images/righthand.png">
         </div>
 
     </div>
@@ -79,9 +79,9 @@
     <div class="pile-container">
         <div id="stock-pile" class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
 
-            <img src="/images/card_back.png" class="move-card-item" style="display:none" [ngClass]="getPlayerAnimation('take-stock')" />
+            <img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" class="move-card-item" style="display:none" [ngClass]="getPlayerAnimation('take-stock')" />
 
-            <img src="/images/card_back.png" />
+            <img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" />
 
         </div>
 

@@ -202,7 +202,7 @@ You can use the following preferences in your `config.xml`:
 
 ```xml
 <platform name="browser">
-    <preference name="SplashScreen" value="/images/browser/splashscreen.jpg" /> <!-- defaults to "/img/logo.png" -->
+    <preference name="SplashScreen" value="http://lifespeak.s3.amazonaws.com/Images/browser/splashscreen.jpg" /> <!-- defaults to "/img/logo.png" -->
     <preference name="SplashScreenDelay" value="3000" /> <!-- defaults to "3000" -->
     <preference name="SplashScreenBackgroundColor" value="green" /> <!-- defaults to "#464646" -->
     <preference name="ShowSplashScreen" value="false" /> <!-- defaults to "true" -->

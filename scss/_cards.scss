@@ -1,6 +1,6 @@
 
 @mixin card-front{
-    background-image:url('/images/card_faces.png');
+    background-image:url('http://lifespeak.s3.amazonaws.com/Images/card_faces.png');
     background-repeat:no-repeat;
     height:75px;
     width:54px;
@@ -79,7 +79,7 @@ margin-right:-10px !important;
 
 .card-back {
 
-      background-image:url('/images/card_back.png');
+      background-image:url('http://lifespeak.s3.amazonaws.com/Images/card_back.png');
       background-repeat:no-repeat;
       -webkit-box-shadow: 1px 1px 14px 0px #000;
        -moz-box-shadow: 1px 1px 14px 0px #000;
@@ -107,7 +107,7 @@ margin-right:-10px !important;
 
 .left-hand {
 
-             background-image:url('/images/left-hand-sprite.png') !important;
+             background-image:url('http://lifespeak.s3.amazonaws.com/Images/left-hand-sprite.png') !important;
              width:39px !important;
              height:50px;
                -webkit-box-shadow: none !important;
@@ -153,7 +153,7 @@ margin-right:-10px !important;
     left: 105px;
 
     .front {
-    background-image:url('/images/card_back.png'); 
+    background-image:url('http://lifespeak.s3.amazonaws.com/Images/card_back.png'); 
 }
  .back {
 @include card-front;
