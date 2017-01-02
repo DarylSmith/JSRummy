@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
-
+import {PlayingCardComponent} from '../../shared/playingcard.component'
 import {ModalComponent} from '../../shared/modal.component'
 import {GameCompletedComponent} from '../../shared/gamecompleted.component'
 import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../../providers/jrummy/jrummy'

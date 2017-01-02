@@ -12,6 +12,7 @@ import {Utilities} from '../providers/utilities';
 import {ModalComponent} from '../shared/modal.component';
 import {GameCompletedComponent} from '../shared/gamecompleted.component';
 import { MyApp } from './app.component';
+import {PlayingCardComponent} from '../shared/playingcard.component';
 import {DragulaModule, DragulaService} from "../../node_modules/ng2-dragula/ng2-dragula";
 
 //pages
@@ -28,6 +29,7 @@ import {SortHandPipe} from '../pipes/SortHandPipe';
     HomePage,
     ModalComponent,
     GameCompletedComponent,
+    PlayingCardComponent,
     GamePage,
     RulesPage,
     SortHandPipe
@@ -40,8 +42,9 @@ import {SortHandPipe} from '../pipes/SortHandPipe';
     MyApp,
     HomePage,
     GamePage,
-    RulesPage
+    RulesPage,
+    PlayingCardComponent
   ],
-  providers: [JRummy,AnimationCallback,JRummyText,Utilities,DragulaModule, DragulaService]
+  providers: [JRummy,AnimationCallback,JRummyText,Utilities,DragulaModule, DragulaService,PlayingCardComponent]
 })
 export class AppModule {}

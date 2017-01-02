@@ -1,3 +1,4 @@
+@charset "UTF-8";
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section, summary {
   display: block; }
 
@@ -1727,15 +1728,40 @@ html {
     bottom: 66px !important; } }
 
 .card {
-  background-image: url("http://lifespeak.s3.amazonaws.com/Images/card_faces.png");
+  position: flex;
   background-repeat: no-repeat;
+  background-color: #ffffff;
   height: 75px;
   width: 54px;
-  -webkit-box-shadow: 1px 4px 0px 0px #000;
-  -moz-box-shadow: 1px 3px 0px 0px  #000;
-  box-shadow: 1px 3px 0px 0px  #000;
+  border: 1px solid #000;
+  box-shadow: 1px 4px 0px 0px #000;
+  -moz-box-shadow: 1px 3px 0px 0px #000;
+  box-shadow: 1px 3px 0px 0px #000;
+  border-radius: 6px;
+  float: left;
+  margin-right: 2px;
   float: left;
   margin-right: 2px; }
+
+.top-row {
+  width: 75%;
+  height: 25%;
+  font-size: 1.5em;
+  margin-left: 5%; }
+
+.bottom-row {
+  width: 25%;
+  height: 25%;
+  margin-left: 62%;
+  transform: rotate(180deg);
+  font-size: 1.5em; }
+
+.middle-row {
+  height: 50%;
+  width: 50%;
+  font-size: 3em;
+  font-family: Times New Roman;
+  margin-left: 25%; }
 
 .player-card {
   margin-right: -5px !important; }
@@ -1839,22 +1865,32 @@ html {
   .card-container .front {
     background-image: url("http://lifespeak.s3.amazonaws.com/Images/card_back.png"); }
   .card-container .back {
-    background-image: url("http://lifespeak.s3.amazonaws.com/Images/card_faces.png");
+    position: flex;
     background-repeat: no-repeat;
+    background-color: #ffffff;
     height: 75px;
     width: 54px;
-    -webkit-box-shadow: 1px 4px 0px 0px #000;
-    -moz-box-shadow: 1px 3px 0px 0px  #000;
-    box-shadow: 1px 3px 0px 0px  #000;
+    border: 1px solid #000;
+    box-shadow: 1px 4px 0px 0px #000;
+    -moz-box-shadow: 1px 3px 0px 0px #000;
+    box-shadow: 1px 3px 0px 0px #000;
+    border-radius: 6px;
+    float: left;
+    margin-right: 2px;
     transform: rotateY(180deg); }
   .card-container .flipped {
-    background-image: url("http://lifespeak.s3.amazonaws.com/Images/card_faces.png");
+    position: flex;
     background-repeat: no-repeat;
+    background-color: #ffffff;
     height: 75px;
     width: 54px;
-    -webkit-box-shadow: 1px 4px 0px 0px #000;
-    -moz-box-shadow: 1px 3px 0px 0px  #000;
-    box-shadow: 1px 3px 0px 0px  #000;
+    border: 1px solid #000;
+    box-shadow: 1px 4px 0px 0px #000;
+    -moz-box-shadow: 1px 3px 0px 0px #000;
+    box-shadow: 1px 3px 0px 0px #000;
+    border-radius: 6px;
+    float: left;
+    margin-right: 2px;
     transform: rotateY(180deg); }
 
 #selected-card {
@@ -1872,55 +1908,71 @@ html {
   backface-visibility: hidden; }
 
 .diamonds {
-  background-position-y: 0px; }
+  color: #ff0000; }
+  .diamonds .top-row:before {
+    content: "♦"; }
+  .diamonds .bottom-row:after {
+    content: "♦"; }
 
 .hearts {
-  background-position-y: -76px; }
+  color: #ff0000; }
+  .hearts .top-row:before {
+    content: "♥"; }
+  .hearts .bottom-row:after {
+    content: "♥"; }
 
 .clubs {
-  background-position-y: -151px; }
+  color: #000000; }
+  .clubs .top-row:before {
+    content: "♣"; }
+  .clubs .bottom-row:after {
+    content: "♣"; }
 
 .spades {
-  background-position-y: -226px; }
+  color: #000000; }
+  .spades .top-row:before {
+    content: "♠"; }
+  .spades .bottom-row:after {
+    content: "♠"; }
 
-.ace {
-  background-position-x: 0px; }
+.ace .middle-row:after {
+  content: "A"; }
 
-.two {
-  background-position-x: -54px; }
+.two .middle-row:after {
+  content: "2"; }
 
-.three {
-  background-position-x: -107px; }
+.three .middle-row:after {
+  content: "3"; }
 
-.four {
-  background-position-x: -161px; }
+.four .middle-row:after {
+  content: "4"; }
 
-.five {
-  background-position-x: -214px; }
+.five .middle-row:after {
+  content: "5"; }
 
-.six {
-  background-position-x: -268px; }
+.six .middle-row:after {
+  content: "6"; }
 
-.seven {
-  background-position-x: -321px; }
+.seven .middle-row:after {
+  content: "7"; }
 
-.eight {
-  background-position-x: -376px; }
+.eight .middle-row:after {
+  content: "8"; }
 
-.nine {
-  background-position-x: -430px; }
+.nine .middle-row:after {
+  content: "9"; }
 
-.ten {
-  background-position-x: -484px; }
+.ten .middle-row:after {
+  content: "10"; }
 
-.jack {
-  background-position-x: -538px; }
+.jack .middle-row:after {
+  content: "J"; }
 
-.queen {
-  background-position-x: -592px; }
+.queen .middle-row:after {
+  content: "Q"; }
 
-.king {
-  background-position-x: -646px; }
+.king .middle-row:after {
+  content: "K"; }
 
 .pile-container {
   margin: 2px 0px 87px 36%;
@@ -2004,8 +2056,8 @@ html {
 
 .modal-close {
   position: absolute;
-  right: 1px;
-  top: 1px;
+  right: 3px;
+  top: 3px;
   z-index: 1000;
   margin: 0;
   padding: 5px;

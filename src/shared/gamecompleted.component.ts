@@ -1,6 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter, SimpleChanges} from '@angular/core';
 import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../providers/jrummy/jrummy'
 import {JRummyText} from '../providers/jrummy-text'
+import {PlayingCardComponent} from '../shared/playingcard.component'
 
 
 @Component({

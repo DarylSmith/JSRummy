@@ -43,9 +43,9 @@
         <div *ngIf="_jrummy.PlayerHand.getCurrentPoints()<=30" (click)="playerCall()" class="generic-btn-container">
             Call
         </div>
-        
-        <div *ngIf="isFirstPickup()"  (click)="allowComputerFirstTurn() " class="generic-btn-container">
-           Pass
+
+        <div *ngIf="isFirstPickup()" (click)="allowComputerFirstTurn() " class="generic-btn-container">
+            Pass
         </div>
 
     </div>
@@ -65,7 +65,9 @@
                 <div id="selected-card" [ngClass]="{'selected-card-selected':showAnimation==='discard'}">
                     <figure class="front"></figure>
 
-                    <figure class="back  {{_jrummy.ComputerHand.Cards[0].Suit}} {{_jrummy.ComputerHand.Cards[0].FaceValueString}}"></figure>
+                    <figure class="back">
+                        <jrummy-playingcard [suit]="_jrummy.ComputerHand.Cards[0].Suit" [face]="_jrummy.ComputerHand.Cards[0].FaceValueString"></jrummy-playingcard>
+                    </figure>
                 </div>
             </section>
         </div>
@@ -79,7 +81,8 @@
     <div class="pile-container">
         <div id="stock-pile" class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
 
-            <img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" class="move-card-item" style="display:none" [ngClass]="getPlayerAnimation('take-stock')" />
+            <img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" class="move-card-item" style="display:none" [ngClass]="getPlayerAnimation('take-stock')"
+            />
 
             <img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" />
 
@@ -90,9 +93,9 @@
 
             <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">
 
- <!-- <div class="move-card-item card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"  style="display:none" [ngClass]="{'give-to-player':showAnimation==='take-discard'}"  ></div>-->
+                <!-- <div class="move-card-item card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"  style="display:none" [ngClass]="{'give-to-player':showAnimation==='take-discard'}"  ></div>-->
 
-                <div id="discard-pile" class="card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"></div>
+                <jrummy-playingcard id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[0].Suit" [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>
             </a>
 
 
@@ -104,22 +107,13 @@
 <div class="hand" [dragula]='"bag-one"' [dragulaModel]='_jrummy.PlayerHand.Cards'>
     <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">
         <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true);">
-
-            <div class="card {{card.Suit}} {{card.FaceValueString}} player-card"></div>
+            <jrummy-playingcard [suit]="card.Suit" [face]="card.FaceValueString"> </jrummy-playingcard>
 
 
         </a>
     </div>
 
 </div>
-
-
-<div *ngIf="_jrummy.CurrentGame.CurrentStatus===8 ">
-
-    <a href="javascript:void(0); " (click)="allowComputerFirstTurn() ">Allow computer to select first</a>
-
-</div>
-
 
 
 <jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive"></jrummy-modal>
