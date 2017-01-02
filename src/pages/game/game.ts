@@ -92,7 +92,7 @@ export class GamePage {
             this.displayModal(this.jrummyText.PICK_FIRST_CARD);
 
         }
-        if (this.currentGame.CurrentStatus === GameStatus.PlayerPickup || this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup) {
+        else if (this.currentGame.CurrentStatus === GameStatus.PlayerPickup || this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup) {
 
             this._jrummy.addCardToPlayerHand(suit, name, isFromDiscardPile);
         }

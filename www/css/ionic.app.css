@@ -2004,8 +2004,8 @@ html {
 
 .modal-close {
   position: absolute;
-  right: 18px;
-  top: 18px;
+  right: 1px;
+  top: 1px;
   z-index: 1000;
   margin: 0;
   padding: 5px;

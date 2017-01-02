@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 
 export class JRummyText {
 
-    public PICK_FIRST_CARD: string = "`On first turn, you must choose from the discard pile .Otherwise, allow computer to go first by clicking on the pass button`";
+    public PICK_FIRST_CARD: string = "On first turn, you must choose from the discard pile .Otherwise, allow computer to go first by clicking on the pass button";
 
     public NOT_PICKUP_TIME: string = "Not time to pickup";
 
