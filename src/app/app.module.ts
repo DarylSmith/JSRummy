@@ -42,8 +42,7 @@ import {SortHandPipe} from '../pipes/SortHandPipe';
     MyApp,
     HomePage,
     GamePage,
-    RulesPage,
-    PlayingCardComponent
+    RulesPage
   ],
   providers: [JRummy,AnimationCallback,JRummyText,Utilities,DragulaModule, DragulaService,PlayingCardComponent]
 })

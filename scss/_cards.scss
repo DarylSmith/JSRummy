@@ -94,6 +94,13 @@ margin-right:-5px !important;
 
 margin-right:-10px !important; 
 
+      .bottom-row,.top-row{
+            font-size:1em;
+      }
+      .middle-row{
+            font-size:2em;
+      }
+
 }
 
 
@@ -414,6 +421,27 @@ margin-right:-10px !important;
 
 
 }
+
+.discard-move-card{
+          position: absolute;
+          left: 55px;
+          z-index:-1500;
+}
+
+
+.give-to-player-discard{
+
+       @include  keyframe-call(give-card-to-player-discard);
+
+       .card 
+       {
+            @include  keyframe-call(give-card-to-player-child-discard);
+       }
+}
+
+
+
+
 
 
 

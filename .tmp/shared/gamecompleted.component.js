@@ -38,7 +38,7 @@ export var GameCompletedComponent = (function () {
     };
     __decorate([
         Output(), 
-        __metadata('design:type', (typeof (_a = typeof EventEmitter !== 'undefined' && EventEmitter) === 'function' && _a) || Object)
+        __metadata('design:type', EventEmitter)
     ], GameCompletedComponent.prototype, "gameCompletedAction", void 0);
     __decorate([
         Input(), 
@@ -48,9 +48,8 @@ export var GameCompletedComponent = (function () {
         Component({
             selector: 'jrummy-completed',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\gamecompleted.component.html"*/'<div class="modal-window">\n\n    <div class="modal-container game-completed">\n\n       \n\n\n\n        <div class="game-completed-header"><span>{{ headerText }}</span>\n\n            <ul>\n\n                <li><a href="javascript:void(0);" (click)="completeGame(\'play\')">Play Again</a></li>\n\n                <li><a href="javascript:void(0);" (click)="completeGame(\'quit\')">Quit</a></li>\n\n            </ul>\n\n        </div>\n\n\n\n        <h5>{{ _jrummyText.DARYL_CARDS}} -  {{_jrummy.ComputerHand.getCurrentPoints()}} Points</h5>\n\n        <div class="hand">\n\n            <div *ngFor="let card of  _jrummy.ComputerHand|SortHand;let i = index ">\n\n                <jrummy-playingcard [suit]="card.Suit"  [face]="card.FaceValueString" [squeezed]="true"></jrummy-playingcard>\n\n            </div>\n\n\n\n        </div>\n\n\n\n\n\n         <h5>{{ _jrummyText.PLAYER_CARDS}} - {{_jrummy.PlayerHand.getCurrentPoints()}}  Points</h5>\n\n\n\n        <div class="hand">\n\n            <div *ngFor="let card of _jrummy.PlayerHand|SortHand;let i = index ">\n\n                   <jrummy-playingcard [suit]="card.Suit"  [face]="card.FaceValueString"  [squeezed]="true"></jrummy-playingcard>\n\n            </div>\n\n\n\n        </div>\n\n\n\n    </div>\n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\gamecompleted.component.html"*/
         }), 
-        __metadata('design:paramtypes', [(typeof (_b = typeof JRummy !== 'undefined' && JRummy) === 'function' && _b) || Object, (typeof (_c = typeof JRummyText !== 'undefined' && JRummyText) === 'function' && _c) || Object])
+        __metadata('design:paramtypes', [JRummy, JRummyText])
     ], GameCompletedComponent);
     return GameCompletedComponent;
-    var _a, _b, _c;
 }());
 //# sourceMappingURL=gamecompleted.component.js.map

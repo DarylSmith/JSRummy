@@ -35,11 +35,14 @@ export class GamePage {
 
     public gameCompletedResult: string = '';
 
+    public discardCard:number=0;
+
     public modalBody: string;
 
     public leftHandLocation: number = 0;
 
     private leftHandInterval: any;
+
 
     //this is a test method for running the computer by itself
     public getCard() {
@@ -59,16 +62,23 @@ export class GamePage {
 
     }
 
+    ionViewWillEnter()
+    {
+        this._jrummy.reset();
+    }
+
 
     ionViewDidLoad() {
 
 
         this.selectSortCard = this._jrummy.ComputerHand.Cards[0];
         let transitionEvent = this.animationCallback.whichAnimationEvent();
+        this.setPlayerAnimation();
         let self = this;
         $(".card-container").on("animationend",
             function (event) {
                 self.showAnimation = "none";
+                 self.setDiscardCard(true);
             });
 
         $(".move-card-item").on("animationend",
@@ -132,7 +142,7 @@ export class GamePage {
 
        public getPlayer(): void {
         let className: string = '';
-            let vals: number[] = [0, 4, 0, 3, 0, 2, 0, 1, 0, 4];
+            let vals: number[] = [0, 4, 2, 3, 4, 2, 2, 1, 3, 4];
             let version: number = vals[Math.floor(Math.random() * vals.length)];
             this.keyFrameAnimation = `give-to-player give-to-player-${version}`
     }
@@ -233,12 +243,24 @@ export class GamePage {
 
     }
 
+    public setDiscardCard(darylDone:boolean)
+    {
+        if(darylDone)
+        {
+            this.discardCard = 0;
+        }
+        else
+        {
+            this.discardCard = this._jrummy.DiscardPile.Cards.length>1?1:0;
+        }
+    }
+
 
     public moveLeftHand(moveIn: boolean) {
 
         let handIndex: number[] = moveIn ? [-304, -260, -222, -185, -146 - 209, -72, 0] : [0, -72, -109, -146, -185, -222, -260, -304];
         let index = 0;
-
+        this.setDiscardCard(false);
         this.leftHandInterval = setInterval(() => {
             if (index === handIndex.length - 1) {
                 clearInterval(this.leftHandInterval);
@@ -248,6 +270,7 @@ export class GamePage {
                 }
                 else {
                     this.showAnimation = "discard";
+                    index++;
                 }
             }
             else {

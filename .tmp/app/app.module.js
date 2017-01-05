@@ -45,8 +45,7 @@ export var AppModule = (function () {
                 MyApp,
                 HomePage,
                 GamePage,
-                RulesPage,
-                PlayingCardComponent
+                RulesPage
             ],
             providers: [JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService, PlayingCardComponent]
         }), 

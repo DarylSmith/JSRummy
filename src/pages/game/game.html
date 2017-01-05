@@ -14,15 +14,6 @@
 
 </div>
 
-
-
-
-<!--<div *ngFor="let card of _jrummy.ComputerHand.Cards">
-    {{card.Name}} -- {{card.Suit}}
-
-
-
-</div>-->
 <div class="top-container">
     <div class="score-container-outer">
 
@@ -65,8 +56,8 @@
                 <div id="selected-card" [ngClass]="{'selected-card-selected':showAnimation==='discard'}">
                     <figure class="front"></figure>
 
-                    <figure class="back">
-                        <jrummy-playingcard [suit]="_jrummy.ComputerHand.Cards[0].Suit" [face]="_jrummy.ComputerHand.Cards[0].FaceValueString"></jrummy-playingcard>
+                    <figure class="back" *ngIf="_jrummy.DiscardPile.Cards.length >0 ">
+                        <jrummy-playingcard [suit]="_jrummy.DiscardPile.Cards[0].Suit" [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>
                     </figure>
                 </div>
             </section>
@@ -78,29 +69,34 @@
     </div>
 
     <div style="clear:both"></div>
-    <div class="pile-container">
-        <div id="stock-pile" class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
+<div class="pile-container">
+    <div id="stock-pile" class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">
 
-            <img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" class="move-card-item" style="display:none" [ngClass]="getPlayerAnimation('take-stock')"
-            />
+        <img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" class="move-card-item" style="display:none" [ngClass]="getPlayerAnimation('take-stock')" />
 
-            <img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" />
+<img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" />
 
-        </div>
-
-
-        <div *ngIf="_jrummy.DiscardPile.Cards.length >0 ">
-
-            <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">
-
-                <!-- <div class="move-card-item card {{_jrummy.DiscardPile.Cards[0].Suit}} {{_jrummy.DiscardPile.Cards[0].FaceValueString}}"  style="display:none" [ngClass]="{'give-to-player':showAnimation==='take-discard'}"  ></div>-->
-
-                <jrummy-playingcard id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[0].Suit" [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>
-            </a>
+</div>
 
 
-        </div>
-    </div>
+      <div  class="move-card-item discard-move-card"   [ngClass]="'take-discard' === this.showAnimation?'give-to-player-discard':''" >
+<jrummy-playingcard  *ngIf="_jrummy.DiscardPile.Cards.length >0 "  id="discard-pile"  [suit]="_jrummy.DiscardPile.Cards[0].Suit" [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>
+
+</div>
+
+
+<div *ngIf="_jrummy.DiscardPile.Cards.length >0 ">
+
+    <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">
+
+        
+
+<jrummy-playingcard id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[discardCard].Suit" [face]="_jrummy.DiscardPile.Cards[discardCard].FaceValueString"></jrummy-playingcard>
+</a>
+
+
+</div>
+</div>
 </div>
 
 <div style="clear:both"></div>

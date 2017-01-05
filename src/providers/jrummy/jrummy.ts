@@ -218,6 +218,7 @@ export class JRummy {
         this.PlayerPoints = 0;
         this.ComputerPoints = 0;
         this.CurrentGameNumber = 1;
+        
     }
 
     startGame(game: Game) {
@@ -393,7 +394,7 @@ export class JRummy {
             return true;
         }
         //first, try the discarded cards (also the computer must choose only the discard on first turn)
-        if (this.cardRejectedByComputer(this.DiscardPile) || this.CurrentGame.CurrentStatus !== GameStatus.FirstTurnComputerPickup) {
+        if (this.cardRejectedByComputer(this.DiscardPile) == true) {
             console.log('Discard card was rejected.  Move to pile');
 
             //if the card is rejected, try again with the regular pile

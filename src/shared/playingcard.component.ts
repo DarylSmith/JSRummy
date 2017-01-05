@@ -10,6 +10,7 @@ export class PlayingCardComponent{
 
 @Input() public suit:string="spades";
 @Input() public face:string="2";
+@Input() public keyframe:string="";
 @Input() public squeezed:boolean=false;
 
 
