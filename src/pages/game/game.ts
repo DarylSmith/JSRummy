@@ -89,7 +89,11 @@ export class GamePage {
 
             });
 
+            this.PlayMainTrack();
+
     }
+
+
 
     public isFirstPickup():boolean
     {
@@ -253,6 +257,16 @@ export class GamePage {
         {
             this.discardCard = this._jrummy.DiscardPile.Cards.length>1?1:0;
         }
+    }
+
+    private PlayMainTrack():void{
+
+        let myAudio = new Audio('assets/audio/main_track.mp3'); 
+        myAudio.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+        }, false);
+        myAudio.play();
     }
 
 

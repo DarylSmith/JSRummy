@@ -57,6 +57,7 @@ export var GamePage = (function () {
             console.log('done');
             self.moveLeftHand(true);
         });
+        this.PlayMainTrack();
     };
     GamePage.prototype.isFirstPickup = function () {
         return this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup;
@@ -175,6 +176,14 @@ export var GamePage = (function () {
         else {
             this.discardCard = this._jrummy.DiscardPile.Cards.length > 1 ? 1 : 0;
         }
+    };
+    GamePage.prototype.PlayMainTrack = function () {
+        var myAudio = new Audio('assets/audio/main_track.mp3');
+        myAudio.addEventListener('ended', function () {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        myAudio.play();
     };
     GamePage.prototype.moveLeftHand = function (moveIn) {
         var _this = this;
