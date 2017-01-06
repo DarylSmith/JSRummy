@@ -185,6 +185,10 @@ export var GamePage = (function () {
         }, false);
         myAudio.play();
     };
+    GamePage.prototype.PlaySoundEffect = function (track) {
+        var myAudio = new Audio("assets/audio/" + track + ".wav");
+        myAudio.play();
+    };
     GamePage.prototype.moveLeftHand = function (moveIn) {
         var _this = this;
         var handIndex = moveIn ? [-304, -260, -222, -185, -146 - 209, -72, 0] : [0, -72, -109, -146, -185, -222, -260, -304];
@@ -196,8 +200,10 @@ export var GamePage = (function () {
                 if (!moveIn) {
                     _this.setPlayerAnimation();
                     _this.showAnimation = _this._jrummy.CurrentGame.ComputerSelectedDiscard ? 'take-discard' : 'take-stock';
+                    _this.PlaySoundEffect('laser3');
                 }
                 else {
+                    _this.PlaySoundEffect('laser2');
                     _this.showAnimation = "discard";
                     index++;
                 }

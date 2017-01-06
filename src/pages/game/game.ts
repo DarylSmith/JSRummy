@@ -1,12 +1,12 @@
 import { Component, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import {PlayingCardComponent} from '../../shared/playingcard.component'
-import {ModalComponent} from '../../shared/modal.component'
-import {GameCompletedComponent} from '../../shared/gamecompleted.component'
-import {Game, Card, Hand, Deck, JRummy, GameStatus} from '../../providers/jrummy/jrummy'
-import {JRummyText} from '../../providers/jrummy-text'
-import {AnimationCallback} from '../../providers/animation-callback'
-import {DragulaModule, DragulaService} from "../../../node_modules/ng2-dragula/ng2-dragula"
+import { PlayingCardComponent } from '../../shared/playingcard.component'
+import { ModalComponent } from '../../shared/modal.component'
+import { GameCompletedComponent } from '../../shared/gamecompleted.component'
+import { Game, Card, Hand, Deck, JRummy, GameStatus } from '../../providers/jrummy/jrummy'
+import { JRummyText } from '../../providers/jrummy-text'
+import { AnimationCallback } from '../../providers/animation-callback'
+import { DragulaModule, DragulaService } from "../../../node_modules/ng2-dragula/ng2-dragula"
 import * as $ from 'jquery';
 import * as _ from 'lodash';
 
@@ -27,7 +27,7 @@ export class GamePage {
 
     public selectedCardIndex: number;
 
-    public keyFrameAnimation:string;
+    public keyFrameAnimation: string;
 
     public playerSortActive: boolean = false;
 
@@ -35,7 +35,7 @@ export class GamePage {
 
     public gameCompletedResult: string = '';
 
-    public discardCard:number=0;
+    public discardCard: number = 0;
 
     public modalBody: string;
 
@@ -62,8 +62,7 @@ export class GamePage {
 
     }
 
-    ionViewWillEnter()
-    {
+    ionViewWillEnter() {
         this._jrummy.reset();
     }
 
@@ -78,7 +77,7 @@ export class GamePage {
         $(".card-container").on("animationend",
             function (event) {
                 self.showAnimation = "none";
-                 self.setDiscardCard(true);
+                self.setDiscardCard(true);
             });
 
         $(".move-card-item").on("animationend",
@@ -89,14 +88,13 @@ export class GamePage {
 
             });
 
-            this.PlayMainTrack();
+        this.PlayMainTrack();
 
     }
 
 
 
-    public isFirstPickup():boolean
-    {
+    public isFirstPickup(): boolean {
         return this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup;
     }
 
@@ -128,27 +126,27 @@ export class GamePage {
 
     public setPlayerAnimation(): void {
         let className: string = '';
-            let vals: number[] = [0, 4, 2, 3, 0, 2, 0, 1, 0, 4];
-            let version: number = vals[Math.floor(Math.random() * vals.length)];
-            this.keyFrameAnimation = `give-to-player-${version}`
+        let vals: number[] = [0, 4, 2, 3, 0, 2, 0, 1, 0, 4];
+        let version: number = vals[Math.floor(Math.random() * vals.length)];
+        this.keyFrameAnimation = `give-to-player-${version}`
     }
 
-       public getPlayerAnimation(animationClass: string): string {
+    public getPlayerAnimation(animationClass: string): string {
         let className: string = '';
         if (animationClass === this.showAnimation) {
-           
-           className = this.keyFrameAnimation;
+
+            className = this.keyFrameAnimation;
         }
         return className;
 
     }
 
 
-       public getPlayer(): void {
+    public getPlayer(): void {
         let className: string = '';
-            let vals: number[] = [0, 4, 2, 3, 4, 2, 2, 1, 3, 4];
-            let version: number = vals[Math.floor(Math.random() * vals.length)];
-            this.keyFrameAnimation = `give-to-player give-to-player-${version}`
+        let vals: number[] = [0, 4, 2, 3, 4, 2, 2, 1, 3, 4];
+        let version: number = vals[Math.floor(Math.random() * vals.length)];
+        this.keyFrameAnimation = `give-to-player give-to-player-${version}`
     }
     public discardPlayerCard(suit: string, name: string) {
 
@@ -247,26 +245,31 @@ export class GamePage {
 
     }
 
-    public setDiscardCard(darylDone:boolean)
-    {
-        if(darylDone)
-        {
+
+
+    public setDiscardCard(darylDone: boolean) {
+        if (darylDone) {
             this.discardCard = 0;
         }
-        else
-        {
-            this.discardCard = this._jrummy.DiscardPile.Cards.length>1?1:0;
+        else {
+            this.discardCard = this._jrummy.DiscardPile.Cards.length > 1 ? 1 : 0;
         }
     }
 
-    private PlayMainTrack():void{
+    private PlayMainTrack(): void {
 
-        let myAudio = new Audio('assets/audio/main_track.mp3'); 
-        myAudio.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
+        let myAudio = new Audio('assets/audio/main_track.mp3');
+        myAudio.addEventListener('ended', function () {
+            this.currentTime = 0;
+            this.play();
         }, false);
         myAudio.play();
+    }
+
+    private PlaySoundEffect(track: string): void {
+        let myAudio = new Audio(`assets/audio/${track}.wav`);
+        myAudio.play();
+
     }
 
 
@@ -275,14 +278,18 @@ export class GamePage {
         let handIndex: number[] = moveIn ? [-304, -260, -222, -185, -146 - 209, -72, 0] : [0, -72, -109, -146, -185, -222, -260, -304];
         let index = 0;
         this.setDiscardCard(false);
+
         this.leftHandInterval = setInterval(() => {
             if (index === handIndex.length - 1) {
                 clearInterval(this.leftHandInterval);
                 if (!moveIn) {
                     this.setPlayerAnimation();
                     this.showAnimation = this._jrummy.CurrentGame.ComputerSelectedDiscard ? 'take-discard' : 'take-stock';
+                    this.PlaySoundEffect('laser3');
+
                 }
                 else {
+                    this.PlaySoundEffect('laser2');
                     this.showAnimation = "discard";
                     index++;
                 }
