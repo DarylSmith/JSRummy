@@ -291,24 +291,27 @@ h3 {
 
 @keyframes give-card-to-player-discard {
   0% {
-    bottom: -40px;
-    left: 0px;
+    left: 55px;
     -webkit-transform: rotate(0deg);
-    transform: rotate(0deg); }
+    transform: rotate(0deg);
+    z-index: 100000; }
   100% {
     bottom: 25px;
-    left: 100px;
+    left: 197px;
     -webkit-transform: rotate(3600deg);
-    transform: rotate(3600deg); } }
+    transform: rotate(3600deg);
+    z-index: -1000; } }
 
 @keyframes give-card-to-player-child-discard {
   0% {
     height: 75px;
-    width: 54px; }
+    width: 54px;
+    z-index: 100000; }
   100% {
     height: 1px;
     width: 1px;
-    font-size: 1px; } }
+    font-size: 1px;
+    z-index: -1000; } }
 
 @keyframes give-card-to-player-1 {
   -webkit-transform: rotate(0deg);
@@ -2046,11 +2049,6 @@ html {
     -webkit-animation: give-card-to-player-child-discard 1s 1;
     -moz-animation: give-card-to-player-child-discard 1s 1;
     animation: give-card-to-player-child-discard 1s 1; }
-
-.give-to-player-discard-child {
-  -webkit-animation: give-card-to-player-child-discard 1s 1;
-  -moz-animation: give-card-to-player-child-discard 1s 1;
-  animation: give-card-to-player-child-discard 1s 1; }
 
 .modal-window {
   position: fixed;
