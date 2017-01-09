@@ -3,10 +3,13 @@
     float:right;
     height:140px;
     width:260px; 
-    background-image: url('http://lifespeak.s3.amazonaws.com/Images/player_bg.png');
+    background-image: url('http://lifespeak.s3.amazonaws.com/Images/player_bg_sprite.png');
     background-repeat:no-repeat; 
-    background-position-x:center;
+    background-position-x:53px;
+    background-position-y:-14px;
 }
+
+
 
 .player-hand-container{
 

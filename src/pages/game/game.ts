@@ -5,6 +5,7 @@ import { ModalComponent } from '../../shared/modal.component'
 import { GameCompletedComponent } from '../../shared/gamecompleted.component'
 import { Game, Card, Hand, Deck, JRummy, GameStatus } from '../../providers/jrummy/jrummy'
 import { JRummyText } from '../../providers/jrummy-text'
+import { AudioManager } from '../../providers/audioManager'
 import { AnimationCallback } from '../../providers/animation-callback'
 import { DragulaModule, DragulaService } from "../../../node_modules/ng2-dragula/ng2-dragula"
 import * as $ from 'jquery';
@@ -29,6 +30,10 @@ export class GamePage {
 
     public keyFrameAnimation: string;
 
+    public reactionInterval:any;
+
+    public reactionStyles:string="53px -14px";
+
     public playerSortActive: boolean = false;
 
     public modalIsActive: boolean = false;
@@ -51,7 +56,7 @@ export class GamePage {
     }
 
 
-    constructor(public navCtrl: NavController, public _jrummy: JRummy, public jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService: DragulaService) {
+    constructor(public navCtrl: NavController, public _jrummy: JRummy, public jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService: DragulaService,private  audioManager:AudioManager) {
 
         this.currentGame = new Game();
         this._jrummy.startGame(this.currentGame);
@@ -65,6 +70,11 @@ export class GamePage {
     ionViewWillEnter() {
         this._jrummy.reset();
     }
+
+      ionViewWillLeave(){
+
+        this.audioManager.stopMainTrack();
+      }
 
 
     ionViewDidLoad() {
@@ -88,7 +98,7 @@ export class GamePage {
 
             });
 
-        this.PlayMainTrack();
+        this.audioManager.playMainTrack();
 
     }
 
@@ -126,7 +136,7 @@ export class GamePage {
 
     public setPlayerAnimation(): void {
         let className: string = '';
-        let vals: number[] = [0, 4, 2, 3, 0, 2, 0, 1, 0, 4];
+        let vals: number[] = [1, 4, 2, 3, 4, 2, 3, 1, 2, 4];
         let version: number = vals[Math.floor(Math.random() * vals.length)];
         this.keyFrameAnimation = `give-to-player-${version}`
     }
@@ -256,19 +266,52 @@ export class GamePage {
         }
     }
 
-    private PlayMainTrack(): void {
+  
+    public playerReaction():void{
 
-        let myAudio = new Audio('assets/audio/main_track.mp3');
-        myAudio.addEventListener('ended', function () {
-            this.currentTime = 0;
-            this.play();
-        }, false);
-        myAudio.play();
+        let playerReactions:number[] = [1,2,1,2,1,2];
+        let reactionIndex:number[] = [53,-229,-539,-844,-1150];
+        let xCoord:number = 158;
+        let anIndex =0;
+        let index =0;
+        let reaction: number = playerReactions[Math.floor(Math.random() * playerReactions.length)];
+        
+        //no reaction if reaction is 0
+        if(reaction >0)
+        {
+            this.reactionInterval = setInterval(() => {
+            if (index === (reactionIndex.length *2) -1) {
+                this.setPlayerReaction(53,-14);
+                clearInterval(this.reactionInterval);
+               
+            }
+            else {
+
+                let yIndex=reaction===2?-158:-14; 
+                if(index===0)
+                {
+                      
+                      this.setPlayerReaction(53,yIndex);
+                }
+                else
+                {
+                      this.setPlayerReaction(reactionIndex[anIndex],yIndex);
+                }
+
+                index++;
+                anIndex = index > reactionIndex.length? anIndex-1: anIndex+1;
+
+            }
+            console.log(`anindex ${index}`)
+        }, 100);
+        }
+
+        
     }
 
-    private PlaySoundEffect(track: string): void {
-        let myAudio = new Audio(`assets/audio/${track}.wav`);
-        myAudio.play();
+    private setPlayerReaction(x:number,y:number):void{
+
+        this.reactionStyles = `${x}px ${y}px`
 
     }
 
@@ -285,11 +328,12 @@ export class GamePage {
                 if (!moveIn) {
                     this.setPlayerAnimation();
                     this.showAnimation = this._jrummy.CurrentGame.ComputerSelectedDiscard ? 'take-discard' : 'take-stock';
-                    this.PlaySoundEffect('laser3');
+                    this.audioManager.playSoundEffect('laser3');
 
                 }
                 else {
-                    this.PlaySoundEffect('laser2');
+                    this.playerReaction();
+                    this.audioManager.playSoundEffect('laser2');
                     this.showAnimation = "discard";
                     index++;
                 }

@@ -13,6 +13,7 @@ import { JRummy } from '../providers/jrummy/jrummy';
 import { JRummyText } from '../providers/jrummy-text';
 import { AnimationCallback } from '../providers/animation-callback';
 import { Utilities } from '../providers/utilities';
+import { AudioManager } from '../providers/audioManager';
 import { ModalComponent } from '../shared/modal.component';
 import { GameCompletedComponent } from '../shared/gamecompleted.component';
 import { MyApp } from './app.component';
@@ -47,7 +48,7 @@ export var AppModule = (function () {
                 GamePage,
                 RulesPage
             ],
-            providers: [JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService, PlayingCardComponent]
+            providers: [JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService, PlayingCardComponent, AudioManager]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

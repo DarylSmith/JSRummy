@@ -191,6 +191,64 @@ div, ul, ol, li, h1, h2, h3, h4, h5, h6, a, p {
   .rules-page p {
     margin-top: 10px; }
 
+/*styling for toggle*/
+.lbl {
+  position: relative;
+  display: block;
+  height: 20px;
+  width: 44px;
+  background: #898989;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease; }
+
+.lbl:after {
+  position: absolute;
+  left: -2px;
+  top: -3px;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 100px;
+  background: #fff;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05);
+  content: '';
+  transition: all 0.3s ease; }
+
+.lbl:active:after {
+  transform: scale(1.15, 0.85); }
+
+.cbx:checked ~ label {
+  background: #6fbeb5; }
+
+.cbx:checked ~ label:after {
+  left: 20px;
+  background: #179588; }
+
+.cbx:disabled ~ label {
+  background: #d5d5d5;
+  pointer-events: none; }
+
+.cbx:disabled ~ label:after {
+  background: #bcbdbc; }
+
+.cbx-container {
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px; }
+  .cbx-container span {
+    display: block;
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 7px;
+    font-size: 1.4em; }
+
+.press {
+  margin-bottom: 40px; }
+
+.hidden {
+  display: none; }
+
 .score-container-outer {
   float: left;
   margin: 15px 0px 0px 15px; }
@@ -2114,9 +2172,10 @@ html {
   float: right;
   height: 140px;
   width: 260px;
-  background-image: url("http://lifespeak.s3.amazonaws.com/Images/player_bg.png");
+  background-image: url("http://lifespeak.s3.amazonaws.com/Images/player_bg_sprite.png");
   background-repeat: no-repeat;
-  background-position-x: center; }
+  background-position-x: 53px;
+  background-position-y: -14px; }
 
 .player-hand-container {
   position: relative;

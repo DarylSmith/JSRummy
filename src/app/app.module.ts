@@ -7,6 +7,7 @@ import {JRummy} from '../providers/jrummy/jrummy';
 import {JRummyText}  from '../providers/jrummy-text';
 import {AnimationCallback}  from '../providers/animation-callback';
 import {Utilities} from '../providers/utilities';
+import {AudioManager} from '../providers/audioManager';
 
 //components
 import {ModalComponent} from '../shared/modal.component';
@@ -44,6 +45,6 @@ import {SortHandPipe} from '../pipes/SortHandPipe';
     GamePage,
     RulesPage
   ],
-  providers: [JRummy,AnimationCallback,JRummyText,Utilities,DragulaModule, DragulaService,PlayingCardComponent]
+  providers: [JRummy,AnimationCallback,JRummyText,Utilities,DragulaModule, DragulaService,PlayingCardComponent,AudioManager]
 })
 export class AppModule {}

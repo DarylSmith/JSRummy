@@ -41,7 +41,7 @@
 
     </div>
 
-    <div class="player">
+    <div class="player"  [style.background-position]="reactionStyles">
         <div class="player-hand-container">
             <div class="left-hand" [ngStyle]="{'background-position-x':leftHandLocation + 'px'}"></div>
             <div class="card-back"></div>
@@ -79,8 +79,9 @@
 </div>
 
 
-      <div  class="move-card-item discard-move-card"   [ngClass]="'take-discard' === this.showAnimation?'give-to-player-discard':''" >
-<jrummy-playingcard  *ngIf="_jrummy.DiscardPile.Cards.length >0 "  id="discard-pile"  [suit]="_jrummy.DiscardPile.Cards[0].Suit" [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>
+<div class="move-card-item discard-move-card" [ngClass]="'take-discard' === this.showAnimation?'give-to-player-discard':''">
+    <jrummy-playingcard *ngIf="_jrummy.DiscardPile.Cards.length >0 " id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[0].Suit"
+        [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>
 
 </div>
 
@@ -89,10 +90,10 @@
 
     <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">
 
-        
 
-<jrummy-playingcard id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[discardCard].Suit" [face]="_jrummy.DiscardPile.Cards[discardCard].FaceValueString"></jrummy-playingcard>
-</a>
+
+        <jrummy-playingcard id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[discardCard].Suit" [face]="_jrummy.DiscardPile.Cards[discardCard].FaceValueString"></jrummy-playingcard>
+    </a>
 
 
 </div>

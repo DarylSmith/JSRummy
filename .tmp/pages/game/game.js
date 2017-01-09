@@ -11,20 +11,23 @@ import { Component, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Game, JRummy, GameStatus } from '../../providers/jrummy/jrummy';
 import { JRummyText } from '../../providers/jrummy-text';
+import { AudioManager } from '../../providers/audioManager';
 import { AnimationCallback } from '../../providers/animation-callback';
 import { DragulaService } from "../../../node_modules/ng2-dragula/ng2-dragula";
 import * as $ from 'jquery';
 import * as _ from 'lodash';
 export var GamePage = (function () {
-    function GamePage(navCtrl, _jrummy, jrummyText, elementRef, animationCallback, drugalaService) {
+    function GamePage(navCtrl, _jrummy, jrummyText, elementRef, animationCallback, drugalaService, audioManager) {
         this.navCtrl = navCtrl;
         this._jrummy = _jrummy;
         this.jrummyText = jrummyText;
         this.elementRef = elementRef;
         this.animationCallback = animationCallback;
         this.drugalaService = drugalaService;
+        this.audioManager = audioManager;
         this.pageTitle = 'Beat Daryl @ Gin Rummy';
         this.showAnimation = "none";
+        this.reactionStyles = "53px -14px";
         this.playerSortActive = false;
         this.modalIsActive = false;
         this.gameCompletedResult = '';
@@ -43,6 +46,9 @@ export var GamePage = (function () {
     GamePage.prototype.ionViewWillEnter = function () {
         this._jrummy.reset();
     };
+    GamePage.prototype.ionViewWillLeave = function () {
+        this.audioManager.stopMainTrack();
+    };
     GamePage.prototype.ionViewDidLoad = function () {
         this.selectSortCard = this._jrummy.ComputerHand.Cards[0];
         var transitionEvent = this.animationCallback.whichAnimationEvent();
@@ -57,7 +63,7 @@ export var GamePage = (function () {
             console.log('done');
             self.moveLeftHand(true);
         });
-        this.PlayMainTrack();
+        this.audioManager.playMainTrack();
     };
     GamePage.prototype.isFirstPickup = function () {
         return this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup;
@@ -83,7 +89,7 @@ export var GamePage = (function () {
     };
     GamePage.prototype.setPlayerAnimation = function () {
         var className = '';
-        var vals = [0, 4, 2, 3, 0, 2, 0, 1, 0, 4];
+        var vals = [1, 4, 2, 3, 4, 2, 3, 1, 2, 4];
         var version = vals[Math.floor(Math.random() * vals.length)];
         this.keyFrameAnimation = "give-to-player-" + version;
     };
@@ -177,17 +183,38 @@ export var GamePage = (function () {
             this.discardCard = this._jrummy.DiscardPile.Cards.length > 1 ? 1 : 0;
         }
     };
-    GamePage.prototype.PlayMainTrack = function () {
-        var myAudio = new Audio('assets/audio/main_track.mp3');
-        myAudio.addEventListener('ended', function () {
-            this.currentTime = 0;
-            this.play();
-        }, false);
-        myAudio.play();
+    GamePage.prototype.playerReaction = function () {
+        var _this = this;
+        var playerReactions = [1, 2, 1, 2, 1, 2];
+        var reactionIndex = [53, -229, -539, -844, -1150];
+        var xCoord = 158;
+        var anIndex = 0;
+        var index = 0;
+        var reaction = playerReactions[Math.floor(Math.random() * playerReactions.length)];
+        //no reaction if reaction is 0
+        if (reaction > 0) {
+            this.reactionInterval = setInterval(function () {
+                if (index === (reactionIndex.length * 2) - 1) {
+                    _this.setPlayerReaction(53, -14);
+                    clearInterval(_this.reactionInterval);
+                }
+                else {
+                    var yIndex = reaction === 2 ? -158 : -14;
+                    if (index === 0) {
+                        _this.setPlayerReaction(53, yIndex);
+                    }
+                    else {
+                        _this.setPlayerReaction(reactionIndex[anIndex], yIndex);
+                    }
+                    index++;
+                    anIndex = index > reactionIndex.length ? anIndex - 1 : anIndex + 1;
+                }
+                console.log("anindex " + index);
+            }, 100);
+        }
     };
-    GamePage.prototype.PlaySoundEffect = function (track) {
-        var myAudio = new Audio("assets/audio/" + track + ".wav");
-        myAudio.play();
+    GamePage.prototype.setPlayerReaction = function (x, y) {
+        this.reactionStyles = x + "px " + y + "px";
     };
     GamePage.prototype.moveLeftHand = function (moveIn) {
         var _this = this;
@@ -200,10 +227,11 @@ export var GamePage = (function () {
                 if (!moveIn) {
                     _this.setPlayerAnimation();
                     _this.showAnimation = _this._jrummy.CurrentGame.ComputerSelectedDiscard ? 'take-discard' : 'take-stock';
-                    _this.PlaySoundEffect('laser3');
+                    _this.audioManager.playSoundEffect('laser3');
                 }
                 else {
-                    _this.PlaySoundEffect('laser2');
+                    _this.playerReaction();
+                    _this.audioManager.playSoundEffect('laser2');
                     _this.showAnimation = "discard";
                     index++;
                 }
@@ -216,11 +244,10 @@ export var GamePage = (function () {
     };
     GamePage = __decorate([
         Component({
-            selector: 'page-game',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\game\game.html"*/'<div class="game-header">\n\n    <div class="header-elem btn-back" (click)="navCtrl.pop()">\n\n        <img src="http://lifespeak.s3.amazonaws.com/Images/btn_back.png" />\n\n    </div>\n\n    <div class="header-elem btn-play-again" (click)="startNewGame(\'Do you want to play again?\')">\n\n        <img src="http://lifespeak.s3.amazonaws.com/Images/btn_play_again.png" />\n\n    </div>\n\n    <div class="header-elem-right game-round">\n\n        <span class="callout-beige header-callout">{{jrummyText.ROUND}}</span>\n\n        <div class="game-round-block">\n\n            <span class="callout-white callout-white-centered"> {{_jrummy.CurrentGameNumber}}</span>\n\n        </div>\n\n    </div>\n\n\n\n</div>\n\n\n\n<div class="top-container">\n\n    <div class="score-container-outer">\n\n\n\n        <div class="score-container-inner">\n\n            <h3> Computer Score:</h3>\n\n\n\n            <span class="points-callout">{{_jrummy.ComputerPoints}}</span>\n\n\n\n        </div>\n\n\n\n        <div class="score-container-inner">\n\n            <h3> Player Score:</h3>\n\n\n\n            <span class="points-callout">{{_jrummy.PlayerPoints}}</span>\n\n\n\n        </div>\n\n\n\n        <div *ngIf="_jrummy.PlayerHand.getCurrentPoints()<=30" (click)="playerCall()" class="generic-btn-container">\n\n            Call\n\n        </div>\n\n\n\n        <div *ngIf="isFirstPickup()" (click)="allowComputerFirstTurn() " class="generic-btn-container">\n\n            Pass\n\n        </div>\n\n\n\n    </div>\n\n\n\n    <div class="player">\n\n        <div class="player-hand-container">\n\n            <div class="left-hand" [ngStyle]="{\'background-position-x\':leftHandLocation + \'px\'}"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <section class="card-container" [ngClass]="{\'card-container-selected\':showAnimation===\'discard\'}">\n\n                <div id="selected-card" [ngClass]="{\'selected-card-selected\':showAnimation===\'discard\'}">\n\n                    <figure class="front"></figure>\n\n\n\n                    <figure class="back" *ngIf="_jrummy.DiscardPile.Cards.length >0 ">\n\n                        <jrummy-playingcard [suit]="_jrummy.DiscardPile.Cards[0].Suit" [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>\n\n                    </figure>\n\n                </div>\n\n            </section>\n\n        </div>\n\n        <div class="right-hand" [ngClass]="{\'right-hand-selected\':showAnimation===\'discard\'}">\n\n            <img src="http://lifespeak.s3.amazonaws.com/Images/righthand.png">\n\n        </div>\n\n\n\n    </div>\n\n\n\n    <div style="clear:both"></div>\n\n<div class="pile-container">\n\n    <div id="stock-pile" class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">\n\n\n\n        <img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" class="move-card-item" style="display:none" [ngClass]="getPlayerAnimation(\'take-stock\')" />\n\n\n\n<img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" />\n\n\n\n</div>\n\n\n\n\n\n      <div  class="move-card-item discard-move-card"   [ngClass]="\'take-discard\' === this.showAnimation?\'give-to-player-discard\':\'\'" >\n\n<jrummy-playingcard  *ngIf="_jrummy.DiscardPile.Cards.length >0 "  id="discard-pile"  [suit]="_jrummy.DiscardPile.Cards[0].Suit" [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>\n\n\n\n</div>\n\n\n\n\n\n<div *ngIf="_jrummy.DiscardPile.Cards.length >0 ">\n\n\n\n    <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">\n\n\n\n        \n\n\n\n<jrummy-playingcard id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[discardCard].Suit" [face]="_jrummy.DiscardPile.Cards[discardCard].FaceValueString"></jrummy-playingcard>\n\n</a>\n\n\n\n\n\n</div>\n\n</div>\n\n</div>\n\n\n\n<div style="clear:both"></div>\n\n<div class="hand" [dragula]=\'"bag-one"\' [dragulaModel]=\'_jrummy.PlayerHand.Cards\'>\n\n    <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">\n\n        <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true);">\n\n            <jrummy-playingcard [suit]="card.Suit" [face]="card.FaceValueString"> </jrummy-playingcard>\n\n\n\n\n\n        </a>\n\n    </div>\n\n\n\n</div>\n\n\n\n\n\n<jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive"></jrummy-modal>\n\n<jrummy-completed (gameCompletedAction)="onGameCompleted($event)" [gameCompletedResult]="gameCompletedResult" *ngIf="gameCompletedResult!==\'\'"></jrummy-completed>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\game\game.html"*/
+            selector: 'page-game',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\game\game.html"*/'<div class="game-header">\n\n    <div class="header-elem btn-back" (click)="navCtrl.pop()">\n\n        <img src="http://lifespeak.s3.amazonaws.com/Images/btn_back.png" />\n\n    </div>\n\n    <div class="header-elem btn-play-again" (click)="startNewGame(\'Do you want to play again?\')">\n\n        <img src="http://lifespeak.s3.amazonaws.com/Images/btn_play_again.png" />\n\n    </div>\n\n    <div class="header-elem-right game-round">\n\n        <span class="callout-beige header-callout">{{jrummyText.ROUND}}</span>\n\n        <div class="game-round-block">\n\n            <span class="callout-white callout-white-centered"> {{_jrummy.CurrentGameNumber}}</span>\n\n        </div>\n\n    </div>\n\n\n\n</div>\n\n\n\n<div class="top-container">\n\n    <div class="score-container-outer">\n\n\n\n        <div class="score-container-inner">\n\n            <h3> Computer Score:</h3>\n\n\n\n            <span class="points-callout">{{_jrummy.ComputerPoints}}</span>\n\n\n\n        </div>\n\n\n\n        <div class="score-container-inner">\n\n            <h3> Player Score:</h3>\n\n\n\n            <span class="points-callout">{{_jrummy.PlayerPoints}}</span>\n\n\n\n        </div>\n\n\n\n        <div *ngIf="_jrummy.PlayerHand.getCurrentPoints()<=30" (click)="playerCall()" class="generic-btn-container">\n\n            Call\n\n        </div>\n\n\n\n        <div *ngIf="isFirstPickup()" (click)="allowComputerFirstTurn() " class="generic-btn-container">\n\n            Pass\n\n        </div>\n\n\n\n    </div>\n\n\n\n    <div class="player"  [style.background-position]="reactionStyles">\n\n        <div class="player-hand-container">\n\n            <div class="left-hand" [ngStyle]="{\'background-position-x\':leftHandLocation + \'px\'}"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <div class="card-back"></div>\n\n            <section class="card-container" [ngClass]="{\'card-container-selected\':showAnimation===\'discard\'}">\n\n                <div id="selected-card" [ngClass]="{\'selected-card-selected\':showAnimation===\'discard\'}">\n\n                    <figure class="front"></figure>\n\n\n\n                    <figure class="back" *ngIf="_jrummy.DiscardPile.Cards.length >0 ">\n\n                        <jrummy-playingcard [suit]="_jrummy.DiscardPile.Cards[0].Suit" [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>\n\n                    </figure>\n\n                </div>\n\n            </section>\n\n        </div>\n\n        <div class="right-hand" [ngClass]="{\'right-hand-selected\':showAnimation===\'discard\'}">\n\n            <img src="http://lifespeak.s3.amazonaws.com/Images/righthand.png">\n\n        </div>\n\n\n\n    </div>\n\n\n\n    <div style="clear:both"></div>\n\n<div class="pile-container">\n\n    <div id="stock-pile" class="card" (click)="pickupPlayerCard(_jrummy.Pile.Cards[0].Suit,_jrummy.Pile.Cards[0].Name,false) ">\n\n\n\n        <img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" class="move-card-item" style="display:none" [ngClass]="getPlayerAnimation(\'take-stock\')" />\n\n\n\n<img src="http://lifespeak.s3.amazonaws.com/Images/card_back.png" />\n\n\n\n</div>\n\n\n\n\n\n<div class="move-card-item discard-move-card" [ngClass]="\'take-discard\' === this.showAnimation?\'give-to-player-discard\':\'\'">\n\n    <jrummy-playingcard *ngIf="_jrummy.DiscardPile.Cards.length >0 " id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[0].Suit"\n\n        [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>\n\n\n\n</div>\n\n\n\n\n\n<div *ngIf="_jrummy.DiscardPile.Cards.length >0 ">\n\n\n\n    <a href="javascript:void(0); " (click)="pickupPlayerCard(_jrummy.DiscardPile.Cards[0].Suit,_jrummy.DiscardPile.Cards[0].Name,true) ">\n\n\n\n\n\n\n\n        <jrummy-playingcard id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[discardCard].Suit" [face]="_jrummy.DiscardPile.Cards[discardCard].FaceValueString"></jrummy-playingcard>\n\n    </a>\n\n\n\n\n\n</div>\n\n</div>\n\n</div>\n\n\n\n<div style="clear:both"></div>\n\n<div class="hand" [dragula]=\'"bag-one"\' [dragulaModel]=\'_jrummy.PlayerHand.Cards\'>\n\n    <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">\n\n        <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true);">\n\n            <jrummy-playingcard [suit]="card.Suit" [face]="card.FaceValueString"> </jrummy-playingcard>\n\n\n\n\n\n        </a>\n\n    </div>\n\n\n\n</div>\n\n\n\n\n\n<jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive"></jrummy-modal>\n\n<jrummy-completed (gameCompletedAction)="onGameCompleted($event)" [gameCompletedResult]="gameCompletedResult" *ngIf="gameCompletedResult!==\'\'"></jrummy-completed>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\game\game.html"*/
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof NavController !== 'undefined' && NavController) === 'function' && _a) || Object, (typeof (_b = typeof JRummy !== 'undefined' && JRummy) === 'function' && _b) || Object, (typeof (_c = typeof JRummyText !== 'undefined' && JRummyText) === 'function' && _c) || Object, (typeof (_d = typeof ElementRef !== 'undefined' && ElementRef) === 'function' && _d) || Object, (typeof (_e = typeof AnimationCallback !== 'undefined' && AnimationCallback) === 'function' && _e) || Object, (typeof (_f = typeof DragulaService !== 'undefined' && DragulaService) === 'function' && _f) || Object])
+        __metadata('design:paramtypes', [NavController, JRummy, JRummyText, ElementRef, AnimationCallback, DragulaService, AudioManager])
     ], GamePage);
     return GamePage;
-    var _a, _b, _c, _d, _e, _f;
 }());
 //# sourceMappingURL=game.js.map
