@@ -13,6 +13,8 @@ export var JRummyText = (function () {
         this.DARYL_CARDS = "Daryl's Cards";
         this.PLAYER_CARDS = "Player's Cards";
         this.ROUND = "Round";
+        this.COMPUTER_SCORE = "Daryl's Score:";
+        this.PLAYER_SCORE = "Your Score:";
     }
     return JRummyText;
 }());

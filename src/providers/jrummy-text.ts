@@ -29,4 +29,8 @@ export class JRummyText {
 
      public ROUND:string="Round";
 
+     public COMPUTER_SCORE:string="Daryl's Score:";
+
+     public PLAYER_SCORE:string="Your Score:";
+
 }
