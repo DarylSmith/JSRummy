@@ -28,9 +28,10 @@ export var AudioManager = (function () {
         this.mainTrackAudio.currentTime = 0;
     };
     AudioManager.prototype.playSoundEffect = function (track) {
-        if (this.soundOn) { }
-        var myAudio = new Audio("assets/audio/" + track + ".wav");
-        myAudio.play();
+        if (this.soundOn) {
+            var myAudio = new Audio("assets/audio/" + track + ".wav");
+            myAudio.play();
+        }
     };
     AudioManager = __decorate([
         Injectable(), 

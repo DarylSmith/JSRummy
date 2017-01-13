@@ -31,11 +31,11 @@ export class AudioManager {
     }
 
     public playSoundEffect(track: string): void {
-        if (this.soundOn) { }
+        if (this.soundOn) { 
         let myAudio = new Audio(`assets/audio/${track}.wav`);
         myAudio.play();
     }
-
+    }
 
 }
 
