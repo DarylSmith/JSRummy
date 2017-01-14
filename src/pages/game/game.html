@@ -25,7 +25,7 @@
         </div>
 
         <div class="score-container-inner">
-            <h3> {{jrummyText.COMPUTER_SCORE}}</h3>
+            <h3> {{jrummyText.PLAYER_SCORE}}</h3>
 
             <span class="points-callout">{{_jrummy.PlayerPoints}}</span>
 
@@ -80,8 +80,8 @@
 
 
 <div class="move-card-item discard-move-card" [ngClass]="'take-discard' === this.showAnimation?'give-to-player-discard':''">
-    <jrummy-playingcard *ngIf="_jrummy.DiscardPile.Cards.length >0 " id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[0].Suit"
-        [face]="_jrummy.DiscardPile.Cards[0].FaceValueString"></jrummy-playingcard>
+    <jrummy-playingcard *ngIf="lastDiscardCard!==undefined " id="discard-pile" [suit]="lastDiscardCard.Suit"
+        [face]="lastDiscardCard.FaceValueString"></jrummy-playingcard>
 
 </div>
 

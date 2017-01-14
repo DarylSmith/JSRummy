@@ -40,6 +40,10 @@ export class GamePage {
 
     public gameCompletedResult: string = '';
 
+    public lastDiscardCard:Card;
+
+    public showlastDiscard:boolean=false;
+
     public discardCard: number = 0;
 
     public modalBody: string;
@@ -47,6 +51,7 @@ export class GamePage {
     public leftHandLocation: number = 0;
 
     private leftHandInterval: any;
+
 
 
     //this is a test method for running the computer by itself
@@ -160,6 +165,11 @@ export class GamePage {
     }
     public discardPlayerCard(suit: string, name: string) {
 
+        
+
+        this.lastDiscardCard = _.cloneDeep( _.filter(this._jrummy.PlayerHand.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0]);
+
+        
         if (this._jrummy.gameIsDraw()) {
             this.displayModal(this.jrummyText.GAME_IS_DRAW);
 
@@ -256,7 +266,6 @@ export class GamePage {
     }
 
 
-
     public setDiscardCard(darylDone: boolean) {
         if (darylDone) {
             this.discardCard = 0;
@@ -270,7 +279,7 @@ export class GamePage {
     public playerReaction():void{
 
         let playerReactions:number[] = [1,2,1,2,1,2];
-        let reactionIndex:number[] = [53,-229,-539,-844,-1150];
+        let reactionIndex:number[] = [53,-239,-544,-847,-1152];
         let xCoord:number = 158;
         let anIndex =0;
         let index =0;
