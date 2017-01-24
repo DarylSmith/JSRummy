@@ -23,6 +23,15 @@
 
 } 
 
+@mixin keyframe-call-infinite($animation)
+{
+
+            -webkit-animation: $animation 2s infinite; 
+      -moz-animation:    $animation 2s infinite; 
+       animation:        $animation 2s infinite;
+
+} 
+
 @mixin player-width-transition{
         -webkit-transition: width 1s;
       transition: width 1s;
@@ -429,6 +438,7 @@ margin-right:-10px !important;
 }
 
 
+
 .give-to-player-discard{
 
        @include  keyframe-call(give-card-to-player-discard);
@@ -437,6 +447,27 @@ margin-right:-10px !important;
        {
             @include  keyframe-call(give-card-to-player-child-discard);
        }
+
+}
+
+.discard-card-face{
+          @include  keyframe-call-infinite(add-card-face);
+          padding-left:11px;
+          padding-top: 6px;
+          .bottom-row
+          {
+                @include  keyframe-call-infinite(add-card-face-bottom);           
+          }
+            .middle-row
+          {
+                    @include keyframe-call-infinite(add-card-face-middle);
+          }
+           .middle-row:after{
+          
+      content: "\03b6";
+  }
+
+
 }
 
 

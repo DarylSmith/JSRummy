@@ -380,6 +380,34 @@ h3 {
     font-size: 1px;
     z-index: -1000; } }
 
+@keyframes add-card-face {
+  0% {
+    border-radius: 6px; }
+  60% {
+    font-size: 1.2em;
+    border-radius: 22px;
+    width: 62px; } }
+
+@keyframes add-card-face-bottom {
+  0% {
+    position: relative;
+    bottom: 0px;
+    width: 15px; }
+  50% {
+    bottom: 50px;
+    position: relative;
+    transform: rotate(0deg); }
+  100% {
+    bottom: 50px;
+    position: relative;
+    transform: rotate(0deg); } }
+
+@keyframes add-card-face-middle {
+  0% {
+    visibility: hidden !important; }
+  50% {
+    visibility: visible; } }
+
 @keyframes give-card-to-player-1 {
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
@@ -2116,6 +2144,23 @@ html {
     -webkit-animation: give-card-to-player-child-discard 1s 1;
     -moz-animation: give-card-to-player-child-discard 1s 1;
     animation: give-card-to-player-child-discard 1s 1; }
+
+.discard-card-face {
+  -webkit-animation: add-card-face 2s infinite;
+  -moz-animation: add-card-face 2s infinite;
+  animation: add-card-face 2s infinite;
+  padding-left: 11px;
+  padding-top: 6px; }
+  .discard-card-face .bottom-row {
+    -webkit-animation: add-card-face-bottom 2s infinite;
+    -moz-animation: add-card-face-bottom 2s infinite;
+    animation: add-card-face-bottom 2s infinite; }
+  .discard-card-face .middle-row {
+    -webkit-animation: add-card-face-middle 2s infinite;
+    -moz-animation: add-card-face-middle 2s infinite;
+    animation: add-card-face-middle 2s infinite; }
+  .discard-card-face .middle-row:after {
+    content: "\03b6"; }
 
 .modal-window {
   position: fixed;

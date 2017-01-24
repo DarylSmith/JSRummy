@@ -81,7 +81,7 @@
 
 <div class="move-card-item discard-move-card" [ngClass]="'take-discard' === this.showAnimation?'give-to-player-discard':''">
     <jrummy-playingcard *ngIf="lastDiscardCard!==undefined " id="discard-pile" [suit]="lastDiscardCard.Suit"
-        [face]="lastDiscardCard.FaceValueString"></jrummy-playingcard>
+        [face]="lastDiscardCard.FaceValueString"></jrummy-playingcard> 
 
 </div>
 
@@ -92,7 +92,7 @@
 
 
 
-        <jrummy-playingcard id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[discardCard].Suit" [face]="_jrummy.DiscardPile.Cards[discardCard].FaceValueString"></jrummy-playingcard>
+        <jrummy-playingcard id="discard-pile" [suit]="_jrummy.DiscardPile.Cards[discardCard].Suit" [keyframe]="showDiscardFace" [face]="_jrummy.DiscardPile.Cards[discardCard].FaceValueString"></jrummy-playingcard>
     </a>
 
 

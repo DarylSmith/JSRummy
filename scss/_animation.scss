@@ -125,6 +125,60 @@
 }
 
 
+
+@keyframes add-card-face{
+
+    0%{
+      
+        border-radius: 6px;
+        
+    }
+
+    60%{
+        font-size:1.2em;
+         border-radius: 22px;
+         width:62px;
+    }
+    
+}
+
+@keyframes add-card-face-bottom{
+ 0%{
+      
+       position:relative;
+       bottom: 0px;
+       width:15px;
+        
+    }
+
+    50%{
+         bottom: 50px;
+        position:relative;
+        transform: rotate(0deg);
+    }
+    100%{
+         bottom: 50px;
+        position:relative;
+        transform: rotate(0deg);
+    }
+
+}
+
+
+@keyframes add-card-face-middle{
+ 0%{
+      visibility:hidden !important;
+      
+    }
+  50%{
+
+      visibility:visible;
+  }
+
+}
+
+
+
 @for $g from 1 through 4
 {
 @keyframes give-card-to-player-#{$g}{
@@ -182,4 +236,5 @@
   }
 
 }
+
 

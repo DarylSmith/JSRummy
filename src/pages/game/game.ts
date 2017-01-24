@@ -48,6 +48,8 @@ export class GamePage {
 
     public modalBody: string;
 
+    public showDiscardFace:string;
+
     public leftHandLocation: number = 0;
 
     private leftHandInterval: any;
@@ -93,6 +95,7 @@ export class GamePage {
             function (event) {
                 self.showAnimation = "none";
                 self.setDiscardCard(true);
+                self.showDiscardFace="";
             });
 
         $(".move-card-item").on("animationend",
@@ -189,6 +192,7 @@ export class GamePage {
             }
             //play animation for computer discarding
             else {
+                this.showDiscardFace="discard-card-face";
                 this.moveLeftHand(false);
             }
         }
