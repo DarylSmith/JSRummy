@@ -139,6 +139,13 @@
          border-radius: 22px;
          width:62px;
     }
+
+    100%{
+        font-size:1.2em;
+         border-radius: 22px;
+         width:62px;
+    }
+
     
 }
 
@@ -177,6 +184,18 @@
 
 }
 
+
+@keyframes add-card-mouth {
+  0% {
+
+    stroke-dashoffset: 1000;
+    stroke-width:1px;
+  }
+
+   100% {
+    stroke-dashoffset: 0;
+  }
+}
 
 
 @for $g from 1 through 4

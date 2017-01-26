@@ -386,6 +386,10 @@ h3 {
   60% {
     font-size: 1.2em;
     border-radius: 22px;
+    width: 62px; }
+  100% {
+    font-size: 1.2em;
+    border-radius: 22px;
     width: 62px; } }
 
 @keyframes add-card-face-bottom {
@@ -407,6 +411,13 @@ h3 {
     visibility: hidden !important; }
   50% {
     visibility: visible; } }
+
+@keyframes add-card-mouth {
+  0% {
+    stroke-dashoffset: 1000;
+    stroke-width: 1px; }
+  100% {
+    stroke-dashoffset: 0; } }
 
 @keyframes give-card-to-player-1 {
   -webkit-transform: rotate(0deg);
@@ -1833,6 +1844,12 @@ html {
   color: #ffffff;
   font-weight: 600; }
 
+.first_nose_1, .first_nose_2 {
+  display: none; }
+
+.nose-image-display-1 .first_nose_1, .nose-image-display-2 .first_nose_2 {
+  display: block !important; }
+
 .hand {
   height: 80px;
   width: 100%;
@@ -1845,6 +1862,9 @@ html {
     bottom: 55px; }
   .pile-container {
     bottom: 66px !important; } }
+
+.diamonds .first_nose, .diamonds .first_mouth, .hearts .first_nose, .hearts .first_mouth {
+  stroke: #ff0000; }
 
 .card {
   position: flex;
@@ -2146,21 +2166,32 @@ html {
     animation: give-card-to-player-child-discard 1s 1; }
 
 .discard-card-face {
-  -webkit-animation: add-card-face 2s infinite;
-  -moz-animation: add-card-face 2s infinite;
-  animation: add-card-face 2s infinite;
+  -webkit-animation: add-card-face 2s forwards;
+  -moz-animation: add-card-face 2s forwards;
+  animation: add-card-face 2s forwards;
   padding-left: 11px;
   padding-top: 6px; }
   .discard-card-face .bottom-row {
-    -webkit-animation: add-card-face-bottom 2s infinite;
-    -moz-animation: add-card-face-bottom 2s infinite;
-    animation: add-card-face-bottom 2s infinite; }
+    -webkit-animation: add-card-face-bottom 2s forwards;
+    -moz-animation: add-card-face-bottom 2s forwards;
+    animation: add-card-face-bottom 2s forwards; }
   .discard-card-face .middle-row {
-    -webkit-animation: add-card-face-middle 2s infinite;
-    -moz-animation: add-card-face-middle 2s infinite;
-    animation: add-card-face-middle 2s infinite; }
-  .discard-card-face .middle-row:after {
-    content: "\03b6"; }
+    -webkit-animation: add-card-face-middle 2s forwards;
+    -moz-animation: add-card-face-middle 2s forwards;
+    animation: add-card-face-middle 2s forwards; }
+  .discard-card-face #first_face {
+    display: block; }
+  .discard-card-face .first_mouth {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 2000;
+    animation: add-card-mouth 5s infinite; }
+
+#first_face {
+  display: none;
+  width: 47px;
+  position: relative;
+  bottom: 11px;
+  right: 10px; }
 
 .modal-window {
   position: fixed;

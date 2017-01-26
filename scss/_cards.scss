@@ -26,9 +26,9 @@
 @mixin keyframe-call-infinite($animation)
 {
 
-            -webkit-animation: $animation 2s infinite; 
-      -moz-animation:    $animation 2s infinite; 
-       animation:        $animation 2s infinite;
+            -webkit-animation: $animation 2s  forwards; 
+      -moz-animation:    $animation 2s  forwards; 
+       animation:        $animation 2s  forwards;
 
 } 
 
@@ -38,6 +38,17 @@
         height:75px;
       float:left;
 }
+
+ .first_nose_1, .first_nose_2
+{
+      display:none;
+}
+ 
+.nose-image-display-1 .first_nose_1, .nose-image-display-2 .first_nose_2
+{
+      display:block !important;
+}
+
 
 .hand{ 
     height:80px;
@@ -61,7 +72,12 @@
 
 }
 
+.diamonds,.hearts{
+ .first_nose,.first_mouth{
+       stroke:#ff0000;
+ }
 
+}
 
 .card{
     @include card-front;
@@ -462,15 +478,35 @@ margin-right:-10px !important;
           {
                     @include keyframe-call-infinite(add-card-face-middle);
           }
-           .middle-row:after{
-          
-      content: "\03b6";
-  }
+           #first_face{
+      display:block;
+
+}
+
+       .first_mouth{
+            stroke-dasharray: 400;
+            stroke-dashoffset: 2000;
+            animation: add-card-mouth 5s infinite;
 
 
 }
 
 
+
+
+
+}
+
+
+
+
+#first_face{
+      display:none;
+      width: 47px;
+      position: relative;
+      bottom: 11px;
+      right: 10px;
+}
 
 
 

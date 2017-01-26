@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, OnChanges} from '@angular/core';
 
 @Component({
     selector: 'jrummy-playingcard', 
@@ -7,6 +7,8 @@ import { Component, Input} from '@angular/core';
 })
 
 export class PlayingCardComponent{
+
+public noseImageClass:string="nose-image-display-1";
 
 @Input() public suit:string="spades";
 @Input() public face:string="2";
@@ -17,6 +19,14 @@ export class PlayingCardComponent{
     constructor() {
 
     }
+
+ngOnChanges(){
+
+        let vals: number[] = [1,2];
+        let version: number = vals[Math.floor(Math.random() * vals.length)];
+        this.noseImageClass=`nose-image-display-${version}`;
+
+}
 
 
     
