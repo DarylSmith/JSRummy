@@ -155,7 +155,7 @@ body {
     margin-left: 20%; } }
 
 .options {
-  width: 90%;
+  width: 60%;
   margin: 10px auto 0 auto; }
 
 ul.btn-options {
@@ -167,8 +167,7 @@ ul.btn-options {
     ul.btn-options li {
       margin-right: 1%; } }
   ul.btn-options li.hc, ul.btn-options li.rules {
-    position: relative;
-    top: 25px; }
+    position: relative; }
   ul.btn-options img {
     height: 70px; }
 
@@ -1869,7 +1868,7 @@ html {
     margin-right: -9px !important; } }
 
 .card-back {
-  background-image: url("../Images/card_back.png");
+  background-image: url(../Images/card_back.png);
   background-repeat: no-repeat;
   -webkit-box-shadow: 1px 1px 14px 0px #000;
   -moz-box-shadow: 1px 1px 14px 0px #000;
@@ -1920,7 +1919,7 @@ html {
   animation: give-card-to-player-4 1s 1; }
 
 .left-hand {
-  background-image: url("../Images/left-hand-sprite.png") !important;
+  background-image: url(../Images/left-hand-sprite.png) !important;
   width: 39px !important;
   height: 50px;
   -webkit-box-shadow: none !important;
@@ -1958,7 +1957,7 @@ html {
   perspective: 800px;
   left: 105px; }
   .card-container .front {
-    background-image: url("../Images/card_back.png"); }
+    background-image: url(../Images/card_back.png); }
   .card-container .back {
     position: flex;
     background-repeat: no-repeat;
@@ -2181,7 +2180,7 @@ html {
   float: right;
   height: 140px;
   width: 260px;
-  background-image: url("../Images/player_bg_sprite.png");
+  background-image: url(../Images/player_bg_sprite.png);
   background-repeat: no-repeat;
   background-position-x: 53px;
   background-position-y: -14px; }
@@ -2192,7 +2191,7 @@ html {
   left: 36px; }
 
 .left-hand {
-  background-image: url("../Images/left-hand-sprite.png") !important;
+  background-image: url(../Images/left-hand-sprite.png) !important;
   width: 39px !important;
   height: 50px;
   -webkit-box-shadow: none !important;
