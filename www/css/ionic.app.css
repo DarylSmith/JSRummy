@@ -140,7 +140,7 @@ body {
 
 @media (max-height: 667px) {
   .title {
-    background-image: url("http://lifespeak.s3.amazonaws.com/Images/title_sm.jpg");
+    background-image: url("../Images/title_sm.jpg");
     background-repeat: no-repeat;
     margin: 0 auto;
     height: 186px;
@@ -150,7 +150,7 @@ body {
   .title {
     height: 258px;
     width: 499px;
-    background-image: url("http://lifespeak.s3.amazonaws.com/Images/title.jpg");
+    background-image: url("../Images/title.jpg");
     background-repeat: no-repeat;
     margin-left: 20%; } }
 
@@ -1794,7 +1794,7 @@ html {
 .generic-btn-container {
   height: 37px;
   width: 100px;
-  background: url(http://lifespeak.s3.amazonaws.com/Images/generic_btn.png);
+  background: url(../Images/generic_btn.png);
   cursor: pointer;
   font-size: 1.3em;
   background-repeat: no-repeat;
@@ -1869,7 +1869,7 @@ html {
     margin-right: -9px !important; } }
 
 .card-back {
-  background-image: url("http://lifespeak.s3.amazonaws.com/Images/card_back.png");
+  background-image: url("../Images/card_back.png");
   background-repeat: no-repeat;
   -webkit-box-shadow: 1px 1px 14px 0px #000;
   -moz-box-shadow: 1px 1px 14px 0px #000;
@@ -1920,7 +1920,7 @@ html {
   animation: give-card-to-player-4 1s 1; }
 
 .left-hand {
-  background-image: url("http://lifespeak.s3.amazonaws.com/Images/left-hand-sprite.png") !important;
+  background-image: url("../Images/left-hand-sprite.png") !important;
   width: 39px !important;
   height: 50px;
   -webkit-box-shadow: none !important;
@@ -1958,7 +1958,7 @@ html {
   perspective: 800px;
   left: 105px; }
   .card-container .front {
-    background-image: url("http://lifespeak.s3.amazonaws.com/Images/card_back.png"); }
+    background-image: url("../Images/card_back.png"); }
   .card-container .back {
     position: flex;
     background-repeat: no-repeat;
@@ -2175,13 +2175,13 @@ html {
     display: block;
     width: 20px;
     height: 20px;
-    background: url(http://lifespeak.s3.amazonaws.com/Images/modal-close.png); }
+    background: url(../Images/modal-close.png); }
 
 .player {
   float: right;
   height: 140px;
   width: 260px;
-  background-image: url("http://lifespeak.s3.amazonaws.com/Images/player_bg_sprite.png");
+  background-image: url("../Images/player_bg_sprite.png");
   background-repeat: no-repeat;
   background-position-x: 53px;
   background-position-y: -14px; }
@@ -2192,7 +2192,7 @@ html {
   left: 36px; }
 
 .left-hand {
-  background-image: url("http://lifespeak.s3.amazonaws.com/Images/left-hand-sprite.png") !important;
+  background-image: url("../Images/left-hand-sprite.png") !important;
   width: 39px !important;
   height: 50px;
   -webkit-box-shadow: none !important;

@@ -3,7 +3,7 @@
     float:right;
     height:140px;
     width:260px; 
-    background-image: url('http://lifespeak.s3.amazonaws.com/Images/player_bg_sprite.png');
+    background-image: url(../Images/player_bg_sprite.png');
     background-repeat:no-repeat; 
     background-position-x:53px;
     background-position-y:-14px;
@@ -22,7 +22,7 @@
 
 .left-hand {
 
-             background-image:url('http://lifespeak.s3.amazonaws.com/Images/left-hand-sprite.png') !important;
+             background-image:url(../Images/left-hand-sprite.png') !important;
              width:39px !important;
              height:50px;
                -webkit-box-shadow: none !important;
