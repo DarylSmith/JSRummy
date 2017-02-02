@@ -12,6 +12,9 @@ export class Game {
     Winner: string;
     CurrentStatus: GameStatus;
     ComputerSelectedDiscard:boolean;
+    GinBonus:number=0;
+    UndercutBonus:number=0;
+    Caller:string;
 }
 
 
@@ -70,9 +73,31 @@ export class Card {
 
         return this.Meld == 'set' || this.Meld == 'run';
     }
-    toString(): string {
+    public toString(): string {
 
         return `${this.Name} of ${this.Suit}`
+    }
+
+    public toShortString(): string {
+
+        return  this.Name + this.getCardSymbol(this.Suit);
+    }
+
+    private getCardSymbol(suit:string)
+    {
+        switch(suit)
+        {
+            case "hearts":
+            return "♥"
+            case "spades":
+            return "♠"
+            case "clubs":
+            return "♣"
+            default:
+            return "♦"
+            
+        }
+
     }
 
 
@@ -335,6 +360,7 @@ export class JRummy {
         let computerScore: number = this.ComputerHand.getCurrentPoints();
 
         if (this.CurrentGame.CurrentStatus === GameStatus.PlayerCall) {
+            this.CurrentGame.Caller="Player";
             let result: number = this.getScore(playerScore, computerScore);
             if (result < 0) {
                 this.ComputerPoints = this.ComputerPoints + (result * -1);
@@ -346,6 +372,7 @@ export class JRummy {
             }
         }
         else {
+            this.CurrentGame.Caller="Computer";
             let result: number = this.getScore(computerScore, playerScore);
             if (result < 0) {
                 this.PlayerPoints = this.PlayerPoints + (result * -1);
@@ -724,7 +751,8 @@ export class JRummy {
     private getScore(callerPoints: number, opponentPoints: number) {
         //if a runner gets gin, 25+ oppenent points
         if (callerPoints === 0) {
-            return 25 + opponentPoints;
+            this.CurrentGame.GinBonus=25;
+            return  this.CurrentGame.GinBonus + opponentPoints;
 
         }
 
@@ -732,6 +760,7 @@ export class JRummy {
         else if (callerPoints - opponentPoints >= 0) {
             let diff: number = callerPoints - opponentPoints;
 
+            this.CurrentGame.UndercutBonus=25;
             return -25 - diff;
 
         }

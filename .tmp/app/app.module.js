@@ -23,6 +23,7 @@ import { HomePage } from '../pages/home/home';
 import { GamePage } from '../pages/game/game';
 import { RulesPage } from '../pages/rules/rules';
 import { SortHandPipe } from '../pipes/SortHandPipe';
+import { FilterHandPipe } from '../pipes/FilterHandPipe';
 export var AppModule = (function () {
     function AppModule() {
     }
@@ -36,7 +37,8 @@ export var AppModule = (function () {
                 PlayingCardComponent,
                 GamePage,
                 RulesPage,
-                SortHandPipe
+                SortHandPipe,
+                FilterHandPipe
             ],
             imports: [
                 IonicModule.forRoot(MyApp), DragulaModule

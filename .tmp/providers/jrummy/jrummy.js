@@ -11,6 +11,8 @@ import { Injectable } from "@angular/core";
 import * as _ from 'lodash';
 export var Game = (function () {
     function Game() {
+        this.GinBonus = 0;
+        this.UndercutBonus = 0;
     }
     Game = __decorate([
         Injectable(), 
@@ -52,6 +54,21 @@ export var Card = (function () {
     };
     Card.prototype.toString = function () {
         return this.Name + " of " + this.Suit;
+    };
+    Card.prototype.toShortString = function () {
+        return this.Name + this.getCardSymbol(this.Suit);
+    };
+    Card.prototype.getCardSymbol = function (suit) {
+        switch (suit) {
+            case "hearts":
+                return "♥";
+            case "spades":
+                return "♠";
+            case "clubs":
+                return "♣";
+            default:
+                return "♦";
+        }
     };
     Card = __decorate([
         Injectable(), 
@@ -245,6 +262,7 @@ export var JRummy = (function () {
         var playerScore = this.PlayerHand.getCurrentPoints();
         var computerScore = this.ComputerHand.getCurrentPoints();
         if (this.CurrentGame.CurrentStatus === GameStatus.PlayerCall) {
+            this.CurrentGame.Caller = "Player";
             var result = this.getScore(playerScore, computerScore);
             if (result < 0) {
                 this.ComputerPoints = this.ComputerPoints + (result * -1);
@@ -256,6 +274,7 @@ export var JRummy = (function () {
             }
         }
         else {
+            this.CurrentGame.Caller = "Computer";
             var result = this.getScore(computerScore, playerScore);
             if (result < 0) {
                 this.PlayerPoints = this.PlayerPoints + (result * -1);
@@ -521,10 +540,12 @@ export var JRummy = (function () {
     JRummy.prototype.getScore = function (callerPoints, opponentPoints) {
         //if a runner gets gin, 25+ oppenent points
         if (callerPoints === 0) {
-            return 25 + opponentPoints;
+            this.CurrentGame.GinBonus = 25;
+            return this.CurrentGame.GinBonus + opponentPoints;
         }
         else if (callerPoints - opponentPoints >= 0) {
             var diff = callerPoints - opponentPoints;
+            this.CurrentGame.UndercutBonus = 25;
             return -25 - diff;
         }
         else {

@@ -226,10 +226,12 @@ margin-right:-10px !important;
 
   .top-row:before{
         content: "♦";
+        color:#ff0000 !important;
   }
   .bottom-row:after{
 
        content: "♦"; 
+       color:#ff0000 !important;
   }
 
 }
@@ -239,10 +241,12 @@ margin-right:-10px !important;
 
   .top-row:before{
         content: "♥";
+        color:#ff0000 !important;
   }
   .bottom-row:after{
 
       content: "♥";
+      color:#ff0000 !important;
   }
 
 }

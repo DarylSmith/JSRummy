@@ -22,6 +22,7 @@ import { GamePage } from '../pages/game/game';
 import { RulesPage } from '../pages/rules/rules';
 //pipes 
 import {SortHandPipe} from '../pipes/SortHandPipe';
+import {FilterHandPipe} from '../pipes/FilterHandPipe';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {SortHandPipe} from '../pipes/SortHandPipe';
     PlayingCardComponent,
     GamePage,
     RulesPage,
-    SortHandPipe
+    SortHandPipe,
+    FilterHandPipe
   ],
   imports: [
     IonicModule.forRoot(MyApp),DragulaModule

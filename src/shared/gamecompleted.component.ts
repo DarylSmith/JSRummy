@@ -19,6 +19,8 @@ export class GameCompletedComponent implements OnInit {
 
     public headerText: string;
 
+    public showCards:boolean=false;
+
     constructor(public _jrummy: JRummy, public _jrummyText: JRummyText) {
 
     }
@@ -45,6 +47,13 @@ export class GameCompletedComponent implements OnInit {
         console.log(this._jrummy.ComputerHand.Cards);
         return this._jrummy.ComputerHand.Cards;
 
+    }
+
+    public toggleCardDisplay(val:boolean)
+    {
+        
+        this.showCards =val;
+        
     }
 
     ngOnChanges(changes: SimpleChanges) {
