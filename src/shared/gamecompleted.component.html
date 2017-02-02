@@ -1,28 +1,129 @@
 <div class="modal-window">
     <div class="modal-container game-completed">
-       
+
 
         <div class="game-completed-header"><span>{{ headerText }}</span>
             <ul>
+                <li><a href="javascript:void(0);" [hidden]="showCards" (click)="toggleCardDisplay(true)">View Hand</a></li>
+                <li><a href="javascript:void(0);" [hidden]="!showCards" (click)="toggleCardDisplay(false)">View Score</a></li>
                 <li><a href="javascript:void(0);" (click)="completeGame('play')">Play Again</a></li>
                 <li><a href="javascript:void(0);" (click)="completeGame('quit')">Quit</a></li>
             </ul>
         </div>
+        <div id="game-completed-card-display" [hidden]="showCards">
+            <table>
+                <thead>
+                    <tr>
+                        <td>
+                            </td>
+                        <td>
 
-        <h5>{{ _jrummyText.DARYL_CARDS}} -  {{_jrummy.ComputerHand.getCurrentPoints()}} Points</h5>
-        <div class="hand">
-            <div *ngFor="let card of  _jrummy.ComputerHand|SortHand;let i = index ">
-                <jrummy-playingcard [suit]="card.Suit"  [face]="card.FaceValueString" [squeezed]="true"></jrummy-playingcard>
-            </div>
+                            You
+                        </td>
+                        <td>
+                            Daryl
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+
+                            Cards in sets
+                            </td>
+                        <td>
+                        {{_jrummy.PlayerHand|FilterHand:'set'}}
+                        </td>
+                        <td>
+                            {{_jrummy.ComputerHand|FilterHand:'set'}}
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+
+                           Cards in runs
+                            </td>
+                        <td>
+                        {{_jrummy.PlayerHand|FilterHand:'run'}}
+                        </td>
+                        <td>
+                            {{_jrummy.ComputerHand|FilterHand:'run'}}
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+
+                           Deadwood Cards
+                            </td>
+                        <td>
+                        {{_jrummy.PlayerHand|FilterHand:'none'}}
+                        </td>
+                        <td>
+                            {{_jrummy.ComputerHand|FilterHand:'none'}}
+                        </td>
+                    </tr>
+                      <tr>
+                        <td>
+
+                           Deadwood Points Awarded (Sum of opponent's deadwood)
+                            </td>
+                        <td>
+                        {{_jrummy.ComputerHand.getCurrentPoints() }}
+                        </td>
+                        <td>
+                            {{_jrummy.PlayerHand.getCurrentPoints()}}
+                        </td>
+                    </tr>
+                      <tr>
+                        <td>
+
+                          Gin Bonus
+                            </td>
+                        <td>
+                        {{_jrummy.CurrentGame.Caller=="Player" &&  _jrummy.CurrentGame.GinBonus==25?25:0 }}
+                        </td>
+                        <td>
+                            {{_jrummy.CurrentGame.Caller=="Computer " &&  _jrummy.CurrentGame.GinBonus==25?25:0 }}
+                        </td>
+                    </tr>
+                      <tr>
+                        <td>
+
+                         Undercut Bonus
+                            </td>
+                        <td>
+                        {{_jrummy.CurrentGame.Caller=="Computer" &&  _jrummy.CurrentGame.UndercutBonus==25?25:0 }}
+                        </td>
+                        <td>
+                            {{_jrummy.CurrentGame.Caller=="Player" &&  _jrummy.CurrentGame.UndercutBonus==25?25:0 }}
+                        </td>
+                    </tr>
+                  
+
+
+
+
+                </tbody>
+            </table>
 
         </div>
+        <div id="game-completed-card-display" [hidden]="!showCards">
+            <h5>{{ _jrummyText.DARYL_CARDS}} - {{_jrummy.ComputerHand.getCurrentPoints()}} Points</h5>
+            <div class="hand">
+                <div *ngFor="let card of  _jrummy.ComputerHand|SortHand;let i = index ">
+                    <jrummy-playingcard [suit]="card.Suit" [face]="card.FaceValueString" [squeezed]="true"></jrummy-playingcard>
+                </div>
+
+            </div>
 
 
-         <h5>{{ _jrummyText.PLAYER_CARDS}} - {{_jrummy.PlayerHand.getCurrentPoints()}}  Points</h5>
+            <h5>{{ _jrummyText.PLAYER_CARDS}} - {{_jrummy.ComputerHand.getCurrentPoints()}} Points</h5>
 
-        <div class="hand">
-            <div *ngFor="let card of _jrummy.PlayerHand|SortHand;let i = index ">
-                   <jrummy-playingcard [suit]="card.Suit"  [face]="card.FaceValueString"  [squeezed]="true"></jrummy-playingcard>
+            <div class="hand">
+                <div *ngFor="let card of _jrummy.PlayerHand|SortHand;let i = index ">
+                    <jrummy-playingcard [suit]="card.Suit" [face]="card.FaceValueString" [squeezed]="true"></jrummy-playingcard>
+                </div>
+
             </div>
 
         </div>
