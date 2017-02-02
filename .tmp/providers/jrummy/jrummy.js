@@ -13,6 +13,8 @@ export var Game = (function () {
     function Game() {
         this.GinBonus = 0;
         this.UndercutBonus = 0;
+        this.PlayerScore = 0;
+        this.ComputerScore = 0;
     }
     Game = __decorate([
         Injectable(), 
@@ -265,11 +267,13 @@ export var JRummy = (function () {
             this.CurrentGame.Caller = "Player";
             var result = this.getScore(playerScore, computerScore);
             if (result < 0) {
-                this.ComputerPoints = this.ComputerPoints + (result * -1);
+                this.CurrentGame.ComputerScore = (result * -1);
+                this.ComputerPoints = this.ComputerPoints + this.CurrentGame.ComputerScore;
                 this.CurrentGame.CurrentStatus = GameStatus.ComputerWon;
             }
             else {
-                this.PlayerPoints = this.PlayerPoints + result;
+                this.CurrentGame.PlayerScore = result;
+                this.PlayerPoints = this.PlayerPoints + this.CurrentGame.PlayerScore;
                 this.CurrentGame.CurrentStatus = GameStatus.PlayerWon;
             }
         }
@@ -277,11 +281,13 @@ export var JRummy = (function () {
             this.CurrentGame.Caller = "Computer";
             var result = this.getScore(computerScore, playerScore);
             if (result < 0) {
-                this.PlayerPoints = this.PlayerPoints + (result * -1);
+                this.CurrentGame.PlayerScore = (result * -1);
+                this.PlayerPoints = this.PlayerPoints + this.CurrentGame.PlayerScore;
                 this.CurrentGame.CurrentStatus = GameStatus.PlayerWon;
             }
             else {
-                this.ComputerPoints = this.ComputerPoints + result;
+                this.CurrentGame.ComputerScore = result;
+                this.ComputerPoints = this.ComputerPoints + this.CurrentGame.ComputerScore;
                 this.CurrentGame.CurrentStatus = GameStatus.ComputerWon;
             }
         }

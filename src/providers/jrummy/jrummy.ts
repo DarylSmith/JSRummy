@@ -1,5 +1,5 @@
-import {Injectable} from "@angular/core";
-import {JRummyText} from '../services/jrummyText'
+import { Injectable } from "@angular/core";
+import { JRummyText } from '../services/jrummyText'
 import * as _ from 'lodash';
 @Injectable()
 export class Game {
@@ -11,10 +11,12 @@ export class Game {
     ComputerPoints: number;
     Winner: string;
     CurrentStatus: GameStatus;
-    ComputerSelectedDiscard:boolean;
-    GinBonus:number=0;
-    UndercutBonus:number=0;
-    Caller:string;
+    ComputerSelectedDiscard: boolean;
+    GinBonus: number = 0;
+    UndercutBonus: number = 0;
+    Caller: string;
+    PlayerScore: number = 0;
+    ComputerScore: number = 0;
 }
 
 
@@ -80,22 +82,20 @@ export class Card {
 
     public toShortString(): string {
 
-        return  this.Name + this.getCardSymbol(this.Suit);
+        return this.Name + this.getCardSymbol(this.Suit);
     }
 
-    private getCardSymbol(suit:string)
-    {
-        switch(suit)
-        {
+    private getCardSymbol(suit: string) {
+        switch (suit) {
             case "hearts":
-            return "♥"
+                return "♥"
             case "spades":
-            return "♠"
+                return "♠"
             case "clubs":
-            return "♣"
+                return "♣"
             default:
-            return "♦"
-            
+                return "♦"
+
         }
 
     }
@@ -243,7 +243,7 @@ export class JRummy {
         this.PlayerPoints = 0;
         this.ComputerPoints = 0;
         this.CurrentGameNumber = 1;
-        
+
     }
 
     startGame(game: Game) {
@@ -360,26 +360,30 @@ export class JRummy {
         let computerScore: number = this.ComputerHand.getCurrentPoints();
 
         if (this.CurrentGame.CurrentStatus === GameStatus.PlayerCall) {
-            this.CurrentGame.Caller="Player";
+            this.CurrentGame.Caller = "Player";
             let result: number = this.getScore(playerScore, computerScore);
             if (result < 0) {
-                this.ComputerPoints = this.ComputerPoints + (result * -1);
+                this.CurrentGame.ComputerScore = (result * -1);
+                this.ComputerPoints = this.ComputerPoints + this.CurrentGame.ComputerScore;
                 this.CurrentGame.CurrentStatus = GameStatus.ComputerWon;
             }
             else {
-                this.PlayerPoints = this.PlayerPoints + result;
+                this.CurrentGame.PlayerScore = result;
+                this.PlayerPoints = this.PlayerPoints + this.CurrentGame.PlayerScore;
                 this.CurrentGame.CurrentStatus = GameStatus.PlayerWon;
             }
         }
         else {
-            this.CurrentGame.Caller="Computer";
+            this.CurrentGame.Caller = "Computer";
             let result: number = this.getScore(computerScore, playerScore);
             if (result < 0) {
-                this.PlayerPoints = this.PlayerPoints + (result * -1);
+                this.CurrentGame.PlayerScore = (result * -1);
+                this.PlayerPoints = this.PlayerPoints + this.CurrentGame.PlayerScore;
                 this.CurrentGame.CurrentStatus = GameStatus.PlayerWon;
             }
             else {
-                this.ComputerPoints = this.ComputerPoints + result;
+                this.CurrentGame.ComputerScore = result;
+                this.ComputerPoints = this.ComputerPoints + this.CurrentGame.ComputerScore;
                 this.CurrentGame.CurrentStatus = GameStatus.ComputerWon;
             }
 
@@ -393,16 +397,16 @@ export class JRummy {
     //determines if the game is over, and if so, whether to continue on
     private getStatusOfGame(): string {
 
-        let status:string ="";
+        let status: string = "";
         if (this.ComputerPoints >= 100) {
             status = "DARYL_WON_GAME";
         }
         else if (this.PlayerPoints >= 100) {
-           status="PLAYER_WON_GAME";
+            status = "PLAYER_WON_GAME";
         }
         else {
             this.CurrentGameNumber++;
-            status = this.CurrentGame.CurrentStatus === GameStatus.ComputerWon?"COMPUTER_WON_ROUND" :"PLAYER_WON_ROUND";
+            status = this.CurrentGame.CurrentStatus === GameStatus.ComputerWon ? "COMPUTER_WON_ROUND" : "PLAYER_WON_ROUND";
         }
         return status
     }
@@ -425,12 +429,12 @@ export class JRummy {
             console.log('Discard card was rejected.  Move to pile');
 
             //if the card is rejected, try again with the regular pile
-            this.CurrentGame.ComputerSelectedDiscard=false;
+            this.CurrentGame.ComputerSelectedDiscard = false;
             this.cardRejectedByComputer(this.Pile);
         }
         else {
 
-            this.CurrentGame.ComputerSelectedDiscard=true;
+            this.CurrentGame.ComputerSelectedDiscard = true;
 
             console.log('Discard card was accepted. continue');
         }
@@ -751,8 +755,8 @@ export class JRummy {
     private getScore(callerPoints: number, opponentPoints: number) {
         //if a runner gets gin, 25+ oppenent points
         if (callerPoints === 0) {
-            this.CurrentGame.GinBonus=25;
-            return  this.CurrentGame.GinBonus + opponentPoints;
+            this.CurrentGame.GinBonus = 25;
+            return this.CurrentGame.GinBonus + opponentPoints;
 
         }
 
@@ -760,7 +764,7 @@ export class JRummy {
         else if (callerPoints - opponentPoints >= 0) {
             let diff: number = callerPoints - opponentPoints;
 
-            this.CurrentGame.UndercutBonus=25;
+            this.CurrentGame.UndercutBonus = 25;
             return -25 - diff;
 
         }

@@ -15,7 +15,7 @@
                 <thead>
                     <tr>
                         <td>
-                            </td>
+                        </td>
                         <td>
 
                             You
@@ -30,75 +30,112 @@
                         <td>
 
                             Cards in sets
-                            </td>
+                        </td>
                         <td>
-                        {{_jrummy.PlayerHand|FilterHand:'set'}}
+                            {{_jrummy.PlayerHand|FilterHand:'set'}}
                         </td>
                         <td>
                             {{_jrummy.ComputerHand|FilterHand:'set'}}
                         </td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td>
 
-                           Cards in runs
-                            </td>
+                            Cards in runs
+                        </td>
                         <td>
-                        {{_jrummy.PlayerHand|FilterHand:'run'}}
+                            {{_jrummy.PlayerHand|FilterHand:'run'}}
                         </td>
                         <td>
                             {{_jrummy.ComputerHand|FilterHand:'run'}}
                         </td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td>
 
-                           Deadwood Cards
-                            </td>
+                            Deadwood Cards
+                        </td>
                         <td>
-                        {{_jrummy.PlayerHand|FilterHand:'none'}}
+                            {{_jrummy.PlayerHand|FilterHand:'none'}}
                         </td>
                         <td>
                             {{_jrummy.ComputerHand|FilterHand:'none'}}
                         </td>
                     </tr>
-                      <tr>
+                    <tr>
                         <td>
 
-                           Deadwood Points Awarded (Sum of opponent's deadwood)
-                            </td>
-                        <td>
-                        {{_jrummy.ComputerHand.getCurrentPoints() }}
+                            Deadwood Points (combined face value of deadwood)
                         </td>
                         <td>
-                            {{_jrummy.PlayerHand.getCurrentPoints()}}
+                            {{_jrummy.PlayerHand.getCurrentPoints() }}
+                        </td>
+                        <td>
+                            {{_jrummy.ComputerHand.getCurrentPoints()}}
                         </td>
                     </tr>
-                      <tr>
+                    <tr *ngIf="_jrummy.CurrentGame.UndercutBonus!=25">
                         <td>
 
-                          Gin Bonus
-                            </td>
-                        <td>
-                        {{_jrummy.CurrentGame.Caller=="Player" &&  _jrummy.CurrentGame.GinBonus==25?25:0 }}
+                            Deadwood Score (difference between Winner and Loser Deadwood Points)
                         </td>
                         <td>
-                            {{_jrummy.CurrentGame.Caller=="Computer " &&  _jrummy.CurrentGame.GinBonus==25?25:0 }}
+                            {{ _jrummy.CurrentGame.Caller=="Player" ?_jrummy.ComputerHand.getCurrentPoints() - _jrummy.PlayerHand.getCurrentPoints():0 }}
+                        </td>
+                        <td>
+                            {{ _jrummy.CurrentGame.Caller=="Computer" ? _jrummy.PlayerHand.getCurrentPoints() - _jrummy.ComputerHand.getCurrentPoints():0 }}
                         </td>
                     </tr>
-                      <tr>
+                      <tr *ngIf="_jrummy.CurrentGame.UndercutBonus===25">
                         <td>
 
-                         Undercut Bonus
-                            </td>
-                        <td>
-                        {{_jrummy.CurrentGame.Caller=="Computer" &&  _jrummy.CurrentGame.UndercutBonus==25?25:0 }}
+                            Deadwood Score (difference between Winner and Loser Deadwood Points)
                         </td>
                         <td>
-                            {{_jrummy.CurrentGame.Caller=="Player" &&  _jrummy.CurrentGame.UndercutBonus==25?25:0 }}
+                            {{ _jrummy.CurrentGame.Caller=="Player" ?_jrummy.PlayerHand.getCurrentPoints() - _jrummy.ComputerHand.getCurrentPoints():0 }}
+                        </td>
+                        <td>
+                            {{ _jrummy.CurrentGame.Caller=="Computer" ? _jrummy.ComputerHand.getCurrentPoints() - _jrummy.PlayerHand.getCurrentPoints():0 }}
                         </td>
                     </tr>
-                  
+                    <tr>
+                        <td>
+
+                            Gin Bonus
+                        </td>
+                        <td>
+                            {{_jrummy.CurrentGame.Caller=="Player" && _jrummy.CurrentGame.GinBonus==25?25:0 }}
+                        </td>
+                        <td>
+                            {{_jrummy.CurrentGame.Caller=="Computer " && _jrummy.CurrentGame.GinBonus==25?25:0 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                            Undercut Bonus
+                        </td>
+                        <td>
+                            {{_jrummy.CurrentGame.Caller=="Computer" && _jrummy.CurrentGame.UndercutBonus==25?25:0 }}
+                        </td>
+                        <td>
+                            {{_jrummy.CurrentGame.Caller=="Player" && _jrummy.CurrentGame.UndercutBonus==25?25:0 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                            Final Score
+                        </td>
+                        <td>
+                            {{_jrummy.CurrentGame.PlayerScore }}
+                        </td>
+                        <td>
+                            {{_jrummy.CurrentGame.ComputerScore}}
+                        </td>
+                    </tr>
+
+
 
 
 
@@ -108,7 +145,7 @@
 
         </div>
         <div id="game-completed-card-display" [hidden]="!showCards">
-            <h5>{{ _jrummyText.DARYL_CARDS}} - {{_jrummy.ComputerHand.getCurrentPoints()}} Points</h5>
+            <h5>{{ _jrummyText.DARYL_CARDS}}</h5>
             <div class="hand">
                 <div *ngFor="let card of  _jrummy.ComputerHand|SortHand;let i = index ">
                     <jrummy-playingcard [suit]="card.Suit" [face]="card.FaceValueString" [squeezed]="true"></jrummy-playingcard>
@@ -117,7 +154,7 @@
             </div>
 
 
-            <h5>{{ _jrummyText.PLAYER_CARDS}} - {{_jrummy.ComputerHand.getCurrentPoints()}} Points</h5>
+            <h5>{{ _jrummyText.PLAYER_CARDS}}</h5>
 
             <div class="hand">
                 <div *ngFor="let card of _jrummy.PlayerHand|SortHand;let i = index ">
