@@ -9,6 +9,7 @@ html, body {
 body{
 
     background-color:#007cb8;
+    position:fixed;
 }
 
 
@@ -176,4 +177,12 @@ div, ul, ol, li, h1, h2, h3, h4, h5, h6, a, p {
     padding: 20px 41px;
 
    ul{ list-style-position: inside;}
+}
+
+.player-buttons{
+display:flex;
+display:-webkit-flex;
+height:50px;
+
+
 }

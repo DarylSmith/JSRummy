@@ -30,18 +30,18 @@
             <span class="points-callout">{{_jrummy.PlayerPoints}}</span>
 
         </div>
+        <div class="player-buttons">
+            <div (click)="playerCall()" class="generic-btn-container">
+                Call
+            </div>
 
-        <div (click)="playerCall()" class="generic-btn-container">
-            Call
+            <div *ngIf="isFirstPickup()" (click)="allowComputerFirstTurn() " class="generic-btn-container">
+                Pass
+            </div>
         </div>
-
-        <div *ngIf="isFirstPickup()" (click)="allowComputerFirstTurn() " class="generic-btn-container">
-            Pass
-        </div>
-
     </div>
 
-    <div class="player"  [style.background-position]="reactionStyles">
+    <div class="player" [style.background-position]="reactionStyles">
         <div class="player-hand-container">
             <div class="left-hand" [ngStyle]="{'background-position-x':leftHandLocation + 'px'}"></div>
             <div class="card-back"></div>
@@ -80,8 +80,7 @@
 
 
 <div class="move-card-item discard-move-card" [ngClass]="'take-discard' === this.showAnimation?'give-to-player-discard':''">
-    <jrummy-playingcard *ngIf="lastDiscardCard!==undefined " id="discard-pile" [suit]="lastDiscardCard.Suit"
-        [face]="lastDiscardCard.FaceValueString"></jrummy-playingcard>
+    <jrummy-playingcard *ngIf="lastDiscardCard!==undefined " id="discard-pile" [suit]="lastDiscardCard.Suit" [face]="lastDiscardCard.FaceValueString"></jrummy-playingcard>
 
 </div>
 
