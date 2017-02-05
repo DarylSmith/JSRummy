@@ -30,9 +30,9 @@ export class GamePage {
 
     public keyFrameAnimation: string;
 
-    public reactionInterval:any;
+    public reactionInterval: any;
 
-    public reactionStyles:string="53px -14px";
+    public reactionStyles: string = "53px -14px";
 
     public playerSortActive: boolean = false;
 
@@ -40,9 +40,9 @@ export class GamePage {
 
     public gameCompletedResult: string = '';
 
-    public lastDiscardCard:Card;
+    public lastDiscardCard: Card;
 
-    public showlastDiscard:boolean=false;
+    public showlastDiscard: boolean = false;
 
     public discardCard: number = 0;
 
@@ -61,7 +61,7 @@ export class GamePage {
     }
 
 
-    constructor(public navCtrl: NavController, public _jrummy: JRummy, public jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService: DragulaService,private  audioManager:AudioManager) {
+    constructor(public navCtrl: NavController, public _jrummy: JRummy, public jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService: DragulaService, private audioManager: AudioManager) {
 
         this.currentGame = new Game();
         this._jrummy.startGame(this.currentGame);
@@ -76,10 +76,10 @@ export class GamePage {
         this._jrummy.reset();
     }
 
-      ionViewWillLeave(){
+    ionViewWillLeave() {
 
         this.audioManager.stopMainTrack();
-      }
+    }
 
 
     ionViewDidLoad() {
@@ -105,17 +105,17 @@ export class GamePage {
 
         this.audioManager.playMainTrack();
 
-         this.displayModal(this.jrummyText.BEGIN_PLAY_INSTRUCTIONS);
+        this.displayModal(this.jrummyText.BEGIN_PLAY_INSTRUCTIONS);
 
-         
-        this.drugalaService.drag.subscribe((value)=>{    
-            console.log("draggin'") ;
+
+        this.drugalaService.drag.subscribe((value) => {
+            console.log("draggin'");
             self.audioManager.playCardSortTrack();
 
         });
 
-        this.drugalaService.dragend.subscribe((value)=>{ 
-              console.log("stoppin'") ;     
+        this.drugalaService.dragend.subscribe((value) => {
+            console.log("stoppin'");
             self.audioManager.stopcardSortTrack();
 
         });
@@ -129,7 +129,7 @@ export class GamePage {
 
     public pickupPlayerCard(suit: string, name: string, isFromDiscardPile: boolean) {
 
-         this.audioManager.playSoundEffect("player_card_select.mp3");
+        this.audioManager.playSoundEffect("player_card_select.mp3");
         //special case for first round (must choose from discard pile in first round)
         if (this.isFirstPickup() && !isFromDiscardPile) {
             this.displayModal(this.jrummyText.PICK_FIRST_CARD);
@@ -184,9 +184,9 @@ export class GamePage {
 
         this.audioManager.playSoundEffect("player_card_select.mp3");
 
-        this.lastDiscardCard = _.cloneDeep( _.filter(this._jrummy.PlayerHand.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0]);
+        this.lastDiscardCard = _.cloneDeep(_.filter(this._jrummy.PlayerHand.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0]);
 
-        
+
         if (this._jrummy.gameIsDraw()) {
             this.displayModal(this.jrummyText.GAME_IS_DRAW);
 
@@ -236,8 +236,13 @@ export class GamePage {
     public playerCall() {
         this.audioManager.playSoundEffect("button_press.mp3");
         console.log('player called');
-        this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
-        this.scoreGameAndPlayAgain();
+        if (this._jrummy.CurrentGame.CurrentStatus === GameStatus.PlayerPickup) {
+            this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
+            this.scoreGameAndPlayAgain();
+        }
+        else {
+            this.displayModal(this.jrummyText.NO_CALL_ALLOWED);
+        }
     }
 
     public movePlayerCard(suit: string, name: string) {
@@ -272,7 +277,7 @@ export class GamePage {
 
     private onModalClosed(msg: string): void {
         this.modalIsActive = false
-           this.audioManager.playMainTrack();
+        this.audioManager.playMainTrack();
 
 
     }
@@ -297,55 +302,52 @@ export class GamePage {
         }
     }
 
-  
-    public playerReaction():void{
 
-        let playerReactions:number[] = [1,2,1,2,1,2];
-        let reactionIndex:number[] = [53,-239,-544,-847,-1152];
-        let xCoord:number = 158;
-        let anIndex =0;
-        let index =0;
+    public playerReaction(): void {
+
+        let playerReactions: number[] = [1, 2, 1, 2, 1, 2];
+        let reactionIndex: number[] = [53, -239, -544, -847, -1152];
+        let xCoord: number = 158;
+        let anIndex = 0;
+        let index = 0;
         let reaction: number = playerReactions[Math.floor(Math.random() * playerReactions.length)];
-        
+
         //no reaction if reaction is 0
-        if(reaction >0)
-        {
+        if (reaction > 0) {
             this.reactionInterval = setInterval(() => {
-            if (index === (reactionIndex.length *2) -1) {
-                this.setPlayerReaction(53,-14);
-                clearInterval(this.reactionInterval);
-               
-            }
-            else {
+                if (index === (reactionIndex.length * 2) - 1) {
+                    this.setPlayerReaction(53, -14);
+                    clearInterval(this.reactionInterval);
 
-                let yIndex=reaction===2?-158:-14; 
-                if(index===0)
-                {
-                      
-                      this.setPlayerReaction(53,yIndex);
                 }
-                else
-                {
-                      this.setPlayerReaction(reactionIndex[anIndex],yIndex);
+                else {
+
+                    let yIndex = reaction === 2 ? -158 : -14;
+                    if (index === 0) {
+
+                        this.setPlayerReaction(53, yIndex);
+                    }
+                    else {
+                        this.setPlayerReaction(reactionIndex[anIndex], yIndex);
+                    }
+
+                    index++;
+                    anIndex = index > reactionIndex.length ? anIndex - 1 : anIndex + 1;
+
                 }
-
-                index++;
-                anIndex = index > reactionIndex.length? anIndex-1: anIndex+1;
-
-            }
-            console.log(`anindex ${index}`)
-        }, 100);
+                console.log(`anindex ${index}`)
+            }, 100);
         }
 
-        
+
     }
 
-    private setPlayerReaction(x:number,y:number):void{
+    private setPlayerReaction(x: number, y: number): void {
 
         this.reactionStyles = `${x}px ${y}px`
 
     }
-    
+
 
 
     public moveLeftHand(moveIn: boolean) {
@@ -385,7 +387,7 @@ export class GamePage {
     }
 
     //dragula events
-    
+
 
 
 

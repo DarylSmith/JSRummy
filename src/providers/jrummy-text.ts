@@ -20,6 +20,8 @@ export class JRummyText {
 
     public PLAYER_WON_ROUND:string="You win the round!";
 
+    public NO_CALL_ALLOWED="You can only call at the beginning of your turn, before selecting a card";
+
 
     public CONTINUE_TEXT:string ="Do you wish to continue?";
 

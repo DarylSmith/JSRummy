@@ -9,6 +9,7 @@ export var JRummyText = (function () {
         this.PLAYER_WON_GAME = "You win the game!";
         this.DARYL_WON_ROUND = "Daryl wins the round!";
         this.PLAYER_WON_ROUND = "You win the round!";
+        this.NO_CALL_ALLOWED = "You can only call at the beginning of your turn, before selecting a card";
         this.CONTINUE_TEXT = "Do you wish to continue?";
         this.DARYL_CARDS = "Daryl's Cards";
         this.PLAYER_CARDS = "Player's Cards";

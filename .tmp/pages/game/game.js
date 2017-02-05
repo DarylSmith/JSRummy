@@ -154,8 +154,13 @@ export var GamePage = (function () {
     GamePage.prototype.playerCall = function () {
         this.audioManager.playSoundEffect("button_press.mp3");
         console.log('player called');
-        this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
-        this.scoreGameAndPlayAgain();
+        if (this._jrummy.CurrentGame.CurrentStatus === GameStatus.PlayerPickup) {
+            this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
+            this.scoreGameAndPlayAgain();
+        }
+        else {
+            this.displayModal(this.jrummyText.NO_CALL_ALLOWED);
+        }
     };
     GamePage.prototype.movePlayerCard = function (suit, name) {
         var targetCard = _.filter(this._jrummy.PlayerHand.Cards, function (c) { return c.Suit === suit && c.Name === name; })[0];

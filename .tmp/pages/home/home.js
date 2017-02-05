@@ -29,9 +29,8 @@ export var HomePage = (function () {
         Component({
             selector: 'page-home',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\home\home.html"*/'<div class="panel panel-primary">\n\n\n\n    <div class="panel-body">\n\n\n\n        <div class="cbx-container">\n\n    <span>Audio</span>\n\n  <div class="row press">\n\n    <input type="checkbox" id="unchecked" [(ngModel)]="audioManager.soundOn" class="cbx hidden"/>\n\n    <label for="unchecked" class="lbl"></label>    \n\n  </div>\n\n</div>\n\n\n\n\n\n        <div class="title"> </div>\n\n        <div class="options">\n\n            <ul class="btn-options">\n\n                <li class="rules">\n\n                    <a href="javascript:void(0);" (click)="getRules();">\n\n                        <img src="Images/rules_bt_lg.jpg" />\n\n                    </a>\n\n                </li>\n\n                <li class="play">\n\n                    <a href="javascript:void(0);" (click)="playGame();">\n\n                        <img src="Images/play_bt_lg.jpg" alt="play" />\n\n                    </a>\n\n                </li>\n\n\n\n            </ul>\n\n        </div>\n\n    </div>\n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\home\home.html"*/
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof NavController !== 'undefined' && NavController) === 'function' && _a) || Object, (typeof (_b = typeof AudioManager !== 'undefined' && AudioManager) === 'function' && _b) || Object])
+        __metadata('design:paramtypes', [NavController, AudioManager])
     ], HomePage);
     return HomePage;
-    var _a, _b;
 }());
 //# sourceMappingURL=home.js.map
