@@ -52,6 +52,8 @@ export class GamePage {
 
     private leftHandInterval: any;
 
+    public turnText:string="";
+
 
 
     //this is a test method for running the computer by itself
@@ -93,6 +95,7 @@ export class GamePage {
             function (event) {
                 self.showAnimation = "none";
                 self.setDiscardCard(true);
+                self.turnText=self.jrummyText.PLAYER_TURN;
             });
 
         $(".move-card-item").on("animationend",
@@ -104,6 +107,7 @@ export class GamePage {
             });
 
         this.audioManager.playMainTrack();
+        this.turnText=this.jrummyText.PLAYER_TURN;
 
         this.displayModal(this.jrummyText.BEGIN_PLAY_INSTRUCTIONS);
 
@@ -182,6 +186,8 @@ export class GamePage {
     }
     public discardPlayerCard(suit: string, name: string) {
 
+        this.turnText =this.jrummyText.DARYL_TURN;
+
         this.audioManager.playSoundEffect("player_card_select.mp3");
 
         this.lastDiscardCard = _.cloneDeep(_.filter(this._jrummy.PlayerHand.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0]);
@@ -239,6 +245,7 @@ export class GamePage {
         if (this._jrummy.CurrentGame.CurrentStatus === GameStatus.PlayerPickup) {
             this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
             this.scoreGameAndPlayAgain();
+            this.turnText=this.jrummyText.GAME_OVER;
         }
         else {
             this.displayModal(this.jrummyText.NO_CALL_ALLOWED);
@@ -253,7 +260,7 @@ export class GamePage {
     }
 
     private scoreGameAndPlayAgain(): void {
-
+        this.turnText=this.jrummyText.GAME_OVER;
         this.gameCompletedResult = this._jrummy.compareHands();
     }
 
@@ -264,6 +271,7 @@ export class GamePage {
         }
         this.gameCompletedResult = "";
         this.currentGame = new Game();
+        this.turnText=this.jrummyText.PLAYER_TURN;
         this._jrummy.startGame(this.currentGame);
     }
 

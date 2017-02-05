@@ -22,6 +22,11 @@ export class JRummyText {
 
     public NO_CALL_ALLOWED="You can only call at the beginning of your turn, before selecting a card";
 
+    public PLAYER_TURN="Your Turn";
+
+    public DARYL_TURN="Daryl's Turn";
+
+    public GAME_OVER="Game Over;
 
     public CONTINUE_TEXT:string ="Do you wish to continue?";
 
