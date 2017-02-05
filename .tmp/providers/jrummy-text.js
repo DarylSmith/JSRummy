@@ -15,6 +15,7 @@ export var JRummyText = (function () {
         this.ROUND = "Round";
         this.COMPUTER_SCORE = "Daryl's Score:";
         this.PLAYER_SCORE = "Your Score:";
+        this.BEGIN_PLAY_INSTRUCTIONS = "Ready to prove your worthiness? Play by pressing on either the discard or stock pile to select a new card. Once you have selected, discard one from your hand, by pressing on it. Try to get either sets or runs of 3 or more - press on the call button when you've got a winning hand! You can sort your cards by swiping them in either direction. Good Luck";
     }
     return JRummyText;
 }());

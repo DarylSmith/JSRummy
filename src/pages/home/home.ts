@@ -15,13 +15,13 @@ export class HomePage {
 
   public playGame():void
   {
-
+    this.audioManager.playSoundEffect("button_press.mp3");
     this.navCtrl.push(GamePage);
   }
 
     public getRules():void
   {
-
+    this.audioManager.playSoundEffect("button_press.mp3");
     this.navCtrl.push(RulesPage);
   }
 

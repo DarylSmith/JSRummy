@@ -105,6 +105,20 @@ export class GamePage {
 
         this.audioManager.playMainTrack();
 
+         this.displayModal(this.jrummyText.BEGIN_PLAY_INSTRUCTIONS);
+
+         
+        this.drugalaService.drag.subscribe((value)=>{    
+            console.log("draggin'") ;
+            self.audioManager.playCardSortTrack();
+
+        });
+
+        this.drugalaService.dragend.subscribe((value)=>{ 
+              console.log("stoppin'") ;     
+            self.audioManager.stopcardSortTrack();
+
+        });
     }
 
 
@@ -114,6 +128,8 @@ export class GamePage {
     }
 
     public pickupPlayerCard(suit: string, name: string, isFromDiscardPile: boolean) {
+
+         this.audioManager.playSoundEffect("player_card_select.mp3");
         //special case for first round (must choose from discard pile in first round)
         if (this.isFirstPickup() && !isFromDiscardPile) {
             this.displayModal(this.jrummyText.PICK_FIRST_CARD);
@@ -132,6 +148,7 @@ export class GamePage {
 
     //allows the computer to go first if this is first draw, and player doesn;t want discard
     public allowComputerFirstTurn() {
+        this.audioManager.playSoundEffect("button_press.mp3");
         this.setPlayerAnimation();
         this.currentGame.CurrentStatus = GameStatus.FirstTurnComputerPickup;
         this.computerCalls = this._jrummy.computerTurn();
@@ -165,7 +182,7 @@ export class GamePage {
     }
     public discardPlayerCard(suit: string, name: string) {
 
-        
+        this.audioManager.playSoundEffect("player_card_select.mp3");
 
         this.lastDiscardCard = _.cloneDeep( _.filter(this._jrummy.PlayerHand.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0]);
 
@@ -217,6 +234,7 @@ export class GamePage {
 
 
     public playerCall() {
+        this.audioManager.playSoundEffect("button_press.mp3");
         console.log('player called');
         this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
         this.scoreGameAndPlayAgain();
@@ -245,6 +263,8 @@ export class GamePage {
     }
 
     private displayModal(modalText: string): void {
+        this.audioManager.stopMainTrack();
+
         this.modalIsActive = true;
         this.modalBody = modalText;
 
@@ -252,6 +272,8 @@ export class GamePage {
 
     private onModalClosed(msg: string): void {
         this.modalIsActive = false
+           this.audioManager.playMainTrack();
+
 
     }
 
@@ -323,6 +345,7 @@ export class GamePage {
         this.reactionStyles = `${x}px ${y}px`
 
     }
+    
 
 
     public moveLeftHand(moveIn: boolean) {
@@ -337,12 +360,12 @@ export class GamePage {
                 if (!moveIn) {
                     this.setPlayerAnimation();
                     this.showAnimation = this._jrummy.CurrentGame.ComputerSelectedDiscard ? 'take-discard' : 'take-stock';
-                    this.audioManager.playSoundEffect('laser3');
+                    this.audioManager.playSoundEffect('laser3.wav');
 
                 }
                 else {
                     this.playerReaction();
-                    this.audioManager.playSoundEffect('laser2');
+                    this.audioManager.playSoundEffect('laser2.wav');
                     this.showAnimation = "discard";
                     index++;
                 }
@@ -360,6 +383,9 @@ export class GamePage {
 
 
     }
+
+    //dragula events
+    
 
 
 

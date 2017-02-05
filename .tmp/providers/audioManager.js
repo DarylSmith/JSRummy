@@ -11,6 +11,7 @@ import { Injectable } from "@angular/core";
 export var AudioManager = (function () {
     function AudioManager() {
         this.mainTrackAudio = new Audio('assets/audio/main_track.mp3');
+        this.cardSortAudio = new Audio('assets/audio/card_sort.mp3');
         this.soundOn = true;
     }
     ;
@@ -23,13 +24,26 @@ export var AudioManager = (function () {
             this.mainTrackAudio.play();
         }
     };
+    AudioManager.prototype.playCardSortTrack = function () {
+        if (this.soundOn) {
+            this.cardSortAudio.addEventListener('ended', function () {
+                this.currentTime = 0;
+                this.play();
+            }, false);
+            this.cardSortAudio.play();
+        }
+    };
     AudioManager.prototype.stopMainTrack = function () {
         this.mainTrackAudio.pause();
         this.mainTrackAudio.currentTime = 0;
     };
+    AudioManager.prototype.stopcardSortTrack = function () {
+        this.cardSortAudio.pause();
+        this.cardSortAudio.currentTime = 0;
+    };
     AudioManager.prototype.playSoundEffect = function (track) {
         if (this.soundOn) {
-            var myAudio = new Audio("assets/audio/" + track + ".wav");
+            var myAudio = new Audio("assets/audio/" + track);
             myAudio.play();
         }
     };

@@ -65,11 +65,21 @@ export var GamePage = (function () {
             self.moveLeftHand(true);
         });
         this.audioManager.playMainTrack();
+        this.displayModal(this.jrummyText.BEGIN_PLAY_INSTRUCTIONS);
+        this.drugalaService.drag.subscribe(function (value) {
+            console.log("draggin'");
+            self.audioManager.playCardSortTrack();
+        });
+        this.drugalaService.dragend.subscribe(function (value) {
+            console.log("stoppin'");
+            self.audioManager.stopcardSortTrack();
+        });
     };
     GamePage.prototype.isFirstPickup = function () {
         return this.currentGame.CurrentStatus === GameStatus.FirstTurnPlayerPickup;
     };
     GamePage.prototype.pickupPlayerCard = function (suit, name, isFromDiscardPile) {
+        this.audioManager.playSoundEffect("player_card_select.mp3");
         //special case for first round (must choose from discard pile in first round)
         if (this.isFirstPickup() && !isFromDiscardPile) {
             this.displayModal(this.jrummyText.PICK_FIRST_CARD);
@@ -83,6 +93,7 @@ export var GamePage = (function () {
     };
     //allows the computer to go first if this is first draw, and player doesn;t want discard
     GamePage.prototype.allowComputerFirstTurn = function () {
+        this.audioManager.playSoundEffect("button_press.mp3");
         this.setPlayerAnimation();
         this.currentGame.CurrentStatus = GameStatus.FirstTurnComputerPickup;
         this.computerCalls = this._jrummy.computerTurn();
@@ -108,6 +119,7 @@ export var GamePage = (function () {
         this.keyFrameAnimation = "give-to-player give-to-player-" + version;
     };
     GamePage.prototype.discardPlayerCard = function (suit, name) {
+        this.audioManager.playSoundEffect("player_card_select.mp3");
         this.lastDiscardCard = _.cloneDeep(_.filter(this._jrummy.PlayerHand.Cards, function (c) { return c.Name == name && c.Suit == suit; })[0]);
         if (this._jrummy.gameIsDraw()) {
             this.displayModal(this.jrummyText.GAME_IS_DRAW);
@@ -140,6 +152,7 @@ export var GamePage = (function () {
         }
     };
     GamePage.prototype.playerCall = function () {
+        this.audioManager.playSoundEffect("button_press.mp3");
         console.log('player called');
         this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
         this.scoreGameAndPlayAgain();
@@ -163,11 +176,13 @@ export var GamePage = (function () {
         this._jrummy.startGame(this.currentGame);
     };
     GamePage.prototype.displayModal = function (modalText) {
+        this.audioManager.stopMainTrack();
         this.modalIsActive = true;
         this.modalBody = modalText;
     };
     GamePage.prototype.onModalClosed = function (msg) {
         this.modalIsActive = false;
+        this.audioManager.playMainTrack();
     };
     GamePage.prototype.onGameCompleted = function (completedAction) {
         if (completedAction === "play") {
@@ -229,11 +244,11 @@ export var GamePage = (function () {
                 if (!moveIn) {
                     _this.setPlayerAnimation();
                     _this.showAnimation = _this._jrummy.CurrentGame.ComputerSelectedDiscard ? 'take-discard' : 'take-stock';
-                    _this.audioManager.playSoundEffect('laser3');
+                    _this.audioManager.playSoundEffect('laser3.wav');
                 }
                 else {
                     _this.playerReaction();
-                    _this.audioManager.playSoundEffect('laser2');
+                    _this.audioManager.playSoundEffect('laser2.wav');
                     _this.showAnimation = "discard";
                     index++;
                 }

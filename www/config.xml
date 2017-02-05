@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets"  xmlns:gap="http://phonegap.com/ns/1.0" id="com.ionicframework.jrummyionic810051" version="0.0.1">
+   <name>Beat Daryl @ Gin Rummy</name>
+   <description>Are you man enough to beat Daryl at Gin Rummy?</description>
+   <author email="hi@ionicframework" href="http://ionicframework.com/">Daryl</author>
+   <preference name="phonegap-version" value="cli-6.3.1" />
+   <content src="index.html" />
+   <access origin="*" />
+   <allow-intent href="http://*/*" />
+   <allow-intent href="https://*/*" />
+   <allow-intent href="tel:*" />
+   <allow-intent href="sms:*" />
+   <allow-intent href="mailto:*" />
+   <allow-intent href="geo:*" />
+   <platform name="android">
+      <allow-intent href="market:*" />
+   </platform>
+   <platform name="ios">
+      <allow-intent href="itms:*" />
+      <allow-intent href="itms-apps:*" />
+   </platform>
+   <preference name="webviewbounce" value="false" />
+   <preference name="UIWebViewBounce" value="false" />
+   <preference name="DisallowOverscroll" value="true" />
+   <preference name="android-minSdkVersion" value="16" />
+   <preference name="BackupWebStorage" value="none" />
+   <preference name="ShowSplashScreen" value="true" />
+   <preference name="Orientation" value="landscape" />
+   <preference name="SplashScreen" value="screen" />
+   <preference name="SplashScreenDelay" value="3000" />
+   <preference name="AutoHideSplashScreen" value="true" />
+   <preference name="SplashShowOnlyFirstTime" value="false" />
+   <preference name="FadeSplashScreen" value="false" />
+   <plugin name="cordova-plugin-splashscreen" source="npm" />
+   <feature name="StatusBar">
+      <param name="ios-package" onload="true" value="CDVStatusBar" />
+   </feature>
+      <splash src="splash.png" />
+   <splash platform="android" qualifier="port-ldpi" src="splash.png" />
+   <splash platform="android" qualifier="port-mdpi" src="splash.png" />
+   <splash platform="android" qualifier="port-hdpi" src="splash.png" />
+   <splash platform="android" qualifier="port-xhdpi" src="splash.png" />
+   <splash platform="android" qualifier="land-ldpi" src="splash.png" />
+   <splash platform="android" qualifier="land-mdpi" src="splash.png" />
+   <splash platform="android" qualifier="land-hdpi" src="splash.png" />
+   <splash platform="android" qualifier="land-xhdpi" src="splash.png" />
+</widget>

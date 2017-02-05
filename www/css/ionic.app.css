@@ -1764,7 +1764,7 @@ h3 {
     box-shadow: 3px 3px 1px #ccc; } }
 
 html, body {
-  font-family: 'Carter One', cursive; }
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
 
 html {
   font-size: 62.5%; }
@@ -2004,16 +2004,20 @@ html {
 .diamonds {
   color: #ff0000; }
   .diamonds .top-row:before {
-    content: "♦"; }
+    content: "♦";
+    color: #ff0000 !important; }
   .diamonds .bottom-row:after {
-    content: "♦"; }
+    content: "♦";
+    color: #ff0000 !important; }
 
 .hearts {
   color: #ff0000; }
   .hearts .top-row:before {
-    content: "♥"; }
+    content: "♥";
+    color: #ff0000 !important; }
   .hearts .bottom-row:after {
-    content: "♥"; }
+    content: "♥";
+    color: #ff0000 !important; }
 
 .clubs {
   color: #000000; }

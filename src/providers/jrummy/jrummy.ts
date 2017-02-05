@@ -406,7 +406,7 @@ export class JRummy {
         }
         else {
             this.CurrentGameNumber++;
-            status = this.CurrentGame.CurrentStatus === GameStatus.ComputerWon ? "COMPUTER_WON_ROUND" : "PLAYER_WON_ROUND";
+            status = this.CurrentGame.CurrentStatus === GameStatus.ComputerWon ? "DARYL_WON_ROUND" : "PLAYER_WON_ROUND";
         }
         return status
     }
