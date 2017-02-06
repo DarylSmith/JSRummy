@@ -14,7 +14,13 @@ export var FilterHandPipe = (function () {
     }
     FilterHandPipe.prototype.transform = function (hand, meldType) {
         console.log(hand);
-        var cardAmount = _.filter(hand.Cards, function (c) { return c.Meld == meldType; }).length;
+        var cardAmount = 0;
+        if (meldType === "none") {
+            cardAmount = _.filter(hand.Cards, function (c) { return c.Meld === "none" || c.Meld === "deadwood"; }).length;
+        }
+        else {
+            cardAmount = _.filter(hand.Cards, function (c) { return c.Meld == meldType; }).length;
+        }
         return cardAmount;
     };
     FilterHandPipe = __decorate([
