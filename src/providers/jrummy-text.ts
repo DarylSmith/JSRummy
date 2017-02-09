@@ -26,7 +26,7 @@ export class JRummyText {
 
     public DARYL_TURN="Daryl's Turn";
 
-    public GAME_OVER="Game Over;
+    public GAME_OVER="Game Over";
 
     public CONTINUE_TEXT:string ="Do you wish to continue?";
 

@@ -44,4 +44,10 @@
    <splash platform="android" qualifier="land-mdpi" src="splash.png" />
    <splash platform="android" qualifier="land-hdpi" src="splash.png" />
    <splash platform="android" qualifier="land-xhdpi" src="splash.png" />
+   <icon src="j-ldpi-icon.png" platform="android" qualifier="ldpi" />
+	<icon src="j-mdpi-icon.png" platform="android" qualifier="mdpi" />
+	<icon src="j-hdpi-icon.png" platform="android" qualifier="hdpi" />
+	<icon src="j-xhdpi-icon.png" platform="android" qualifier="xhdpi" />
+	<icon src="j-xxhdpi-icon.png" platform="android" qualifier="xxhdpi" />
+	<icon src="j-xxxhdpi-icon.png" platform="android" qualifier="xxxhdpi" />
 </widget>

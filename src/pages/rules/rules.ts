@@ -13,6 +13,13 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class RulesPage {
 
+  public textDisplay:string="objective";
+
+  public displayText(elem:string):void
+  {
+    this.textDisplay=elem;
+  }
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {

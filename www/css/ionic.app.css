@@ -186,8 +186,7 @@ div, ul, ol, li, h1, h2, h3, h4, h5, h6, a, p {
   margin-top: 25px; }
 
 .rules-page {
-  color: #ffffff;
-  padding: 10px; }
+  color: #ffffff; }
   .rules-page p {
     margin-top: 10px; }
 
@@ -253,10 +252,55 @@ div, ul, ol, li, h1, h2, h3, h4, h5, h6, a, p {
   font-family: Arial;
   font-family: Arial;
   line-height: 1.5em;
-  font-size: 1.3em;
-  padding: 20px 41px; }
+  font-size: 1.3em; }
+  .rules-page .rules-title {
+    color: #ffffff;
+    font-size: 1.6em;
+    margin: 15px 0px 5px 30%; }
   .rules-page ul {
     list-style-position: inside; }
+  .rules-page a {
+    color: #f8c566;
+    font-weight: bold;
+    display: block;
+    margin: 5px 0px;
+    text-decoration: none; }
+  .rules-page a.current {
+    color: #98cf1b; }
+
+/* We create `$selector` */
+.rules-index-objective #rules-objective {
+  color: #98cf1b; }
+
+/* We create `$selector` */
+.rules-index-gameplay #rules-gameplay {
+  color: #98cf1b; }
+
+/* We create `$selector` */
+.rules-index-knocking #rules-knocking {
+  color: #98cf1b; }
+
+/* We create `$selector` */
+.rules-index-scoring #rules-scoring {
+  color: #98cf1b; }
+
+/* We create `$selector` */
+.rules-index-gin #rules-gin {
+  color: #98cf1b; }
+
+/* We create `$selector` */
+.rules-index-undercutting #rules-undercutting {
+  color: #98cf1b; }
+
+/* We create `$selector` */
+.rules-index-layingoff #rules-layingoff {
+  color: #98cf1b; }
+
+.rules-container {
+  display: flex; }
+
+.rules-index {
+  margin: 0px 15px; }
 
 .player-buttons {
   display: flex;

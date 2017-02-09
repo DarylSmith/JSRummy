@@ -12,6 +12,7 @@ export var JRummyText = (function () {
         this.NO_CALL_ALLOWED = "You can only call at the beginning of your turn, before selecting a card";
         this.PLAYER_TURN = "Your Turn";
         this.DARYL_TURN = "Daryl's Turn";
+        this.GAME_OVER = "Game Over";
         this.CONTINUE_TEXT = "Do you wish to continue?";
         this.DARYL_CARDS = "Daryl's Cards";
         this.PLAYER_CARDS = "Player's Cards";

@@ -102,7 +102,6 @@ div, ul, ol, li, h1, h2, h3, h4, h5, h6, a, p {
 .rules-page{
 
   color:#ffffff;
-  padding:10px;
   p{
     margin-top:10px;
   }
@@ -174,9 +173,49 @@ div, ul, ol, li, h1, h2, h3, h4, h5, h6, a, p {
   font-family: Arial;
     line-height: 1.5em;
     font-size: 1.3em;
-    padding: 20px 41px;
+    
+    .rules-title{
+      color: #ffffff;
+      font-size: 1.6em;
+      margin: 15px 0px 5px 30%;
+
+    }
 
    ul{ list-style-position: inside;}
+
+   a{
+     color:#f8c566;
+     font-weight:bold;
+     display:block;
+     margin:5px 0px;
+     text-decoration: none;
+   }
+
+   a.current{
+  color:#98cf1b;
+}
+
+
+}
+
+$pages: ('objective', 'gameplay', 'knocking', 'scoring','gin','undercutting','layingoff');
+
+@each $item in $pages {
+  /* We create `$selector` */
+.rules-index-#{$item } #rules-#{$item} {
+    color:#98cf1b;
+  }
+
+
+}
+
+.rules-container{
+  display:flex;
+}
+
+.rules-index{
+
+  margin:0px 15px;
 }
 
 .player-buttons{
