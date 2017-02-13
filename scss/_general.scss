@@ -168,11 +168,18 @@ div, ul, ol, li, h1, h2, h3, h4, h5, h6, a, p {
 }
 
 .rules-page{
-
-  font-family:Arial;
-  font-family: Arial;
     line-height: 1.5em;
-    font-size: 1.3em;
+    font-size:1.3em;
+
+    .rules-body{
+
+      padding-right: 20px;
+    }
+
+    .rules-index{
+      margin-top:3px;
+    }
+
     
     .rules-title{
       color: #ffffff;
@@ -198,7 +205,7 @@ div, ul, ol, li, h1, h2, h3, h4, h5, h6, a, p {
 
 }
 
-$pages: ('objective', 'gameplay', 'knocking', 'scoring','gin','undercutting','layingoff');
+$pages: ('objective','melds','deadwood', 'gameplay', 'knocking', 'scoring','gin','undercutting','layingoff');
 
 @each $item in $pages {
   /* We create `$selector` */

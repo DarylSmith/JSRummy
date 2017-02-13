@@ -1,6 +1,14 @@
 // typography
+
+@font-face {
+    font-family: "customfont";
+    src: url("../fonts/HussarBd.otf") format("opentype");   
+        /* Make sure you defined the correct path, which is related to
+            the location of your file `my_css.css` */ 
+    }
+
 html, body {
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif
+    font-family: "customfont", "Lucida Grande", sans-serif
 }
 
 // set root element font size (which all rem's are based from)

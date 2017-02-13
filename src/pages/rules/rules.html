@@ -11,70 +11,79 @@
     <div class="rules-index rules-index-{{textDisplay}}">
 
       <a (click)="displayText('objective')" id="rules-objective" href="javascript:void(0);">Objectives</a>
-      <a (click)="displayText('gameplay')"  id="rules-gameplay" href="javascript:void(0);">Gameplay</a>
-      <a (click)="displayText('knocking')"  id="rules-knocking" href="javascript:void(0);">Knocking</a>
-      <a (click)="displayText('scoring')" id="rules-scoring"  href="javascript:void(0);">Scoring</a>
-      <a (click)="displayText('gin')"  id="rules-gin" href="javascript:void(0);">Gin</a>
+      <a (click)="displayText('melds')" id="rules-melds" href="javascript:void(0);">Melds</a>
+      <a (click)="displayText('deadwood')" id="rules-deadwood" href="javascript:void(0);">Deadwood</a>
+      <a (click)="displayText('gameplay')" id="rules-gameplay" href="javascript:void(0);">Gameplay</a>
+      <a (click)="displayText('knocking')" id="rules-knocking" href="javascript:void(0);">Knocking</a>
+      <a (click)="displayText('scoring')" id="rules-scoring" href="javascript:void(0);">Scoring</a>
+      <a (click)="displayText('gin')" id="rules-gin" href="javascript:void(0);">Gin</a>
       <a (click)="displayText('undercutting')" id="rules-undercutting" href="javascript:void(0);">Undercutting</a>
-      <a (click)="displayText('layingoff')"  id="rules-layingoff" href="javascript:void(0);">Laying Off</a>
+      <a (click)="displayText('layingoff')" id="rules-layingoff" href="javascript:void(0);">Laying Off</a>
 
     </div>
     <div class="rules-body">
       <div class="rules-elem" [hidden]="textDisplay!='objective'">
-        <p><strong>Objective</strong> The objective in gin rummy is to score points and reach an agreed number of points or
-          more, usually 100, before the opponent does.<br/> The basic game strategy is to improve one's hand by forming melds
-          and eliminating deadwood. Gin has two types of meld: Sets of 3 or 4 cards sharing the same rank, e.g. 8♥ 8♦ 8♠;
-          and runs of 3 or more cards in sequence, of the same suit. e.g. 3♥ 4♥ 5♥ or more. Deadwood cards are those not
-          in any meld. Aces are considered low—they can form a set with other aces but only the low end of runs (A♠ 2♠ 3♠
-          is a legal run but Q♠ K♠ A♠ is not). A player can form any combination of melds within their hand, whether it contains
-          all sets, all runs, or a mix of both. A hand can contain three or fewer melds to knock or form legal gin.<br/>          The deadwood count is the sum of the point values of the deadwood cards—aces are scored at 1 point, face cards
-          at 10, and others according to their numerical values. Intersecting melds are not allowed; if a player has a 3-card
-          set and a 3-card run sharing a common card, only one of the melds counts, and the other two cards count as deadwood.*<br/>
+        <p>The objective in gin rummy is to score points and reach an agreed number of points or more, usually 100, before the
+          opponent does. The basic game strategy is to improve one's hand by forming melds and eliminating deadwood. </p>
+      </div>
+
+      <div class="rules-melds" [hidden]="textDisplay!='melds'">
+        <p> Gin has two types of meld: Sets of 3 or 4 cards sharing the same rank, e.g. 8♥ 8♦ 8♠; and runs of 3 or more cards
+          in sequence, of the same suit. e.g. 3♥ 4♥ 5♥ or more. Deadwood cards are those not in any meld. Aces are considered
+          low—they can form a set with other aces but only the low end of runs (A♠ 2♠ 3♠ is a legal run but Q♠ K♠ A♠ is not).
+          A player can form any combination of melds within their hand, whether it contains all sets, all runs, or a mix
+          of both. A hand can contain three or fewer melds to knock or form legal gin.</p>
+      </div>
+
+      <div class="rules-deadwood" [hidden]="textDisplay!='deadwood'">
+        <p> The deadwood count is the sum of the point values of the deadwood cards—aces are scored at 1 point, face cards at
+          10, and others according to their numerical values. Intersecting melds are not allowed; if a player has a 3-card
+          set and a 3-card run sharing a common card, only one of the melds counts, and the other two cards count as deadwood.
         </p>
       </div>
       <div class="rules-elem" [hidden]="textDisplay!='gameplay'">
-        <p><strong>Gameplay</strong> The dealer deals 10 cards to both players, and then places the next card in the deck face
-          up. This begins the discard pile. The face down pile is known as the stock pile. On the first turn of the round,
-          the non-dealing player has first option of taking the upcard on the discard pile or passing.On each turn, a player
-          must draw either the (face-up) top card of the discard pile, or the (face-down) top card from the stock pile, and
-          discard one card from his or her hand onto the discard pile. Players alternate taking turns until one player ends
-          the round by knocking, going Gin, or until only two cards remain in the stock pile, in which case the round ends
-          in a draw and no points are awarded.
+        <p>The dealer deals 10 cards to both players, and then places the next card in the deck face up. This begins the discard
+          pile. The face down pile is known as the stock pile. On the first turn of the round, the non-dealing player has
+          first option of taking the upcard on the discard pile or passing.On each turn, a player must draw either the (face-up)
+          top card of the discard pile, or the (face-down) top card from the stock pile, and discard one card from his or
+          her hand onto the discard pile. Players alternate taking turns until one player ends the round by knocking, going
+          Gin, or until only two cards remain in the stock pile, in which case the round ends in a draw and no points are
+          awarded.
           <br/>The game ends when a player reaches 100 or more points
         </p>
       </div>
       <div class="rules-elem" [hidden]="textDisplay!='knocking'">
-        <p><strong>Knocking</strong> A player with 10 or fewer points of deadwood may knock, by clicking on the knock button.
-          The cards will then be evaluated and scored.
+        <p> A player with 10 or fewer points of deadwood may knock, by clicking on the knock button. The cards will then be evaluated
+          and scored.
         </p>
       </div>
       <div class="rules-elem" [hidden]="textDisplay!='gin'">
-        <p><strong>Gin</strong> If all 10 cards in a player's hand fit into melds and thereby the player has no deadwood, he
-          or she can choose to go Gin in which case the round ends and the player going Gin receives a Gin bonus of 25 points
-          (or another established amount) plus any deadwood points in the opponent's hand
+        <p> If all 10 cards in a player's hand fit into melds and thereby the player has no deadwood, he or she can choose to
+          go Gin in which case the round ends and the player going Gin receives a Gin bonus of 25 points (or another established
+          amount) plus any deadwood points in the opponent's hand
         </p>
       </div>
       <div class="rules-elem" [hidden]="textDisplay!='scoring'">
-        <strong>Scoring</strong>
-        <ul>
-          <li>After a player knocks, and the lay offs are made, the knocking player receives a score equal to the difference
-            between the two hands. For example, if a player knocks with 8, and the defender has 10 deadwood points in his
-            or her hand after laying off, the knocking player receives 2 points for the hand.</li>
-          <li>After going gin, a player receives a bonus of 25 points plus the entire count of deadwood in the opponent's hand.
-            There is no chance to lay off when a player goes gin.</li>
+        <p>
 
-        </ul>
+          After a player knocks, and the lay offs are made, the knocking player receives a score equal to the difference between the
+          two hands. For example, if a player knocks with 8, and the defender has 10 deadwood points in his or her hand after
+          laying off, the knocking player receives 2 points for the hand.<br/> After going gin, a player receives
+          a bonus of 25 points plus the entire count of deadwood in the opponent's hand. There is no chance to lay off when
+          a player goes gin.</p>
+
+        
       </div>
       <div class="rules-elem" [hidden]="textDisplay!='undercutting'">
-        <strong>Undercutting</strong> An undercut occurs when the defending player has a deadwood count lower than or equal
-        to that of the knocking player (this can occur either naturally or by laying off after a knock). In this case, the
-        defender scores an undercut bonus of 25 points plus the difference between the two hands
+        <p> An undercut occurs when the defending player has a deadwood count lower than or equal to that of the knocking player
+          (this can occur either naturally or by laying off after a knock). In this case, the defender scores an undercut
+          bonus of 25 points plus the difference between the two hands</p>
 
       </div>
       <div class="rules-elem" [hidden]="textDisplay!='layingoff'">
-        <p><strong>Laying off</strong> In some version of gin, players can lay off their cards by putting it the other players
-          meld after gameplay. However, in this version, there is no layoff--all melds after a knock are considered final
-        </p>
+        <p>In some version of gin, players can lay off their cards by putting it the other players meld after gameplay. However,
+          in this version, there is no layoff--all melds after a knock are considered final</p>
+        
       </div>
     </div>
   </div>

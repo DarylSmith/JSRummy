@@ -23,7 +23,16 @@
     padding: 25px;
     font-size: 1.5em;
     box-shadow: 2px 4px 5px #000;
-    color: #ffffff
+    color: #ffffff;
+
+
+    h6{
+        font-size: 1.4em;
+         margin-left: 33%;
+        margin-bottom: 9px;
+         display: block;
+
+    }
 }
 
 .game-completed{
@@ -52,7 +61,7 @@
     li{
 
         display:inline-block;
-        margin-left:4%;
+        margin-left:1.4%;
         
     }
     ul{

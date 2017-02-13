@@ -418,6 +418,9 @@ export class JRummy {
     @Injectable()
     computerTurn(): boolean {
 
+        //always beging by evaluation the computer's hand
+        this.evaluateHand("ComputerHand");
+
         //check if computer should call
         if (this.ComputerShouldCall()) {
 
@@ -605,6 +608,26 @@ export class JRummy {
             });
             console.log(matchedCards);
         }
+
+        //do final pass -- go through all the cards -- if there is a set, it should have more than three cards. This will eliminate any former sets
+         this[handName].Cards.forEach(function (card: Card) {
+            // console.log(self);
+           if(card.Meld==="set")
+           {
+             console.log(`evaluating ${card.toString()} to make sure set is correct`)
+             let matchedCards:number=_.filter(self[handName].Cards, function (c: Card) { return c.Meld === 'set'  && (card.FaceValue == c.FaceValue) }).length;
+             if(matchedCards<3)
+             {
+                 console.log(`This is not a real set. Only had ${matchedCards} in set. Set meld back to none`);
+                 card.Meld="none";
+             }
+             else
+             {
+                   console.log(`Had ${matchedCards} in set. keep meld.`);
+             }
+           }
+
+        });
 
         //order the cards by value
         if (handName === "ComputerHand") {

@@ -1,8 +1,8 @@
 <div class="modal-window">
     <div class="modal-container game-completed">
+            <h6>{{ headerText }}</h6>
 
-
-        <div class="game-completed-header"><span>{{ headerText }}</span>
+        <div class="game-completed-header">
             <ul>
                 <li><a href="javascript:void(0);" [hidden]="showCards" (click)="toggleCardDisplay(true)">View Hand</a></li>
                 <li><a href="javascript:void(0);" [hidden]="!showCards" (click)="toggleCardDisplay(false)">View Score</a></li>

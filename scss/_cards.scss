@@ -224,56 +224,20 @@ margin-right:-10px !important;
 .diamonds {
   color: #ff0000;
 
-  .top-row:before{
-        content: "♦";
-        color:#ff0000 !important;
-  }
-  .bottom-row:after{
-
-       content: "♦"; 
-       color:#ff0000 !important;
-  }
-
 }
 
 .hearts {
   color: #ff0000;
-
-  .top-row:before{
-        content: "♥";
-        color:#ff0000 !important;
-  }
-  .bottom-row:after{
-
-      content: "♥";
-      color:#ff0000 !important;
-  }
 
 }
 
 .clubs {
   color: #000000;
 
-  .top-row:before{
-         content: "♣";
-  }
-  .bottom-row:after{
-
-       content: "♣";
-  }
-
 }
 
 .spades {
   color: #000000;
-
-  .top-row:before{
-        content: "♠";
-  }
-  .bottom-row:after{
-
-      content: "♠";
-  }
 
 }
 

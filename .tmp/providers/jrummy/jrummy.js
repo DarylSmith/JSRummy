@@ -312,6 +312,8 @@ export var JRummy = (function () {
     //takes a card from pile, sorts cards by value, and returns the worst card
     //boolean returns a true value of computer should call
     JRummy.prototype.computerTurn = function () {
+        //always beging by evaluation the computer's hand
+        this.evaluateHand("ComputerHand");
         //check if computer should call
         if (this.ComputerShouldCall()) {
             this.CurrentGame.CurrentStatus == GameStatus.ComputerCall;
@@ -448,6 +450,21 @@ export var JRummy = (function () {
             });
             console.log(matchedCards);
         }
+        //do final pass -- go through all the cards -- if there is a set, it should have more than three cards. This will eliminate any former sets
+        this[handName].Cards.forEach(function (card) {
+            // console.log(self);
+            if (card.Meld === "set") {
+                console.log("evaluating " + card.toString() + " to make sure set is correct");
+                var matchedCards = _.filter(self[handName].Cards, function (c) { return c.Meld === 'set' && (card.FaceValue == c.FaceValue); }).length;
+                if (matchedCards < 3) {
+                    console.log("This is not a real set. Only had " + matchedCards + " in set. Set meld back to none");
+                    card.Meld = "none";
+                }
+                else {
+                    console.log("Had " + matchedCards + " in set. keep meld.");
+                }
+            }
+        });
         //order the cards by value
         if (handName === "ComputerHand") {
             this.ComputerHand.Cards = _.sortBy(this.ComputerHand.Cards, function (card) { return card.VPoints + card.HPoints; });

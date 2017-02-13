@@ -14,6 +14,23 @@ export class PlayingCardComponent{
 @Input() public squeezed:boolean=false;
 
 
+public getCardSymbol(suit: string) {
+        switch (suit) {
+            case "hearts":
+                return "♥"
+            case "spades":
+                return "♠"
+            case "clubs":
+                return "♣"
+            default:
+                return "♦"
+
+        }
+
+    }
+
+
+
     constructor() {
 
     }
