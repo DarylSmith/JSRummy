@@ -14,8 +14,10 @@ import { JRummyText } from '../providers/jrummy-text';
 import { AnimationCallback } from '../providers/animation-callback';
 import { Utilities } from '../providers/utilities';
 import { AudioManager } from '../providers/audioManager';
+import { StateManager } from '../providers/audioManager';
 import { ModalComponent } from '../shared/modal.component';
 import { GameCompletedComponent } from '../shared/gamecompleted.component';
+import { SavedGameComponent } from '../shared/savedgame.component';
 import { MyApp } from './app.component';
 import { PlayingCardComponent } from '../shared/playingcard.component';
 import { DragulaModule, DragulaService } from "../../node_modules/ng2-dragula/ng2-dragula";
@@ -33,6 +35,7 @@ export var AppModule = (function () {
                 MyApp,
                 HomePage,
                 ModalComponent,
+                SavedGameComponent,
                 GameCompletedComponent,
                 PlayingCardComponent,
                 GamePage,
@@ -50,7 +53,7 @@ export var AppModule = (function () {
                 GamePage,
                 RulesPage
             ],
-            providers: [JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService, PlayingCardComponent, AudioManager]
+            providers: [JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService, PlayingCardComponent, AudioManager, StateManager]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

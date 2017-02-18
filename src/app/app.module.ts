@@ -8,10 +8,11 @@ import {JRummyText}  from '../providers/jrummy-text';
 import {AnimationCallback}  from '../providers/animation-callback';
 import {Utilities} from '../providers/utilities';
 import {AudioManager} from '../providers/audioManager';
-
+import {StateManager} from '../providers/audioManager';
 //components
 import {ModalComponent} from '../shared/modal.component';
 import {GameCompletedComponent} from '../shared/gamecompleted.component';
+import { SavedGameComponent} from '../shared/savedgame.component';
 import { MyApp } from './app.component';
 import {PlayingCardComponent} from '../shared/playingcard.component';
 import {DragulaModule, DragulaService} from "../../node_modules/ng2-dragula/ng2-dragula";
@@ -30,6 +31,7 @@ import {FilterHandPipe} from '../pipes/FilterHandPipe';
     MyApp,
     HomePage,
     ModalComponent,
+	SavedGameComponent,
     GameCompletedComponent,
     PlayingCardComponent,
     GamePage,
@@ -47,6 +49,6 @@ import {FilterHandPipe} from '../pipes/FilterHandPipe';
     GamePage,
     RulesPage
   ],
-  providers: [JRummy,AnimationCallback,JRummyText,Utilities,DragulaModule, DragulaService,PlayingCardComponent,AudioManager]
+  providers: [JRummy,AnimationCallback,JRummyText,Utilities,DragulaModule, DragulaService,PlayingCardComponent,AudioManager,StateManager]
 })
 export class AppModule {}

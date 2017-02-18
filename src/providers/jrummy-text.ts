@@ -22,6 +22,10 @@ export class JRummyText {
 
     public NO_CALL_ALLOWED="You can only call at the beginning of your turn, before selecting a card";
 
+     public ERROR_MESSAGE ="Oops, something went wrong. Let's start this round again.";
+
+      public SAVED_GAME_MESSAGE ="Daryl was enjoying your last game. Would you like to continue it?";
+
     public PLAYER_TURN="Your Turn";
 
     public DARYL_TURN="Daryl's Turn";
@@ -40,6 +44,6 @@ export class JRummyText {
 
      public PLAYER_SCORE:string="Your Score:";
 
-     public BEGIN_PLAY_INSTRUCTIONS: string= "Ready to prove your worthiness? Play by pressing on either the discard or stock pile to select a new card. Once you have selected, discard one from your hand, by pressing on it. Try to get either sets or runs of 3 or more - press on the call button when you've got a winning hand! You can sort your cards by swiping them in either direction. Good Luck";
+     public BEGIN_PLAY_INSTRUCTIONS: string= "Ready to prove your worthiness? Play by pressing on either the discard or stock pile to select a new card. Once you have selected, discard one from your hand, by pressing on it. Try to get either sets or runs of 3 or more - press on the call button when you've got a winning hand! You can sort your cards by swiping them in either direction. Good Luck!";
 
 }

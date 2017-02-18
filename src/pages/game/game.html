@@ -35,7 +35,7 @@
                 <h3>{{turnText}}</h3>
             </div>
             <div class="player-buttons">
-                <div (click)="playerCall()" class="generic-btn-container">
+                <div (click)="playerCall()"  *ngIf="_jrummy.PlayerHand.getCurrentPoints()<=10"  class="generic-btn-container">
                     Call
                 </div>
 
@@ -118,4 +118,5 @@
 
 <jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive"></jrummy-modal>
 <jrummy-completed (gameCompletedAction)="onGameCompleted($event)" [gameCompletedResult]="gameCompletedResult" *ngIf="gameCompletedResult!==''"></jrummy-completed>
+<jrummy-savedgame (modalClosed)="onSharedCompleted($event)"  *ngIf="showSharedModal==true"></jrummy-savedgame>
 </div>

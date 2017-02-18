@@ -8,8 +8,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { JRummyText } from '../providers/jrummy-text';
 export var ModalComponent = (function () {
-    function ModalComponent() {
+    function ModalComponent(jrummyText) {
         this.modalClosed = new EventEmitter();
     }
     ModalComponent.prototype.closeModal = function () {
@@ -28,9 +29,9 @@ export var ModalComponent = (function () {
     ], ModalComponent.prototype, "modalClosed", void 0);
     ModalComponent = __decorate([
         Component({
-            selector: 'jrummy-modal',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\modal.component.html"*/'<div class="modal-window" (click)="closeModal();">\n\n    <div class="modal-container">\n\n        <a href="javascript:void(0);" (click)="closeModal();">\n\n            <div class="modal-close"><span></span>\n\n            </div>\n\n        </a>\n\n        {{modalBody}}\n\n    </div>\n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\modal.component.html"*/
+            selector: 'jrummy-modal',template:/*ion-inline-start:"C:\inetpub\wwwroot\jrummy-ionic\src\shared\modal.component.html"*/'<div class="modal-window" (click)="closeModal();">\n\n    <div class="modal-container">\n\n        <a href="javascript:void(0);" (click)="closeModal();">\n\n            <div class="modal-close"><span></span>\n\n            </div>\n\n        </a>\n\n        {{modalBody}}\n\n    </div>\n\n</div>'/*ion-inline-end:"C:\inetpub\wwwroot\jrummy-ionic\src\shared\modal.component.html"*/
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [JRummyText])
     ], ModalComponent);
     return ModalComponent;
 }());

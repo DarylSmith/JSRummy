@@ -6,7 +6,7 @@ export class Game {
     PlayerBonus: number;
     PlayerBDeadwood: number;
     ComputerDeadwood: number;
-
+    ErrorOccured:boolean;
     ComputerBonus: number;
     ComputerPoints: number;
     Winner: string;
@@ -428,7 +428,7 @@ export class JRummy {
             return true;
         }
         //first, try the discarded cards (also the computer must choose only the discard on first turn)
-        if (this.cardRejectedByComputer(this.DiscardPile) == true) {
+        if (this.cardRejectedByComputer(this.DiscardPile) == true  && this.CurrentGameNumber > 1) {
             console.log('Discard card was rejected.  Move to pile');
 
             //if the card is rejected, try again with the regular pile
@@ -450,6 +450,7 @@ export class JRummy {
         //after the cards have been selected, re-evaluate
         this.evaluateHand("ComputerHand");
         this.logStatus();
+        this.checkForErrors();
         return false;
     }
 
@@ -699,6 +700,14 @@ export class JRummy {
 
     }
 
+    private checkForErrors():void{
+
+        if (this.ComputerHand.Cards.length <10 ||this.PlayerHand.Cards.length <10 )
+        {
+            this.CurrentGame.ErrorOccured = true;
+        }
+    }
+
     private CountHandValue(hand: Hand): number {
 
         let cardsWithPoints: Card[] = _.filter(hand.Cards, function (c: Card) { return c.Meld !== 'set' && c.Meld !== 'run' });
@@ -710,6 +719,8 @@ export class JRummy {
 
 
     }
+
+ 
 
     //this acts as the computer's 'memory' -- keeping track of what cards have been played and what is still in the deck
     private addOrModifyCardInComputerMemory(card: Card, location: CardLocation, playerDiscard: boolean) {

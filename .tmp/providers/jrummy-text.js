@@ -10,6 +10,8 @@ export var JRummyText = (function () {
         this.DARYL_WON_ROUND = "Daryl wins the round!";
         this.PLAYER_WON_ROUND = "You win the round!";
         this.NO_CALL_ALLOWED = "You can only call at the beginning of your turn, before selecting a card";
+        this.ERROR_MESSAGE = "Oops, something went wrong. Let's start this round again.";
+        this.SAVED_GAME_MESSAGE = "Daryl was enjoying your last game. Would you like to continue it?";
         this.PLAYER_TURN = "Your Turn";
         this.DARYL_TURN = "Daryl's Turn";
         this.GAME_OVER = "Game Over";
@@ -19,7 +21,7 @@ export var JRummyText = (function () {
         this.ROUND = "Round";
         this.COMPUTER_SCORE = "Daryl's Score:";
         this.PLAYER_SCORE = "Your Score:";
-        this.BEGIN_PLAY_INSTRUCTIONS = "Ready to prove your worthiness? Play by pressing on either the discard or stock pile to select a new card. Once you have selected, discard one from your hand, by pressing on it. Try to get either sets or runs of 3 or more - press on the call button when you've got a winning hand! You can sort your cards by swiping them in either direction. Good Luck";
+        this.BEGIN_PLAY_INSTRUCTIONS = "Ready to prove your worthiness? Play by pressing on either the discard or stock pile to select a new card. Once you have selected, discard one from your hand, by pressing on it. Try to get either sets or runs of 3 or more - press on the call button when you've got a winning hand! You can sort your cards by swiping them in either direction. Good Luck!";
     }
     return JRummyText;
 }());

@@ -1,0 +1,16 @@
+<div class="modal-window" (click)="closeModal();">
+    <div class="modal-container">
+
+        <div class="new-game-question"> Daryl was enjoying your last game. Would you like to continue it?</div>
+        <div class="new-game-button-container">
+            <div (click)="setScore('true')" class="new-game-button generic-btn-container">
+                Yes
+            </div>
+            <div (click)="setScore('false')" class="new-game-button generic-btn-container">
+                No
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -6,8 +6,10 @@ import { GameCompletedComponent } from '../../shared/gamecompleted.component'
 import { Game, Card, Hand, Deck, JRummy, GameStatus } from '../../providers/jrummy/jrummy'
 import { JRummyText } from '../../providers/jrummy-text'
 import { AudioManager } from '../../providers/audioManager'
+import { StateManager } from '../../providers/audioManager';
 import { AnimationCallback } from '../../providers/animation-callback'
 import { DragulaModule, DragulaService } from "../../../node_modules/ng2-dragula/ng2-dragula"
+
 import * as $ from 'jquery';
 import * as _ from 'lodash';
 
@@ -52,7 +54,9 @@ export class GamePage {
 
     private leftHandInterval: any;
 
-    public turnText:string="";
+    public turnText: string = "";
+
+    public showSharedModal:  boolean=false;;
 
 
 
@@ -63,7 +67,7 @@ export class GamePage {
     }
 
 
-    constructor(public navCtrl: NavController, public _jrummy: JRummy, public jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService: DragulaService, private audioManager: AudioManager) {
+    constructor(public navCtrl: NavController, public _jrummy: JRummy, public jrummyText: JRummyText, private elementRef: ElementRef, private animationCallback: AnimationCallback, private drugalaService: DragulaService, private stateManager: StateManager, private audioManager: AudioManager, ) {
 
         this.currentGame = new Game();
         this._jrummy.startGame(this.currentGame);
@@ -95,7 +99,7 @@ export class GamePage {
             function (event) {
                 self.showAnimation = "none";
                 self.setDiscardCard(true);
-                self.turnText=self.jrummyText.PLAYER_TURN;
+                self.turnText = self.jrummyText.PLAYER_TURN;
             });
 
         $(".move-card-item").on("animationend",
@@ -107,9 +111,14 @@ export class GamePage {
             });
 
         this.audioManager.playMainTrack();
-        this.turnText=this.jrummyText.PLAYER_TURN;
+        this.turnText = this.jrummyText.PLAYER_TURN;
 
-        this.displayModal(this.jrummyText.BEGIN_PLAY_INSTRUCTIONS);
+        if (this.stateManager.isSet) {
+            this.showSharedModal=true;;
+        }
+        else {
+            this.displayModal(this.jrummyText.BEGIN_PLAY_INSTRUCTIONS);
+        }
 
 
         this.drugalaService.drag.subscribe((value) => {
@@ -186,7 +195,7 @@ export class GamePage {
     }
     public discardPlayerCard(suit: string, name: string) {
 
-        this.turnText =this.jrummyText.DARYL_TURN;
+        this.turnText = this.jrummyText.DARYL_TURN;
 
         this.audioManager.playSoundEffect("player_card_select.mp3");
 
@@ -208,6 +217,7 @@ export class GamePage {
                 this.computerCalls = true;
                 this._jrummy.CurrentGame.CurrentStatus = GameStatus.ComputerCall;
                 this.scoreGameAndPlayAgain()
+
 
             }
             //play animation for computer discarding
@@ -233,6 +243,15 @@ export class GamePage {
 
         }
 
+        //check if there are any errors if so, add a modal and restart the game
+        if (this.currentGame.ErrorOccured) {
+
+            this.currentGame.ErrorOccured = false;
+            this.displayModal(this.jrummyText.ERROR_MESSAGE);
+            this.startNewGame("");
+
+        }
+
     }
 
 
@@ -245,7 +264,7 @@ export class GamePage {
         if (this._jrummy.CurrentGame.CurrentStatus === GameStatus.PlayerPickup) {
             this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
             this.scoreGameAndPlayAgain();
-            this.turnText=this.jrummyText.GAME_OVER;
+            this.turnText = this.jrummyText.GAME_OVER;
         }
         else {
             this.displayModal(this.jrummyText.NO_CALL_ALLOWED);
@@ -260,18 +279,19 @@ export class GamePage {
     }
 
     private scoreGameAndPlayAgain(): void {
-        this.turnText=this.jrummyText.GAME_OVER;
+        this.turnText = this.jrummyText.GAME_OVER;
         this.gameCompletedResult = this._jrummy.compareHands();
+        this.stateManager.SaveState(this._jrummy.ComputerPoints, this._jrummy.PlayerPoints, this._jrummy.CurrentGameNumber);
     }
 
     public startNewGame(message: string): void {
         //if it's a new round start, otherwise reset
-        if (this.gameCompletedResult === "PLAYER_WON_GAME" || this.gameCompletedResult === "PLAYER_WON_GAME") {
+        if (this.gameCompletedResult === "PLAYER_WON_GAME" || this.gameCompletedResult === "DARYL_WON_GAME") {
             this._jrummy.reset();
         }
         this.gameCompletedResult = "";
         this.currentGame = new Game();
-        this.turnText=this.jrummyText.PLAYER_TURN;
+        this.turnText = this.jrummyText.PLAYER_TURN;
         this._jrummy.startGame(this.currentGame);
     }
 
@@ -298,6 +318,18 @@ export class GamePage {
             this.navCtrl.pop();
         }
 
+    }
+
+    public onSharedCompleted(completedAction: string) {
+
+        if(completedAction==="true")
+        {
+            this._jrummy.ComputerPoints = this.stateManager.computerScore;
+            this._jrummy.PlayerPoints = this.stateManager.playerScore;
+            this._jrummy.CurrentGameNumber = this.stateManager.currentRound;
+
+        }
+        this.showSharedModal=false;
     }
 
 

@@ -320,7 +320,7 @@ export var JRummy = (function () {
             return true;
         }
         //first, try the discarded cards (also the computer must choose only the discard on first turn)
-        if (this.cardRejectedByComputer(this.DiscardPile) == true) {
+        if (this.cardRejectedByComputer(this.DiscardPile) == true && this.CurrentGameNumber > 1) {
             console.log('Discard card was rejected.  Move to pile');
             //if the card is rejected, try again with the regular pile
             this.CurrentGame.ComputerSelectedDiscard = false;
@@ -336,6 +336,7 @@ export var JRummy = (function () {
         //after the cards have been selected, re-evaluate
         this.evaluateHand("ComputerHand");
         this.logStatus();
+        this.checkForErrors();
         return false;
     };
     //this the computer adding or removing a card (either from the discard or pile)
@@ -507,6 +508,11 @@ export var JRummy = (function () {
             upperLimitForCall = 2;
         }
         return computerPointCount <= upperLimitForCall;
+    };
+    JRummy.prototype.checkForErrors = function () {
+        if (this.ComputerHand.Cards.length < 10 || this.PlayerHand.Cards.length < 10) {
+            this.CurrentGame.ErrorOccured = true;
+        }
     };
     JRummy.prototype.CountHandValue = function (hand) {
         var cardsWithPoints = _.filter(hand.Cards, function (c) { return c.Meld !== 'set' && c.Meld !== 'run'; });

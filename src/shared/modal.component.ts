@@ -1,4 +1,5 @@
 import { Component, Input,Output,OnInit,EventEmitter} from '@angular/core';
+import {JRummyText} from '../providers/jrummy-text'
 
 
 @Component({
@@ -11,8 +12,8 @@ export class ModalComponent implements OnInit {
     @Input() public modalBody:string;
     @Output() modalClosed:EventEmitter<string> = new EventEmitter<string> ();
 
-    constructor() {
-
+    constructor(jrummyText:JRummyText) {
+        
     }
 
     public closeModal():void{

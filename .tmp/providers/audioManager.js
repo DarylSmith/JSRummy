@@ -53,4 +53,33 @@ export var AudioManager = (function () {
     ], AudioManager);
     return AudioManager;
 }());
+export var StateManager = (function () {
+    function StateManager() {
+        var jsonState = localStorage.getItem("jrummy_state");
+        if (jsonState === null) {
+            this.isSet = false;
+            console.log("nothing in local storge");
+        }
+        else {
+            this.isSet = true;
+            var jsonObj = JSON.parse(jsonState);
+            this.playerScore = parseInt(jsonObj["computerScore"]);
+            this.computerScore = parseInt(jsonObj["playerScore"]);
+            this.currentRound = parseInt(jsonObj["currentRound"]);
+        }
+    }
+    StateManager.prototype.SaveState = function (ps, cs, cr) {
+        this.computerScore = cs;
+        this.playerScore = ps;
+        this.currentRound = cr;
+        var stateObj = { playerScore: ps, computerScore: cs, currentRound: cr };
+        var jsonState = JSON.stringify(stateObj);
+        localStorage.setItem("jrummy_state", jsonState);
+    };
+    StateManager = __decorate([
+        Injectable(), 
+        __metadata('design:paramtypes', [])
+    ], StateManager);
+    return StateManager;
+}());
 //# sourceMappingURL=audioManager.js.map

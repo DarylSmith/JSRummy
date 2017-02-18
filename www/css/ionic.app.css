@@ -282,6 +282,10 @@ div, ul, ol, li, h1, h2, h3, h4, h5, h6, a, p {
   color: #98cf1b; }
 
 /* We create `$selector` */
+.rules-index-startgame #rules-startgame {
+  color: #98cf1b; }
+
+/* We create `$selector` */
 .rules-index-gameplay #rules-gameplay {
   color: #98cf1b; }
 
@@ -2230,6 +2234,10 @@ html {
     width: 20px;
     height: 20px;
     background: url(../Images/modal-close.png); }
+
+.new-game-button-container {
+  display: flex;
+  margin-left: 29px; }
 
 .player {
   float: right;
