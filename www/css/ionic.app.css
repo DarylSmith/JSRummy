@@ -2072,10 +2072,10 @@ html {
   backface-visibility: hidden; }
 
 .diamonds {
-  color: #ff0000; }
+  color: #ff0000 !important; }
 
 .hearts {
-  color: #ff0000; }
+  color: #ff0000 !important; }
 
 .clubs {
   color: #000000; }

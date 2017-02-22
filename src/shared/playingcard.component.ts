@@ -13,6 +13,11 @@ export class PlayingCardComponent{
 @Input() public keyframe:string="";
 @Input() public squeezed:boolean=false;
 
+public get redSuit():string{
+
+   return  this.suit=="hearts" || this.suit==="diamonds"? "red":"black";
+}
+
 
 public getCardSymbol(suit: string) {
         switch (suit) {
