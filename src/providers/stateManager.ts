@@ -9,7 +9,7 @@ export class StateManager {
 
     currentRound: number;
 
-    isSet: boolean;
+    public isSet: boolean;
 
     constructor() {
 
@@ -26,7 +26,7 @@ export class StateManager {
             this.playerScore = parseInt(jsonObj["playerScore"]);
             this.currentRound = parseInt(jsonObj["currentRound"]);
             console.log(this.playerScore + '---'+this.playerScore );
-            if (this.playerScore > 0 && this.computerScore > 0) {
+            if (this.playerScore > 0 || this.computerScore > 0) {
                 this.isSet = true;
             }
 

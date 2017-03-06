@@ -55,6 +55,7 @@ export var AudioManager = (function () {
 }());
 export var StateManager = (function () {
     function StateManager() {
+        this.isSet = false;
         var jsonState = localStorage.getItem("jrummy_state");
         if (jsonState === null) {
             this.isSet = false;
@@ -65,8 +66,12 @@ export var StateManager = (function () {
             this.computerScore = parseInt(jsonObj["computerScore"]);
             this.playerScore = parseInt(jsonObj["playerScore"]);
             this.currentRound = parseInt(jsonObj["currentRound"]);
+            if (this.computerScore > 0 || this.playerScore > 0) {
+                this.isSet = true;
+            }
         }
     }
+    ;
     StateManager.prototype.SaveState = function (ps, cs, cr) {
         this.computerScore = cs;
         this.playerScore = ps;

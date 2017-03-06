@@ -22,7 +22,7 @@ export var StateManager = (function () {
             this.playerScore = parseInt(jsonObj["playerScore"]);
             this.currentRound = parseInt(jsonObj["currentRound"]);
             console.log(this.playerScore + '---' + this.playerScore);
-            if (this.playerScore > 0 && this.computerScore > 0) {
+            if (this.playerScore > 0 || this.computerScore > 0) {
                 this.isSet = true;
             }
         }
