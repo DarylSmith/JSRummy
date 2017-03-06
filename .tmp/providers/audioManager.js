@@ -61,10 +61,9 @@ export var StateManager = (function () {
             console.log("nothing in local storge");
         }
         else {
-            this.isSet = true;
             var jsonObj = JSON.parse(jsonState);
-            this.playerScore = parseInt(jsonObj["computerScore"]);
-            this.computerScore = parseInt(jsonObj["playerScore"]);
+            this.computerScore = parseInt(jsonObj["computerScore"]);
+            this.playerScore = parseInt(jsonObj["playerScore"]);
             this.currentRound = parseInt(jsonObj["currentRound"]);
         }
     }
@@ -75,6 +74,9 @@ export var StateManager = (function () {
         var stateObj = { playerScore: ps, computerScore: cs, currentRound: cr };
         var jsonState = JSON.stringify(stateObj);
         localStorage.setItem("jrummy_state", jsonState);
+    };
+    StateManager.prototype.ClearState = function () {
+        localStorage.removeItem("jrummy_state");
     };
     StateManager = __decorate([
         Injectable(), 

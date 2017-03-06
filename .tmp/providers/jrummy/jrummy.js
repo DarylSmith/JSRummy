@@ -320,7 +320,7 @@ export var JRummy = (function () {
             return true;
         }
         //first, try the discarded cards (also the computer must choose only the discard on first turn)
-        if (this.cardRejectedByComputer(this.DiscardPile) == true && this.CurrentGameNumber > 1) {
+        if (this.cardRejectedByComputer(this.DiscardPile) == true) {
             console.log('Discard card was rejected.  Move to pile');
             //if the card is rejected, try again with the regular pile
             this.CurrentGame.ComputerSelectedDiscard = false;

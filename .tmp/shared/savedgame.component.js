@@ -30,15 +30,14 @@ export var SavedGameComponent = (function () {
     ], SavedGameComponent.prototype, "modalBody", void 0);
     __decorate([
         Output(), 
-        __metadata('design:type', (typeof (_a = typeof EventEmitter !== 'undefined' && EventEmitter) === 'function' && _a) || Object)
+        __metadata('design:type', EventEmitter)
     ], SavedGameComponent.prototype, "modalClosed", void 0);
     SavedGameComponent = __decorate([
         Component({
-            selector: 'jrummy-savedgame',template:/*ion-inline-start:"C:\inetpub\wwwroot\jrummy-ionic\src\shared\savedgame.component.html"*/'<div class="modal-window" (click)="closeModal();">\n\n    <div class="modal-container">\n\n\n\n        <div class="new-game-question"> Daryl was enjoying your last game. Would you like to continue it?</div>\n\n        <div class="new-game-button-container">\n\n            <div (click)="setScore(\'true\')" class="new-game-button generic-btn-container">\n\n                Yes\n\n            </div>\n\n            <div (click)="setScore(\'false\')" class="new-game-button generic-btn-container">\n\n                No\n\n            </div>\n\n\n\n        </div>\n\n\n\n    </div>\n\n</div>'/*ion-inline-end:"C:\inetpub\wwwroot\jrummy-ionic\src\shared\savedgame.component.html"*/
+            selector: 'jrummy-savedgame',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\savedgame.component.html"*/'<div class="modal-window" (click)="closeModal();">\n\n    <div class="modal-container">\n\n\n\n        <div class="new-game-question"> Daryl was enjoying your last game. Would you like to continue it?</div>\n\n        <div class="new-game-button-container">\n\n            <div (click)="setScore(\'true\')" class="new-game-button generic-btn-container">\n\n                Yes\n\n            </div>\n\n            <div (click)="setScore(\'false\')" class="new-game-button generic-btn-container">\n\n                No\n\n            </div>\n\n\n\n        </div>\n\n\n\n    </div>\n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\savedgame.component.html"*/
         }), 
-        __metadata('design:paramtypes', [(typeof (_b = typeof JRummyText !== 'undefined' && JRummyText) === 'function' && _b) || Object])
+        __metadata('design:paramtypes', [JRummyText])
     ], SavedGameComponent);
     return SavedGameComponent;
-    var _a, _b;
 }());
 //# sourceMappingURL=savedgame.component.js.map

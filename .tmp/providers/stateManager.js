@@ -10,17 +10,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable } from "@angular/core";
 export var StateManager = (function () {
     function StateManager() {
+        console.log("sdfsdsfsdfsdf");
         var jsonState = localStorage.getItem("jrummy_state");
         if (jsonState === null) {
             this.isSet = false;
             console.log("nothing in local storge");
         }
         else {
-            this.isSet = true;
             var jsonObj = JSON.parse(jsonState);
-            this.playerScore = parseInt(jsonObj["computerScore"]);
-            this.computerScore = parseInt(jsonObj["playerScore"]);
+            this.computerScore = parseInt(jsonObj["computerScore"]);
+            this.playerScore = parseInt(jsonObj["playerScore"]);
             this.currentRound = parseInt(jsonObj["currentRound"]);
+            console.log(this.playerScore + '---' + this.playerScore);
+            if (this.playerScore > 0 && this.computerScore > 0) {
+                this.isSet = true;
+            }
         }
     }
     StateManager.prototype.SaveState = function (ps, cs, cr) {
@@ -30,6 +34,9 @@ export var StateManager = (function () {
         var stateObj = { playerScore: ps, computerScore: cs, currentRound: cr };
         var jsonState = JSON.stringify(stateObj);
         localStorage.setItem("jrummy_state", jsonState);
+    };
+    StateManager.prototype.ClearState = function () {
+        localStorage.removeItem("jrummy_state");
     };
     StateManager = __decorate([
         Injectable(), 

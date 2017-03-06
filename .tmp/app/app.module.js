@@ -7,10 +7,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { JRummy } from '../providers/jrummy/jrummy';
 import { JRummyText } from '../providers/jrummy-text';
+import { JrummyErrors } from '../providers/jrummy-errors';
 import { AnimationCallback } from '../providers/animation-callback';
 import { Utilities } from '../providers/utilities';
 import { AudioManager } from '../providers/audioManager';
@@ -24,6 +25,7 @@ import { DragulaModule, DragulaService } from "../../node_modules/ng2-dragula/ng
 import { HomePage } from '../pages/home/home';
 import { GamePage } from '../pages/game/game';
 import { RulesPage } from '../pages/rules/rules';
+import { ErrorPage } from '../pages/error/error';
 import { SortHandPipe } from '../pipes/SortHandPipe';
 import { FilterHandPipe } from '../pipes/FilterHandPipe';
 export var AppModule = (function () {
@@ -34,6 +36,7 @@ export var AppModule = (function () {
             declarations: [
                 MyApp,
                 HomePage,
+                ErrorPage,
                 ModalComponent,
                 SavedGameComponent,
                 GameCompletedComponent,
@@ -41,7 +44,7 @@ export var AppModule = (function () {
                 GamePage,
                 RulesPage,
                 SortHandPipe,
-                FilterHandPipe
+                FilterHandPipe,
             ],
             imports: [
                 IonicModule.forRoot(MyApp), DragulaModule
@@ -51,9 +54,10 @@ export var AppModule = (function () {
                 MyApp,
                 HomePage,
                 GamePage,
-                RulesPage
+                RulesPage,
+                ErrorPage
             ],
-            providers: [JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService, PlayingCardComponent, AudioManager, StateManager]
+            providers: [{ provide: ErrorHandler, useClass: JrummyErrors }, JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService, PlayingCardComponent, AudioManager, StateManager]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

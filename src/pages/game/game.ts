@@ -9,6 +9,7 @@ import { AudioManager } from '../../providers/audioManager'
 import { StateManager } from '../../providers/audioManager';
 import { AnimationCallback } from '../../providers/animation-callback'
 import { DragulaModule, DragulaService } from "../../../node_modules/ng2-dragula/ng2-dragula"
+import {ErrorPage} from '../error/error'
 
 import * as $ from 'jquery';
 import * as _ from 'lodash';
@@ -56,7 +57,7 @@ export class GamePage {
 
     public turnText: string = "";
 
-    public showSharedModal:  boolean=false;;
+    public showSharedModal: boolean = false;;
 
 
 
@@ -90,7 +91,6 @@ export class GamePage {
 
     ionViewDidLoad() {
 
-
         this.selectSortCard = this._jrummy.ComputerHand.Cards[0];
         let transitionEvent = this.animationCallback.whichAnimationEvent();
         this.setPlayerAnimation();
@@ -110,17 +110,24 @@ export class GamePage {
 
             });
 
+        $(document).on("jrummy-error-raised", function () {
+            alert('an error occured');
+            self.navCtrl.push(ErrorPage);
+        
+        }
+        );
+
+
+
         this.audioManager.playMainTrack();
         this.turnText = this.jrummyText.PLAYER_TURN;
 
         if (this.stateManager.isSet) {
-            this.showSharedModal=true;;
+            this.showSharedModal = true;
         }
         else {
             this.displayModal(this.jrummyText.BEGIN_PLAY_INSTRUCTIONS);
         }
-
-
         this.drugalaService.drag.subscribe((value) => {
             console.log("draggin'");
             self.audioManager.playCardSortTrack();
@@ -132,6 +139,7 @@ export class GamePage {
             self.audioManager.stopcardSortTrack();
 
         });
+
     }
 
 
@@ -288,6 +296,7 @@ export class GamePage {
         //if it's a new round start, otherwise reset
         if (this.gameCompletedResult === "PLAYER_WON_GAME" || this.gameCompletedResult === "DARYL_WON_GAME") {
             this._jrummy.reset();
+            this.stateManager.ClearState();
         }
         this.gameCompletedResult = "";
         this.currentGame = new Game();
@@ -322,14 +331,13 @@ export class GamePage {
 
     public onSharedCompleted(completedAction: string) {
 
-        if(completedAction==="true")
-        {
+        if (completedAction === "true") {
             this._jrummy.ComputerPoints = this.stateManager.computerScore;
             this._jrummy.PlayerPoints = this.stateManager.playerScore;
             this._jrummy.CurrentGameNumber = this.stateManager.currentRound;
 
         }
-        this.showSharedModal=false;
+        this.showSharedModal = false;
     }
 
 

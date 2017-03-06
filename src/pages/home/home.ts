@@ -3,6 +3,7 @@ import { AudioManager } from '../../providers/audioManager'
 import { NavController } from 'ionic-angular';
 import {GamePage} from '../game/game'
 import {RulesPage} from '../rules/rules'
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'

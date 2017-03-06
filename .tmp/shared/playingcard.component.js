@@ -52,7 +52,7 @@ export var PlayingCardComponent = (function () {
     ], PlayingCardComponent.prototype, "squeezed", void 0);
     PlayingCardComponent = __decorate([
         Component({
-            selector: 'jrummy-playingcard',template:/*ion-inline-start:"C:\inetpub\wwwroot\jrummy-ionic\src\shared\playingcard.component.html"*/'<div class="card {{suit}} {{face}} {{keyframe}}" [ngClass]="squeezed?\'player-card-squeezed\':\'player-card\'">\n\n    <div class="top-row"><img src="Images/heart.png"/></div>\n\n    <div class="middle-row"></div>\n\n    <div class="bottom-row"><span>{{getCardSymbol(suit)}}</span></div> \n\n</div>'/*ion-inline-end:"C:\inetpub\wwwroot\jrummy-ionic\src\shared\playingcard.component.html"*/
+            selector: 'jrummy-playingcard',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\playingcard.component.html"*/'<div class="card {{suit}} {{face}} {{keyframe}}" [ngClass]="squeezed?\'player-card-squeezed\':\'player-card\'">\n\n    <div class="top-row"><img src="Images/{{suit}}.png"/></div>\n\n    <div class="middle-row"></div>\n\n    <div class="bottom-row"><img src="Images/{{suit}}.png"/></div> \n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\playingcard.component.html"*/
         }), 
         __metadata('design:paramtypes', [])
     ], PlayingCardComponent);

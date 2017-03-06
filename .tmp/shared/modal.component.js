@@ -29,7 +29,7 @@ export var ModalComponent = (function () {
     ], ModalComponent.prototype, "modalClosed", void 0);
     ModalComponent = __decorate([
         Component({
-            selector: 'jrummy-modal',template:/*ion-inline-start:"C:\inetpub\wwwroot\jrummy-ionic\src\shared\modal.component.html"*/'<div class="modal-window" (click)="closeModal();">\n\n    <div class="modal-container">\n\n        <a href="javascript:void(0);" (click)="closeModal();">\n\n            <div class="modal-close"><span></span>\n\n            </div>\n\n        </a>\n\n        {{modalBody}}\n\n    </div>\n\n</div>'/*ion-inline-end:"C:\inetpub\wwwroot\jrummy-ionic\src\shared\modal.component.html"*/
+            selector: 'jrummy-modal',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\modal.component.html"*/'<div class="modal-window" (click)="closeModal();">\n\n    <div class="modal-container">\n\n        <a href="javascript:void(0);" (click)="closeModal();">\n\n            <div class="modal-close"><span></span>\n\n            </div>\n\n        </a>\n\n        {{modalBody}}\n\n    </div>\n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\modal.component.html"*/
         }), 
         __metadata('design:paramtypes', [JRummyText])
     ], ModalComponent);
