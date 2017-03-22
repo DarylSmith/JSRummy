@@ -280,6 +280,12 @@ export class GamePage {
             return;
         }
 
+        if(this._jrummy.PlayerHand.getCurrentPoints()>100)
+        {
+          this.displayModal(this.jrummyText.CANT_CALL_YET);
+          return;
+        }
+
          this._jrummy.evaluatePlayerHand();
         if (this._jrummy.CurrentGame.CurrentStatus === GameStatus.PlayerPickup) {
             this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
@@ -316,6 +322,7 @@ export class GamePage {
         this.currentGame = new Game();
         this.turnText = this.jrummyText.PLAYER_TURN;
         this._jrummy.startGame(this.currentGame);
+        this._jrummy.evaluatePlayerHand();
     }
 
     private displayModal(modalText: string): void {

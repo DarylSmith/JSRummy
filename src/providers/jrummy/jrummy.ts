@@ -324,6 +324,8 @@ export class JRummy {
             this.Pile.Cards = _.filter(targetHand, function (c: Card) { return c.toString() !== card.toString() });
         }
 
+        this.evaluatePlayerHand();
+
 
     }
 
@@ -550,12 +552,12 @@ export class JRummy {
         let meld: string = "none";
         if (currentCard.Meld === "run" || currentCard.Meld === "none") {
             //evaluate the cards for runs
-            if ((nextCard.Suit === currentCard.Suit) && (nextCard.PointValue === (currentCard.FaceValue + 1) || nextCard.PointValue === (currentCard.FaceValue - 1)))
+            if ((nextCard.Suit === currentCard.Suit) && (nextCard.FaceValue === (currentCard.FaceValue + 1) || nextCard.FaceValue === (currentCard.FaceValue - 1)))
                 meld = "run";
         }
         if (currentCard.Meld === "set" || currentCard.Meld === "none") {
             //evaluate the cards for runs
-            if (nextCard.FaceValue === currentCard.FaceValue)
+            if (nextCard.FaceValue === currentCard.FaceValue) 
                 meld = "set";
         }
 

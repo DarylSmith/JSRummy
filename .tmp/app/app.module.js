@@ -17,6 +17,7 @@ import { Utilities } from '../providers/utilities';
 import { AudioManager } from '../providers/audioManager';
 import { StateManager } from '../providers/audioManager';
 import { ModalComponent } from '../shared/modal.component';
+import { TrashTalkComponent } from '../shared/trashtalk.component';
 import { GameCompletedComponent } from '../shared/gamecompleted.component';
 import { SavedGameComponent } from '../shared/savedgame.component';
 import { MyApp } from './app.component';
@@ -39,6 +40,7 @@ export var AppModule = (function () {
                 ErrorPage,
                 ModalComponent,
                 SavedGameComponent,
+                TrashTalkComponent,
                 GameCompletedComponent,
                 PlayingCardComponent,
                 GamePage,
@@ -57,7 +59,7 @@ export var AppModule = (function () {
                 RulesPage,
                 ErrorPage
             ],
-            providers: [{ provide: ErrorHandler, useClass: JrummyErrors }, JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService, PlayingCardComponent, AudioManager, StateManager]
+            providers: [{ provide: ErrorHandler, useClass: JrummyErrors }, JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService, PlayingCardComponent, TrashTalkComponent, AudioManager, StateManager]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

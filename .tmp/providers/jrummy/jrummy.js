@@ -242,6 +242,7 @@ export var JRummy = (function () {
         else {
             this.Pile.Cards = _.filter(targetHand, function (c) { return c.toString() !== card.toString(); });
         }
+        this.evaluatePlayerHand();
     };
     //removes a card from the playerhand and puts it in the pile
     JRummy.prototype.discardFromPlayerHand = function (suit, name) {
@@ -408,7 +409,7 @@ export var JRummy = (function () {
         var meld = "none";
         if (currentCard.Meld === "run" || currentCard.Meld === "none") {
             //evaluate the cards for runs
-            if ((nextCard.Suit === currentCard.Suit) && (nextCard.PointValue === (currentCard.FaceValue + 1) || nextCard.PointValue === (currentCard.FaceValue - 1)))
+            if ((nextCard.Suit === currentCard.Suit) && (nextCard.FaceValue === (currentCard.FaceValue + 1) || nextCard.FaceValue === (currentCard.FaceValue - 1)))
                 meld = "run";
         }
         if (currentCard.Meld === "set" || currentCard.Meld === "none") {

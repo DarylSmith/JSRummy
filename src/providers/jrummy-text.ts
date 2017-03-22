@@ -4,7 +4,9 @@ export class JRummyText {
 
     public PICK_FIRST_CARD: string = "On first turn, you must choose from the discard pile .Otherwise, allow computer to go first by clicking on the pass button";
 
-    public NOT_PICKUP_TIME: string = "Not time to pickup";
+    public NOT_PICKUP_TIME: string = "Nice try! You need to discard before you can pick up another card";
+
+    public CANT_CALL_YET: string = "Sorry, you can can't call unless you have 10 points or less";
 
     public GAME_IS_DRAW: string = "The game is a draw";
 
@@ -46,6 +48,6 @@ export class JRummyText {
 
     public ERROR_PAGE_TEXT ="Oops, something went wrong. Daryl still wants to play though. Click the button below to return to your game";
 
-     public BEGIN_PLAY_INSTRUCTIONS: string= "Ready to prove your worthiness? Play by pressing on either the discard or stock pile to select a new card. Once you have selected, discard one from your hand, by pressing on it. Try to get either sets or runs of 3 or more - press on the call button when you've got a winning hand! You can sort your cards by swiping them in either direction. Good Luck!";
+     public BEGIN_PLAY_INSTRUCTIONS: string= "Play by pressing on either the discard or stock pile to select a new card. Once you have selected, discard one from your hand, by pressing on it. Each time you get a set or a run, sort them by moving them to the left side of your pile. When your hand is ready, click on the call button.  Good Luck!";
 
 }

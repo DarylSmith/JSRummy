@@ -55,6 +55,7 @@
 
 .is-in-meld{
     @include  keyframe-call(add-meld-highlight);
+    animation-fill-mode: forwards;
 }
 
 
