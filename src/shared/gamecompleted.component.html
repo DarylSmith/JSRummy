@@ -1,15 +1,18 @@
 <div class="modal-window">
     <div class="modal-container game-completed">
             <h6>{{ headerText }}</h6>
+            <div style="font-size:8px">{{_jrummy.PlayerCardEval}}</div>
 
         <div class="game-completed-header">
             <ul>
                 <li><a href="javascript:void(0);" [hidden]="showCards" (click)="toggleCardDisplay(true)">View Hand</a></li>
                 <li><a href="javascript:void(0);" [hidden]="!showCards" (click)="toggleCardDisplay(false)">View Score</a></li>
+                  <li><a href="javascript:void(0);" [hidden]="!showCards" (click)="toggleCardDisplay(false)">Player Eval</a></li>
                 <li><a href="javascript:void(0);" (click)="completeGame('play')">Play Again</a></li>
                 <li><a href="javascript:void(0);" (click)="completeGame('quit')">Quit</a></li>
             </ul>
         </div>
+        <div id="game-completed-card-display" [hidden]="showCards"></div>
         <div id="game-completed-card-display" [hidden]="showCards">
             <table>
                 <thead>
@@ -157,7 +160,7 @@
             <h5>{{ _jrummyText.PLAYER_CARDS}}</h5>
 
             <div class="hand">
-                <div *ngFor="let card of _jrummy.PlayerHand|SortHand;let i = index ">
+                <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">
                     <jrummy-playingcard [suit]="card.Suit" [face]="card.FaceValueString" [squeezed]="true"></jrummy-playingcard>
                 </div>
 

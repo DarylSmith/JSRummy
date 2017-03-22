@@ -12,6 +12,7 @@ export class PlayingCardComponent{
 @Input() public face:string="2";
 @Input() public keyframe:string="";
 @Input() public squeezed:boolean=false;
+@Input() public inMeld:boolean=false;
 
 public get redSuit():string{
 

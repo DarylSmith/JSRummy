@@ -35,7 +35,7 @@
                 <h3>{{turnText}}</h3>
             </div>
             <div class="player-buttons">
-                <div (click)="playerCall()"  *ngIf="_jrummy.PlayerHand.getCurrentPoints()<=50"  class="generic-btn-container">
+                <div (click)="playerCall()" class="generic-btn-container">
                     Call
                 </div>
 
@@ -107,7 +107,7 @@
 <div class="hand" [dragula]='"bag-one"' *ngIf="turnText!==jrummyText.GAME_OVER" [dragulaModel]='_jrummy.PlayerHand.Cards'>
     <div *ngFor="let card of _jrummy.PlayerHand.Cards;let i = index ">
         <a href="javascript:void(0); " (click)="discardPlayerCard(card.Suit,card.Name,true);">
-            <jrummy-playingcard [suit]="card.Suit" [face]="card.FaceValueString"> </jrummy-playingcard>
+            <jrummy-playingcard [suit]="card.Suit" [face]="card.FaceValueString" [inMeld]="card.inMeld()" > </jrummy-playingcard>
 
 
         </a>
@@ -117,6 +117,6 @@
 
 
 <jrummy-modal [modalBody]="modalBody" (modalClosed)="onModalClosed($event)" *ngIf="modalIsActive"></jrummy-modal>
-<jrummy-completed (gameCompletedAction)="onGameCompleted($event)" [gameCompletedResult]="gameCompletedResult" *ngIf="gameCompletedResult!==''"></jrummy-completed>
+<jrummy-completed (gameCompletedAction)="onGameCompleted($event)" [gameCompletedResult]="gameCompletedResult"   *ngIf="gameCompletedResult!==''"></jrummy-completed>
 <jrummy-savedgame (modalClosed)="onSharedCompleted($event)"  *ngIf="showSharedModal==true"></jrummy-savedgame>
 </div>

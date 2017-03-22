@@ -1,4 +1,4 @@
-<div class="card {{suit}} {{face}} {{keyframe}}" [ngClass]="squeezed?'player-card-squeezed':'player-card'">
+<div class="card {{suit}} {{face}} {{keyframe}}"  [ngClass]="inMeld?'is-in-meld':'not-in-meld'"  [ngClass]="squeezed?'player-card-squeezed':'player-card'">
     <div class="top-row"><img src="Images/{{suit}}.png"/></div>
     <div class="middle-row"></div>
     <div class="bottom-row"><img src="Images/{{suit}}.png"/></div> 

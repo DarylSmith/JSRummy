@@ -89,6 +89,9 @@ export var Hand = (function () {
         this.Cards = this.moveItemInArray(old_index, new_index, this.Cards);
     };
     Hand.prototype.getCurrentPoints = function () {
+        if (this.cardsMissing()) {
+            return -1;
+        }
         var total = _.reduce(this.Cards, function (sum, c) { return c.Meld === 'set' || c.Meld === 'run' ? sum : sum + c.PointValue; }, 0);
         return total;
     };
@@ -98,6 +101,9 @@ export var Hand = (function () {
             this.Cards[i].VPoints = 0;
             this.Cards[i].Meld = "none";
         }
+    };
+    Hand.prototype.cardsMissing = function () {
+        return this.Cards.length < 10;
     };
     Hand.prototype.sortByValue = function () {
         //first, get all the cards in melds
@@ -174,6 +180,7 @@ export var Deck = (function () {
 }());
 export var JRummy = (function () {
     function JRummy() {
+        this.PlayerCardEval = '';
         this.reset();
     }
     JRummy.prototype.reset = function () {
@@ -245,7 +252,6 @@ export var JRummy = (function () {
         this.addOrModifyCardInComputerMemory(card, CardLocation.InDiscardPile, true);
         this.CurrentGame.CurrentStatus == GameStatus.ComputerTurn;
         var self = this;
-        this.evaluateHand("PlayerHand");
         return this.computerTurn();
     };
     //will put this card on the top of the stack, so it will be picked by the computer and played
@@ -338,6 +344,79 @@ export var JRummy = (function () {
         this.logStatus();
         this.checkForErrors();
         return false;
+    };
+    //this function evaluates player hand by going through them from left to right and evaluating the score
+    JRummy.prototype.evaluatePlayerHand = function () {
+        this.PlayerCardEval = '';
+        this.PlayerHand.Cards.forEach(function (card) { return card.MeldCount = 1; });
+        for (var i = 0; i < this.PlayerHand.Cards.length; i++) {
+            if (!this.playerCardIsInMeld(i)) {
+                this.PlayerCardEval += this.PlayerHand.Cards[i].toString() + " has no meld. breaking now";
+                break;
+            }
+        }
+        var self = this;
+        this.PlayerHand.Cards.forEach(function (card) {
+            if (card.MeldCount < 3) {
+                self.PlayerCardEval += 'meld count is' + card.MeldCount;
+                card.Meld = "none";
+            }
+        });
+        console.log(this.PlayerCardEval);
+        console.log(this.PlayerHand.Cards);
+    };
+    JRummy.prototype.playerCardIsInMeld = function (cardIndex) {
+        var isInMeld = false;
+        //get the first card and  the card to evaluate against
+        var currentCard = this.PlayerHand.Cards[cardIndex];
+        this.PlayerCardEval += this.PlayerHand.Cards[cardIndex].toString() + " is the card being evaluated";
+        //if this is the last card, there is nothing to evaluate against, so either return true or false
+        if (cardIndex === this.PlayerHand.Cards.length - 1) {
+            this.PlayerCardEval += this.PlayerHand.Cards[cardIndex].toString() + " is the last card";
+            return currentCard.inMeld();
+        }
+        //get the next card;
+        var nextCard = this.PlayerHand.Cards[cardIndex + 1];
+        this.PlayerCardEval += this.PlayerHand.Cards[cardIndex + 1].toString() + " is the next card";
+        //if the card is an a meld check if the next card extends it
+        if (currentCard.inMeld()) {
+            var meldType = this.evaluatePlayerMeldType(currentCard, nextCard);
+            nextCard.Meld = meldType;
+            nextCard.MeldCount = meldType === "none" ? 1 : currentCard.MeldCount + 1;
+            this.PlayerCardEval += "meld is " + meldType;
+            isInMeld = true;
+        }
+        else {
+            var meldType = this.evaluatePlayerMeldType(currentCard, nextCard);
+            isInMeld = meldType !== "none";
+            currentCard.Meld = meldType;
+            nextCard.Meld = meldType;
+            nextCard.MeldCount = meldType === "none" ? 1 : currentCard.MeldCount + 1;
+            this.PlayerCardEval += "meld is " + meldType;
+        }
+        if (currentCard.MeldCount > 2) {
+            //change the meldcount of preceding cards to match
+            var meldCountIndex = (currentCard.MeldCount - 1);
+            while (meldCountIndex > 0) {
+                this.PlayerHand.Cards[cardIndex - meldCountIndex].MeldCount = currentCard.MeldCount;
+                meldCountIndex--;
+            }
+        }
+        return isInMeld;
+    };
+    JRummy.prototype.evaluatePlayerMeldType = function (currentCard, nextCard) {
+        var meld = "none";
+        if (currentCard.Meld === "run" || currentCard.Meld === "none") {
+            //evaluate the cards for runs
+            if ((nextCard.Suit === currentCard.Suit) && (nextCard.PointValue === (currentCard.FaceValue + 1) || nextCard.PointValue === (currentCard.FaceValue - 1)))
+                meld = "run";
+        }
+        if (currentCard.Meld === "set" || currentCard.Meld === "none") {
+            //evaluate the cards for runs
+            if (nextCard.FaceValue === currentCard.FaceValue)
+                meld = "set";
+        }
+        return meld;
     };
     //this the computer adding or removing a card (either from the discard or pile)
     JRummy.prototype.cardRejectedByComputer = function (hand) {
@@ -510,7 +589,7 @@ export var JRummy = (function () {
         return computerPointCount <= upperLimitForCall;
     };
     JRummy.prototype.checkForErrors = function () {
-        if (this.ComputerHand.Cards.length < 10 || this.PlayerHand.Cards.length < 10) {
+        if (this.ComputerHand.cardsMissing() || this.ComputerHand.cardsMissing()) {
             this.CurrentGame.ErrorOccured = true;
         }
     };

@@ -53,6 +53,11 @@
 }
 
 
+.is-in-meld{
+    @include  keyframe-call(add-meld-highlight);
+}
+
+
 
 .card{
     @include card-front;
@@ -225,6 +230,7 @@ margin-right:-10px !important;
   color: #ff0000 !important;
 
 }
+
 
 .hearts {
   color: #ff0000 !important;
@@ -406,7 +412,6 @@ margin-right:-10px !important;
             @include  keyframe-call(give-card-to-player-child-discard);
        }
 }
-
 
 
 

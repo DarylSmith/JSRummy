@@ -9,7 +9,7 @@ import { AudioManager } from '../../providers/audioManager'
 import { StateManager } from '../../providers/audioManager';
 import { AnimationCallback } from '../../providers/animation-callback'
 import { DragulaModule, DragulaService } from "../../../node_modules/ng2-dragula/ng2-dragula"
-import {ErrorPage} from '../error/error'
+import { ErrorPage } from '../error/error'
 
 import * as $ from 'jquery';
 import * as _ from 'lodash';
@@ -113,7 +113,7 @@ export class GamePage {
         $(document).on("jrummy-error-raised", function () {
             alert('an error occured');
             self.navCtrl.push(ErrorPage);
-        
+
         }
         );
 
@@ -137,6 +137,7 @@ export class GamePage {
         this.drugalaService.dragend.subscribe((value) => {
             console.log("stoppin'");
             self.audioManager.stopcardSortTrack();
+            self._jrummy.evaluatePlayerHand();
 
         });
 
@@ -224,6 +225,7 @@ export class GamePage {
 
                 this.computerCalls = true;
                 this._jrummy.CurrentGame.CurrentStatus = GameStatus.ComputerCall;
+                this._jrummy.evaluatePlayerHand();
                 this.scoreGameAndPlayAgain()
 
 
@@ -254,21 +256,31 @@ export class GamePage {
         //check if there are any errors if so, add a modal and restart the game
         if (this.currentGame.ErrorOccured) {
 
-            this.currentGame.ErrorOccured = false;
-            this.displayModal(this.jrummyText.ERROR_MESSAGE);
-            this.startNewGame("");
+            this.ExecuteErrorRestart();
 
         }
 
     }
 
 
+    private ExecuteErrorRestart() {
+        this.currentGame.ErrorOccured = false;
+        alert("Sorry, an error occured. We'll start again ");
+        this.startNewGame("");
 
+
+    }
 
 
     public playerCall() {
         this.audioManager.playSoundEffect("button_press.mp3");
         console.log('player called');
+        if (this._jrummy.PlayerHand.cardsMissing()) {
+            this.ExecuteErrorRestart();
+            return;
+        }
+
+         this._jrummy.evaluatePlayerHand();
         if (this._jrummy.CurrentGame.CurrentStatus === GameStatus.PlayerPickup) {
             this._jrummy.CurrentGame.CurrentStatus = GameStatus.PlayerCall;
             this.scoreGameAndPlayAgain();
@@ -279,6 +291,7 @@ export class GamePage {
         }
     }
 
+
     public movePlayerCard(suit: string, name: string) {
         let targetCard: Card = _.filter(this._jrummy.PlayerHand.Cards, function (c: Card) { return c.Suit === suit && c.Name === name })[0];
         this._jrummy.PlayerHand.moveCardInHand(this.selectSortCard, targetCard);
@@ -287,6 +300,7 @@ export class GamePage {
     }
 
     private scoreGameAndPlayAgain(): void {
+
         this.turnText = this.jrummyText.GAME_OVER;
         this.gameCompletedResult = this._jrummy.compareHands();
         this.stateManager.SaveState(this._jrummy.ComputerPoints, this._jrummy.PlayerPoints, this._jrummy.CurrentGameNumber);

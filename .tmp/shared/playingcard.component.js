@@ -14,6 +14,7 @@ export var PlayingCardComponent = (function () {
         this.face = "2";
         this.keyframe = "";
         this.squeezed = false;
+        this.inMeld = false;
     }
     Object.defineProperty(PlayingCardComponent.prototype, "redSuit", {
         get: function () {
@@ -50,9 +51,13 @@ export var PlayingCardComponent = (function () {
         Input(), 
         __metadata('design:type', Boolean)
     ], PlayingCardComponent.prototype, "squeezed", void 0);
+    __decorate([
+        Input(), 
+        __metadata('design:type', Boolean)
+    ], PlayingCardComponent.prototype, "inMeld", void 0);
     PlayingCardComponent = __decorate([
         Component({
-            selector: 'jrummy-playingcard',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\playingcard.component.html"*/'<div class="card {{suit}} {{face}} {{keyframe}}" [ngClass]="squeezed?\'player-card-squeezed\':\'player-card\'">\n\n    <div class="top-row"><img src="Images/{{suit}}.png"/></div>\n\n    <div class="middle-row"></div>\n\n    <div class="bottom-row"><img src="Images/{{suit}}.png"/></div> \n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\playingcard.component.html"*/
+            selector: 'jrummy-playingcard',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\playingcard.component.html"*/'<div class="card {{suit}} {{face}} {{keyframe}}"  [ngClass]="inMeld?\'is-in-meld\':\'not-in-meld\'"  [ngClass]="squeezed?\'player-card-squeezed\':\'player-card\'">\n\n    <div class="top-row"><img src="Images/{{suit}}.png"/></div>\n\n    <div class="middle-row"></div>\n\n    <div class="bottom-row"><img src="Images/{{suit}}.png"/></div> \n\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\shared\playingcard.component.html"*/
         }), 
         __metadata('design:paramtypes', [])
     ], PlayingCardComponent);

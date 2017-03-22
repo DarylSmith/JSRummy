@@ -51,7 +51,8 @@ import { FilterHandPipe } from '../pipes/FilterHandPipe';
     MyApp,
     HomePage,
     GamePage,
-    RulesPage
+    RulesPage,
+    ErrorPage
   ],
   providers: [{ provide: ErrorHandler, useClass: JrummyErrors }, JRummy, AnimationCallback, JRummyText, Utilities, DragulaModule, DragulaService, PlayingCardComponent, AudioManager, StateManager]
 })

@@ -107,6 +107,19 @@
     }
 }
 
+@keyframes add-meld-highlight{
+
+    0%{
+
+     box-shadow:1px 1px 0px 0px #000;
+                
+    }
+
+    100%{
+      box-shadow:  1px 3px 22px 4px #fff !important;
+    }
+}
+
 
 @keyframes give-card-to-player-child-discard{
 

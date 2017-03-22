@@ -70,9 +70,12 @@ export class StateManager {
 
     currentRound: number;
 
+    debugState:string;
+
     public isSet: boolean=false;;
 
     constructor() {
+        this.debugState='';
         let jsonState: string = localStorage.getItem("jrummy_state")
         if (jsonState === null) {
             this.isSet = false;
@@ -84,6 +87,10 @@ export class StateManager {
             this.computerScore = parseInt(jsonObj["computerScore"]);
             this.playerScore = parseInt(jsonObj["playerScore"]);
             this.currentRound = parseInt(jsonObj["currentRound"]); 
+            if(this.playerScore>100 || this.computerScore>100)  
+                return;
+
+
             if(this.computerScore>0 || this.playerScore>0)
             {
                   this.isSet = true;

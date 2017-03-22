@@ -56,6 +56,7 @@ export var AudioManager = (function () {
 export var StateManager = (function () {
     function StateManager() {
         this.isSet = false;
+        this.debugState = '';
         var jsonState = localStorage.getItem("jrummy_state");
         if (jsonState === null) {
             this.isSet = false;
@@ -66,6 +67,8 @@ export var StateManager = (function () {
             this.computerScore = parseInt(jsonObj["computerScore"]);
             this.playerScore = parseInt(jsonObj["playerScore"]);
             this.currentRound = parseInt(jsonObj["currentRound"]);
+            if (this.playerScore > 100 || this.computerScore > 100)
+                return;
             if (this.computerScore > 0 || this.playerScore > 0) {
                 this.isSet = true;
             }
