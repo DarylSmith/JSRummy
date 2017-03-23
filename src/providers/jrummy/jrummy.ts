@@ -239,7 +239,7 @@ export class JRummy {
     DiscardPile: Hand;
     PlayedCards: Hand;
     Pile: Hand;
-    PlayerCardEval:string='';
+    PlayerCardEval: string = '';
 
     constructor() {
 
@@ -324,9 +324,6 @@ export class JRummy {
             this.Pile.Cards = _.filter(targetHand, function (c: Card) { return c.toString() !== card.toString() });
         }
 
-        this.evaluatePlayerHand();
-
-
     }
 
 
@@ -341,7 +338,7 @@ export class JRummy {
         this.addOrModifyCardInComputerMemory(card, CardLocation.InDiscardPile, true);
         this.CurrentGame.CurrentStatus == GameStatus.ComputerTurn;
 
-        let self = this;
+        this.evaluatePlayerHand();
         return this.computerTurn();
 
     }
@@ -353,7 +350,7 @@ export class JRummy {
         let testCard: Card = _.filter(this.Pile.Cards, function (c: Card) { return c.Name == name && c.Suit == suit })[0];
 
         //add to the discardPile
-        this.DiscardPile.Cards.unshift(testCard);
+        this.DiscardPile.Cards.unshift(testCard); 
 
         //remove items from cards
         this.Pile.Cards = _.filter(this.Pile.Cards, function (card: Card) { return card.toString() != testCard.toString() });
@@ -466,27 +463,32 @@ export class JRummy {
 
     //this function evaluates player hand by going through them from left to right and evaluating the score
     evaluatePlayerHand(): void {
-        this.PlayerCardEval=''
+        this.PlayerCardEval = ''
         this.PlayerHand.Cards.forEach((card: Card) => card.MeldCount = 1);
 
         for (let i = 0; i < this.PlayerHand.Cards.length; i++) {
             if (!this.playerCardIsInMeld(i)) {
-                this.PlayerCardEval+=`${this.PlayerHand.Cards[i].toString()} has no meld. breaking now`;
+                this.PlayerCardEval += `${this.PlayerHand.Cards[i].toString()} has no meld. breaking now`;
                 break;
             }
         }
 
-         let self = this;
-         this.PlayerHand.Cards.forEach(function(card:Card){
-            if(card.MeldCount<3)
-            {
-                self.PlayerCardEval+='meld count is' + card.MeldCount;
-                card.Meld ="none";
+        let self = this;
+        
+  
+
+        this.PlayerHand.Cards.forEach(function (card: Card) {
+            if (card.MeldCount < 3) {
+                self.PlayerCardEval += 'meld count is' + card.MeldCount;
+                card.Meld = "none";
             }
 
-         });
+        });
         console.log(this.PlayerCardEval);
         console.log(this.PlayerHand.Cards);
+
+        //this is a bug with the sorting algorithm will fixe soon
+
     }
 
     playerCardIsInMeld(cardIndex: number): boolean {
@@ -495,17 +497,22 @@ export class JRummy {
 
         //get the first card and  the card to evaluate against
         let currentCard: Card = this.PlayerHand.Cards[cardIndex];
-        this.PlayerCardEval+=`${this.PlayerHand.Cards[cardIndex].toString()} is the card being evaluated`;
+        this.PlayerCardEval += `${this.PlayerHand.Cards[cardIndex].toString()} is the card being evaluated`;
 
-        //if this is the last card, there is nothing to evaluate against, so either return true or false
-        if (cardIndex === this.PlayerHand.Cards.length - 1) {
-             this.PlayerCardEval+=`${this.PlayerHand.Cards[cardIndex].toString()} is the last card`;
+        //if this is the last card, there is nothing to evaluate against.
+        
+        if (cardIndex === 9) {
+            this.PlayerCardEval += `${this.PlayerHand.Cards[cardIndex].toString()} is the last card`;
+            this.createPlayerSetsAndRuns(currentCard,cardIndex);
             return currentCard.inMeld();
         }
 
         //get the next card;
         let nextCard: Card = this.PlayerHand.Cards[cardIndex + 1];
-        this.PlayerCardEval+=`${this.PlayerHand.Cards[cardIndex + 1].toString()} is the next card`;
+        if(nextCard===undefined)
+            return false;
+
+        this.PlayerCardEval += `${this.PlayerHand.Cards[cardIndex + 1].toString()} is the next card`;
 
 
         //if the card is an a meld check if the next card extends it
@@ -514,7 +521,7 @@ export class JRummy {
             let meldType = this.evaluatePlayerMeldType(currentCard, nextCard);
             nextCard.Meld = meldType;
             nextCard.MeldCount = meldType === "none" ? 1 : currentCard.MeldCount + 1;
-            this.PlayerCardEval+=`meld is ${meldType}`;
+            this.PlayerCardEval += `meld is ${meldType}`;
             isInMeld = true;
 
         }
@@ -526,25 +533,34 @@ export class JRummy {
             currentCard.Meld = meldType;
             nextCard.Meld = meldType;
             nextCard.MeldCount = meldType === "none" ? 1 : currentCard.MeldCount + 1;
-            this.PlayerCardEval+=`meld is ${meldType}`;
+            this.PlayerCardEval += `meld is ${meldType}`;
 
         }
 
-        if (currentCard.MeldCount > 2) {
+        this.createPlayerSetsAndRuns(currentCard,cardIndex);
+        return isInMeld;
+
+    }
+
+    createPlayerSetsAndRuns(currentCard:Card, cardIndex:number)
+    {
+          if (currentCard.MeldCount > 2) {
             //change the meldcount of preceding cards to match
-            let meldCountIndex = (currentCard.MeldCount-1);
-            while(meldCountIndex>0)
-            {
-                this.PlayerHand.Cards[cardIndex-meldCountIndex].MeldCount=currentCard.MeldCount;
+            let meldCountIndex = (currentCard.MeldCount - 1);
+            while (meldCountIndex > 0) {
+                this.PlayerHand.Cards[cardIndex - meldCountIndex].MeldCount = currentCard.MeldCount;
                 meldCountIndex--;
             }
 
         }
 
 
+    }
+
+    evaluateLastCard()
+    {
 
 
-        return isInMeld;
 
     }
 
@@ -557,7 +573,7 @@ export class JRummy {
         }
         if (currentCard.Meld === "set" || currentCard.Meld === "none") {
             //evaluate the cards for runs
-            if (nextCard.FaceValue === currentCard.FaceValue) 
+            if (nextCard.FaceValue === currentCard.FaceValue)
                 meld = "set";
         }
 
