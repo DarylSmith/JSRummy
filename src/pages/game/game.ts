@@ -136,6 +136,7 @@ export class GamePage {
 
         this.drugalaService.dragend.subscribe((value) => {
             console.log("stoppin'");
+             console.log(value);
             self.audioManager.stopcardSortTrack();
             self._jrummy.evaluatePlayerHand();
 
@@ -309,7 +310,7 @@ export class GamePage {
 
         this.turnText = this.jrummyText.GAME_OVER;
         this.gameCompletedResult = this._jrummy.compareHands();
-        this.stateManager.SaveState(this._jrummy.ComputerPoints, this._jrummy.PlayerPoints, this._jrummy.CurrentGameNumber);
+        this.stateManager.SaveState(this._jrummy.PlayerPoints, this._jrummy.ComputerPoints, this._jrummy.CurrentGameNumber);
     }
 
     public startNewGame(message: string): void {

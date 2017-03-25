@@ -231,6 +231,7 @@ export var JRummy = (function () {
         var targetHand = isFromDiscardPile ? this.DiscardPile.Cards : this.Pile.Cards;
         //if it's not in the discard pile, it must be in the draw pile
         card = _.filter(targetHand, function (c) { return c.Name == name && c.Suit == suit; })[0];
+        card.Meld = "none";
         this.PlayerHand.Cards.push(card);
         //add item to computer memory
         this.addOrModifyCardInComputerMemory(card, CardLocation.InPlayerHand, false);

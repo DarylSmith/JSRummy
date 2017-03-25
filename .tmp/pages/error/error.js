@@ -39,10 +39,11 @@ export var ErrorPage = (function () {
     };
     ErrorPage = __decorate([
         Component({
-            selector: 'page-error',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\error\error.html"*/'<div class="panel panel-primary">\n\n  <div class="panel-body">\n    <div style="font-size: 2.2em;\n    color: #ffffff; margin: 30px;">{{jrummyText.ERROR_PAGE_TEXT}} </div>\n    <div class="options">\n      <ul class="btn-options">\n        <li class="rules">\n          <a href="javascript:void(0);" (click)="getRules();">\n            <img src="Images/rules_bt_lg.jpg" />\n          </a>\n        </li>\n        <li class="play">\n          <a href="javascript:void(0);" (click)="playGame();">\n            <img src="Images/play_bt_lg.jpg" alt="play" />\n          </a>\n        </li>\n\n      </ul>\n    </div>\n  </div>\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\error\error.html"*/
+            selector: 'page-error',template:/*ion-inline-start:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\error\error.html"*/'<div class="panel panel-primary">\n\n  <div class="panel-body">\n    <div style="font-size: 2.2em;\n    color: #ffffff; margin: 30px;">{{jrummyText.ERROR_PAGE_TEXT}} </div>\n    <div class="options">\n      <ul class="btn-options">\n        <li class="rules">\n          <a href="javascript:void(0);" (click)="getRules();">\n            <img src="Images/rules_bt_lg.jpg" />\n          </a>\n        </li>\n        <li class="play">\n          <a href="javascript:window.location.reload();">\n            <img src="Images/play_bt_lg.jpg" alt="play" />\n          </a>\n        </li>\n\n      </ul>\n    </div>\n  </div>\n</div>'/*ion-inline-end:"c:\inetpub\wwwroot\jrummy-ionic\src\pages\error\error.html"*/
         }), 
-        __metadata('design:paramtypes', [NavController, NavParams, AudioManager, JRummyText])
+        __metadata('design:paramtypes', [(typeof (_a = typeof NavController !== 'undefined' && NavController) === 'function' && _a) || Object, (typeof (_b = typeof NavParams !== 'undefined' && NavParams) === 'function' && _b) || Object, (typeof (_c = typeof AudioManager !== 'undefined' && AudioManager) === 'function' && _c) || Object, (typeof (_d = typeof JRummyText !== 'undefined' && JRummyText) === 'function' && _d) || Object])
     ], ErrorPage);
     return ErrorPage;
+    var _a, _b, _c, _d;
 }());
 //# sourceMappingURL=error.js.map

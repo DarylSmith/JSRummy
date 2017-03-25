@@ -89,6 +89,7 @@ export var GamePage = (function () {
         });
         this.drugalaService.dragend.subscribe(function (value) {
             console.log("stoppin'");
+            console.log(value);
             self.audioManager.stopcardSortTrack();
             self._jrummy.evaluatePlayerHand();
         });
@@ -210,7 +211,7 @@ export var GamePage = (function () {
     GamePage.prototype.scoreGameAndPlayAgain = function () {
         this.turnText = this.jrummyText.GAME_OVER;
         this.gameCompletedResult = this._jrummy.compareHands();
-        this.stateManager.SaveState(this._jrummy.ComputerPoints, this._jrummy.PlayerPoints, this._jrummy.CurrentGameNumber);
+        this.stateManager.SaveState(this._jrummy.PlayerPoints, this._jrummy.ComputerPoints, this._jrummy.CurrentGameNumber);
     };
     GamePage.prototype.startNewGame = function (message) {
         //if it's a new round start, otherwise reset

@@ -17,6 +17,7 @@ export var TrashTalkComponent = (function () {
         this.listOfTalks = [
             'Begin by selecting a card from the discard pile',
             'Arrange your sets and runs by moving them to the left side of your hand',
+            'The cards will light up when they are in a set',
             'Click the call button when you have a decent hand',
             'I will dominate all challengers',
             'Gin Rummy is in my blood',
@@ -27,14 +28,15 @@ export var TrashTalkComponent = (function () {
             'Really? That\'s your move?',
             'Wow! I\'m just on fire today!',
             'I just wish I could bottle and sell my Gin Rummy skils',
-            'You can refer to me as the God of Gin Rummy'
+            'You can refer to me as the God of Gin Rummy',
+            'Turn off the lights, and I\'ll glow'
         ];
     }
     TrashTalkComponent.prototype.ngOnInit = function () {
         var self = this;
         $(".move-card-item").on("animationend", function (event) {
             var currentRound = self._jrummy.CurrentTurn;
-            if (currentRound < 3) {
+            if (currentRound < 4) {
                 self.num = currentRound;
             }
             else {
